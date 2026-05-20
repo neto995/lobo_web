@@ -20,11 +20,14 @@ return (
         LOBO
       </p>
 
-      <h1 className="text-6xl md:text-8xl font-bold uppercase mt-4">
-        Más comida.
+      <h1 className="text-6xl md:text-8xl font-bold uppercase mt-4 leading-[0.9]">
+        <span>Más comida.</span>
         <br />
+        <span className="relative inline-block overflow-hidden bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-900 bg-clip-text text-transparent">
         Menos marketing.
-      </h1>
+        <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/80 to-transparent animate-shine" />
+        </span>
+        </h1>
 
       <p className="mt-8 max-w-xl text-gray-300 text-lg">
         Comida real para perros.
