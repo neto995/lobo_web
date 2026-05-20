@@ -25,8 +25,7 @@ return (
         <br />
         <span className="relative inline-block overflow-hidden bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-900 bg-clip-text text-transparent">
         Menos marketing.
-        <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/80 to-transparent animate-shine" />
-        </span>
+        <span className="absolute top-0 left-[-150%] h-full w-[40%] rotate-12 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine" />        </span>
         </h1>
 
       <p className="mt-8 max-w-xl text-gray-300 text-lg">

@@ -27,16 +27,14 @@ body {
 
 @keyframes shine {
   0% {
-    transform: translateX(-120%);
+    left: -150%;
   }
-  45% {
-    transform: translateX(120%);
-  }
+
   100% {
-    transform: translateX(120%);
+    left: 150%;
   }
 }
 
 .animate-shine {
-  animation: shine 2.5s ease-in-out infinite;
+  animation: shine 3s linear infinite;
 }
