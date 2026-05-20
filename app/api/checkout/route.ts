@@ -19,11 +19,11 @@ export async function POST(request: Request) {
           currency_id: "MXN",
           unit_price: Number(body.price.replace("$", "")),
         },
-      ],
+      ],    
       back_urls: {
-        success: "https://lobo-web-wheat.vercel.app/success",
-        failure: "https://lobo-web-wheat.vercel.app/failure",
-        pending: "https://lobo-web-wheat.vercel.app/pending",
+        success: "https://eatlikeawolf.vercel.app/success",
+        failure: "https://eatlikeawolf.vercel.app/failure",
+        pending: "https://eatlikeawolf.vercel.app/pending",
 },
     },
   });
