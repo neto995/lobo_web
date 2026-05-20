@@ -1,38 +1,42 @@
 import PlanCard from "@/components/PlanCard";
 
 export default function Plans() {
-    const plans = [
+const plans = [
   {
-    title: "Starter",
+    title: "Premium Box",
     price: "$370",
     portions: "10 porciones",
     features: [
-      "Comida real",
-      "Pollo y res",
-      "Vegetales reales"
+      "La mejor forma de probar LOBO",
+      "Seguimiento personalizado",
+      "Sin compromiso"
     ]
   },
 
   {
-    title: "Mensual",
-    price: "$630",
-    portions: "20 porciones",
+    title: "Hot Sale - 3 Meses LOBO",
+    price: "$2090",
+    portions: "Hasta 3 MSI + hasta 15% OFF",
     popular: true,
     features: [
-      "Más práctico",
-      "Mejor costo",
-      "Menos marketing"
+      "Alimentación constante",
+      "Mejor costo por porción",
+      "Ideal para crear hábito",
+      "Precio congelado",
+      "Descuento a través de Mercado Pago y TDC participantes"
     ]
   },
 
   {
-    title: "Full",
-    price: "$945",
-    portions: "30 porciones",
+    title: "Hot Sale - 6 Meses LOBO",
+    price: "$3990",
+    portions: "Hasta 6 MSI + hasta 15% OFF",
     features: [
-      "Máxima comodidad",
-      "Más consistencia",
-      "Mejor nutrición"
+      "Máximo ahorro",
+      "Precio congelado",
+      "Ideal para dueños comprometidos",
+      "Premios Premium incluidos el primer mes",
+      "Descuento a través de Mercado Pago y TDC participantes"
     ]
   }
 ];
