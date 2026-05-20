@@ -21,9 +21,9 @@ export async function POST(request: Request) {
         },
       ],
       back_urls: {
-        success: "http://localhost:3000/success",
-        failure: "http://localhost:3000/failure",
-        pending: "http://localhost:3000/pending",
+        success: "https://lobo-web-wheat.vercel.app/success",
+        failure: "https://lobo-web-wheat.vercel.app/failure",
+        pending: "https://lobo-web-wheat.vercel.app/pending",
 },
     },
   });
