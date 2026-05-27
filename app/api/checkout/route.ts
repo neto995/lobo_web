@@ -21,9 +21,9 @@ export async function POST(request: Request) {
         },
       ],    
       back_urls: {
-        success: "https://eatlikeawolf.vercel.app/success",
-        failure: "https://eatlikeawolf.vercel.app/failure",
-        pending: "https://eatlikeawolf.vercel.app/pending",
+        success: "https://eatlikeawolf.mx/success",
+        failure: "https://eatlikeawolf.mx/failure",
+        pending: "https://eatlikeawolf.mx/pending",
 },
     },
   });
