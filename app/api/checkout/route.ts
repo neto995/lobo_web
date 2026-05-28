@@ -17,7 +17,8 @@ export async function POST(request: Request) {
           title: body.title,
           quantity: 1,
           currency_id: "MXN",
-          unit_price: Number(body.price.replace("$", "")),
+          unit_price: Number(
+            body.price.replace(/[^0-9.]/g, "")),
         },
       ],    
       back_urls: {
