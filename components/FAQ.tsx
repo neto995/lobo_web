@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "¿Puedo pagar a meses sin intereses?",
     answer:
-      "Sí. Los planes Hot Sale permiten pagar hasta 3 o 6 meses sin intereses según el plan y las opciones disponibles en Mercado Pago al momento del checkout."
+      "Sí. Los meses sin intereses dependen del banco, tarjeta y opciones que Mercado Pago muestre al momento del checkout. LOBO no controla directamente qué MSI aparecen."
   },
   {
     question: "¿Qué pasa si mi banco no aparece?",
@@ -37,15 +37,15 @@ const faqs = [
 ];
 
 const bankPromos = [
-  { bank: "Afirme", discount: "15% OFF" },
-  { bank: "AMEX", discount: "15% OFF" },
-  { bank: "Inbursa", discount: "15% OFF" },
-  { bank: "BBVA", discount: "10% OFF" },
-  { bank: "HSBC", discount: "10% OFF" },
-  { bank: "Openbank", discount: "10% OFF" },
-  { bank: "Banamex", discount: "10% OFF" },
-  { bank: "Tarjeta Crédito Mercado Pago", discount: "10% OFF" },
-  { bank: "Meses Sin Tarjeta", discount: "10% OFF" }
+  { bank: "Afirme", discount: "15% OFF", msi: "Todos" },
+  { bank: "AMEX", discount: "15% OFF", msi: "Todos" },
+  { bank: "Inbursa", discount: "15% OFF", msi: "Todos" },
+  { bank: "BBVA", discount: "10% OFF", msi: "1x y 3x" },
+  { bank: "HSBC", discount: "10% OFF", msi: "1x y 3x" },
+  { bank: "Openbank", discount: "10% OFF", msi: "1x" },
+  { bank: "Banamex", discount: "10% OFF", msi: "1x" },
+  { bank: "Tarjeta Crédito MP", discount: "10% OFF", msi: "3x · 6x · 9x" },
+  { bank: "Meses Sin Tarjeta", discount: "10% OFF", msi: "3x · 6x · 9x" }
 ];
 
 export default function FAQ() {
@@ -61,53 +61,38 @@ export default function FAQ() {
           Antes de comprar.
         </h2>
 
-        <div className="mt-16 border border-yellow-500/40 rounded-3xl p-8 bg-yellow-500/10">
-          <h3 className="text-2xl font-bold uppercase">
-            Bancos participantes Hot Sale
-          </h3>
+        <p className="mt-6 text-gray-400 text-lg">
+          Descuentos, MSI y condiciones de Mercado Pago.
+        </p>
 
-          <p className="mt-4 text-gray-300">
-            El descuento se aplica en Mercado Pago en compras mayores a $2,000,
-            usando tarjetas participantes.
-          </p>
-
-          <div className="mt-8 overflow-hidden rounded-2xl border border-white/10">
-            <table className="w-full text-left">
-              <thead className="bg-white/10">
-                <tr>
-                  <th className="px-6 py-4 text-sm uppercase tracking-[0.2em] text-gray-400">
-                    Banco
-                  </th>
-                  <th className="px-6 py-4 text-sm uppercase tracking-[0.2em] text-gray-400">
-                    Descuento
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {bankPromos.map((promo) => (
-                  <tr
-                    key={promo.bank}
-                    className="border-t border-white/10"
-                  >
-                    <td className="px-6 py-4 text-gray-200">
-                      {promo.bank}
-                    </td>
-                    <td className="px-6 py-4 font-bold text-yellow-300">
-                      {promo.discount}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* TABLA DE BANCOS */}
+        <div className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          <div className="grid grid-cols-3 bg-white/10 px-4 py-3 text-sm font-bold uppercase text-gray-300">
+            <span>Banco</span>
+            <span>Descuento</span>
+            <span>MSI</span>
           </div>
 
-          <p className="mt-6 text-sm text-gray-500">
-            Sujeto a términos, tarjetas participantes y validación directa de Mercado Pago.
-          </p>
+          {bankPromos.map((promo) => (
+            <div
+              key={promo.bank}
+              className="grid grid-cols-3 border-t border-white/10 px-4 py-3 text-sm text-gray-300"
+            >
+              <span>{promo.bank}</span>
+              <span className="text-yellow-400 font-semibold">
+                {promo.discount}
+              </span>
+              <span>{promo.msi}</span>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-10 space-y-6">
+        <p className="mt-4 text-xs text-gray-500">
+          Promoción sujeta a términos, bancos participantes y validación final de Mercado Pago.
+        </p>
+
+        {/* FAQS */}
+        <div className="mt-16 space-y-6">
           {faqs.map((faq) => (
             <div
               key={faq.question}
