@@ -9,6 +9,7 @@ type PlanCardProps = {
   features: string[];
   popular?: boolean;
   buttonText: string;
+  checkoutUrl?: string;
 };
 
 export default function PlanCard({
@@ -19,7 +20,8 @@ export default function PlanCard({
   promo,
   features,
   popular,
-  buttonText
+  buttonText,
+  checkoutUrl
 }: PlanCardProps) {
   return (
     <div
@@ -30,7 +32,6 @@ export default function PlanCard({
           : "border border-white/10 bg-white/5 backdrop-blur"}
       `}
     >
-
       {popular && (
         <div className="absolute top-4 right-4 text-xs uppercase bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
           Más elegido
@@ -69,13 +70,16 @@ export default function PlanCard({
 
       <button
         onClick={async () => {
+          if (checkoutUrl) {
+            window.location.href = checkoutUrl;
+            return;
+          }
+
           const response = await fetch("/api/checkout", {
             method: "POST",
-
             headers: {
               "Content-Type": "application/json",
             },
-
             body: JSON.stringify({
               title,
               price,
@@ -93,7 +97,6 @@ export default function PlanCard({
       >
         {buttonText}
       </button>
-
     </div>
   );
 }

@@ -1,51 +1,39 @@
 const faqs = [
   {
-    question: "¿Cómo funciona el descuento Hot Sale 2026?",
+    question: "¿Cómo funciona LOBO mensual?",
     answer:
-      "El descuento se aplica directamente en Mercado Pago al momento de pagar, siempre que uses una tarjeta participante y la compra sea mayor a $2,000."
+      "Activamos una entrega programada cada mes con las porciones que necesita tu perro. Tú no tienes que estar haciendo pedidos nuevos: LOBO queda programado."
   },
   {
-    question: "¿El descuento lo aplica LOBO?",
+    question: "¿Puedo comprar una sola vez?",
     answer:
-      "No. El descuento lo aplica Mercado Pago según la tarjeta, banco participante y condiciones de la promoción. LOBO mantiene el precio Hot Sale y Mercado Pago aplica el beneficio si tu compra califica."
+      "Sí. Puedes elegir compra única si quieres probar LOBO sin activar un pago recurrente. Es ideal para conocer el producto y ver cómo le cae a tu perro."
   },
   {
-    question: "¿Cuál es la compra mínima para aplicar el descuento Hot Sale 2026?",
+    question: "¿Qué plan le conviene a mi perro?",
     answer:
-      "La compra mínima es de $2,000. Por eso los planes Hot Sale están pensados para que puedas aprovechar MSI y posible descuento bancario."
+      "Depende de su peso, apetito y si LOBO será su comida principal o un complemento. Si tienes duda, mándanos su peso por WhatsApp y te ayudamos a elegir."
   },
   {
-    question: "¿Puedo pagar a meses sin intereses?",
+    question: "¿Las porciones vienen listas para servir?",
     answer:
-      "Sí. Los meses sin intereses dependen del banco, tarjeta y opciones que Mercado Pago muestre al momento del checkout. LOBO no controla directamente qué MSI aparecen."
+      "Sí. Vienen porcionadas y listas para guardar, descongelar y servir."
   },
   {
-    question: "¿Qué pasa si mi banco no aparece?",
+    question: "¿Puedo cancelar el plan mensual?",
     answer:
-      "Puedes pagar normalmente con Mercado Pago, pero puede que no aplique el descuento bancario. Antes de confirmar el pago, revisa si Mercado Pago muestra el descuento o los MSI disponibles."
+      "Sí. Puedes cancelar cuando quieras. LOBO mensual está hecho para simplificarte la vida, no para amarrarte a algo que ya no necesitas."
   },
   {
-    question: "¿El precio ya incluye el descuento?",
+    question: "¿Cómo se paga?",
     answer:
-      "No. El precio mostrado es el precio LOBO. Si tu tarjeta participa, Mercado Pago puede aplicar el descuento adicional antes de finalizar el pago."
+      "El pago se procesa de forma segura con Mercado Pago. En compra única pagas una vez; en plan mensual se activa el cobro recurrente del plan elegido."
   },
   {
-    question: "¿Qué plan me conviene?",
+    question: "¿LOBO sirve para mix feeding?",
     answer:
-      "Si tu perro es chico o quieres hacer mix feeding, empieza con Hot Sale CH. Si tu perro es mediano, grande o quieres más porciones, elige Hot Sale M/G."
+      "Sí. Muchos clientes usan LOBO como complemento de croquetas o como parte de una transición a comida real. Te ayudamos a ajustar porciones según el caso."
   }
-];
-
-const bankPromos = [
-  { bank: "Afirme", discount: "15% OFF", msi: "Todos" },
-  { bank: "AMEX", discount: "15% OFF", msi: "Todos" },
-  { bank: "Inbursa", discount: "15% OFF", msi: "Todos" },
-  { bank: "BBVA", discount: "10% OFF", msi: "1x y 3x" },
-  { bank: "HSBC", discount: "10% OFF", msi: "1x y 3x" },
-  { bank: "Openbank", discount: "10% OFF", msi: "1x" },
-  { bank: "Banamex", discount: "10% OFF", msi: "1x" },
-  { bank: "Tarjeta Crédito MP", discount: "10% OFF", msi: "3x · 6x · 9x" },
-  { bank: "Meses Sin Tarjeta", discount: "10% OFF", msi: "3x · 6x · 9x" }
 ];
 
 export default function FAQ() {
@@ -58,57 +46,59 @@ export default function FAQ() {
         </p>
 
         <h2 className="text-5xl md:text-7xl font-black uppercase mt-4">
-          Antes de comprar.
+          ¿Dudas antes de pedir?
         </h2>
 
-        <p className="mt-6 text-gray-400 text-lg">
-          Descuentos, MSI y condiciones de Mercado Pago.
+        <p className="mt-6 text-gray-400 text-lg max-w-2xl">
+          Respuestas rápidas sobre planes, porciones y entregas. Limpio, directo y sin vueltas.
         </p>
 
-        {/* TABLA DE BANCOS */}
-        <div className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-          <div className="grid grid-cols-3 bg-white/10 px-4 py-3 text-sm font-bold uppercase text-gray-300">
-            <span>Banco</span>
-            <span>Descuento</span>
-            <span>MSI</span>
-          </div>
-
-          {bankPromos.map((promo) => (
-            <div
-              key={promo.bank}
-              className="grid grid-cols-3 border-t border-white/10 px-4 py-3 text-sm text-gray-300"
-            >
-              <span>{promo.bank}</span>
-              <span className="text-yellow-400 font-semibold">
-                {promo.discount}
-              </span>
-              <span>{promo.msi}</span>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-4 text-xs text-gray-500">
-          Promoción sujeta a términos, bancos participantes y validación final de Mercado Pago.
-        </p>
-
-        {/* FAQS */}
-        <div className="mt-16 space-y-6">
-          {faqs.map((faq) => (
-            <div
+        <div className="mt-14 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
+          {faqs.map((faq, index) => (
+            <details
               key={faq.question}
-              className="border border-white/10 rounded-3xl p-8 bg-white/5"
+              className="group border-t border-white/10 first:border-t-0 open:bg-white/[0.06]"
+              open={index === 0}
             >
-              <h3 className="text-2xl font-bold">
-                {faq.question}
-              </h3>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-6 text-left transition hover:bg-white/[0.04] md:px-8 [&::-webkit-details-marker]:hidden">
+                <h3 className="text-xl font-bold uppercase md:text-2xl">
+                  {faq.question}
+                </h3>
 
-              <p className="mt-4 text-gray-400">
+                <span
+                  aria-hidden="true"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-yellow-500/40 bg-yellow-500/10 text-2xl leading-none text-yellow-300 transition group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+
+              <p className="px-6 pb-7 pr-20 text-base leading-7 text-gray-400 md:px-8 md:text-lg">
                 {faq.answer}
               </p>
-            </div>
+            </details>
           ))}
         </div>
 
+        <div className="mt-10 flex flex-col gap-5 rounded-3xl border border-yellow-500/30 bg-yellow-500/10 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div>
+            <p className="uppercase tracking-[0.3em] text-xs text-yellow-300">
+              Atención LOBO
+            </p>
+
+            <h3 className="mt-3 text-2xl font-bold uppercase">
+              Te ayudamos a elegir.
+            </h3>
+          </div>
+
+          <a
+            href="https://wa.me/5213330626243"
+            target="_blank"
+            className="inline-flex justify-center rounded-full bg-white px-7 py-4 text-sm font-bold uppercase text-black transition hover:bg-gray-200"
+          >
+            Escribir por WhatsApp
+          </a>
+        </div>
       </div>
     </section>
   );

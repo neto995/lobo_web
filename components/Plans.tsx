@@ -2,70 +2,72 @@ import PlanCard from "@/components/PlanCard";
 
 export default function Plans() {
   const plans = [
-    {
-      title: "Hot Sale CH",
-      price: "$2,090",
-      duration: "3 meses",
+      {
+      title: "Plan Chico",
+      price: "$630",
+      duration: "Entrega programada",
       portions: "20 porciones",
-      promo: "3 MSI + hasta 15% OFF",
-      features: [
-        "Ideal para perros chicos",
-        "También funciona para mix feeding",
-        "Precio congelado Hot Sale",
-        "Seguimiento personalizado",
-        "Pago seguro con Mercado Pago"
-      ],
-      buttonText: "Comprar CH · 3 meses"
-    },
-
-    {
-      title: "Hot Sale CH",
-      price: "$3,790",
-      duration: "6 meses",
-      portions: "20 porciones",
-      promo: "6 MSI + hasta 15% OFF",
+      promo: "Cobro recurrente mensual",
       popular: true,
       features: [
+        "LOBO llega cada mes",
+        "No tienes que volver a pedir",
+        "Ideal para mantener consistencia",
+        "Puedes cancelar cuando quieras",
+        "Pago recurrente con Mercado Pago"
+      ],
+      buttonText: "Activar suscripción",
+      checkoutUrl: "https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=6aed20bbc8354a2fa37105890d50f4d7"
+    },
+
+    {
+      title: "Plan Chico",
+      price: "$630",
+      duration: "Pago mensual",
+      portions: "20 porciones",
+      promo: "Compra única",
+      features: [
         "Ideal para perros chicos",
         "También funciona para mix feeding",
-        "Precio congelado Hot Sale",
+        "Sin compromiso mensual",
         "Seguimiento personalizado",
         "Pago seguro con Mercado Pago"
       ],
-      buttonText: "Comprar CH · 6 meses"
+      buttonText: "Compra única"
     },
-
     {
-      title: "Hot Sale M/G",
-      price: "$2,835",
-      duration: "3 meses",
+      title: "Plan Mediano",
+      price: "$945",
+      duration: "Entrega programada",
       portions: "30 porciones",
-      promo: "3 MSI + hasta 15% OFF",
+      promo: "Cobro recurrente mensual",
       features: [
-        "Ideal para perros medianos o grandes",
-        "Más porciones, menos vueltas",
-        "Precio congelado Hot Sale",
-        "Premios naturales incluidos",
-        "Pago seguro con Mercado Pago"
+        "LOBO llega cada mes",
+        "Más comida real disponible",
+        "Ideal para perros medianos",
+        "Puedes cancelar cuando quieras",
+        "Pago recurrente con Mercado Pago"
       ],
-      buttonText: "Comprar M/G · 3 meses"
-    },
-
-    {
-      title: "Hot Sale M/G",
-      price: "$5,670",
-      duration: "6 meses",
-      portions: "30 porciones",
-      promo: "6 MSI + hasta 15% OFF",
-      features: [
-        "Ideal para perros medianos o grandes",
-        "Más porciones, menos vueltas",
-        "Precio congelado Hot Sale",
-        "Premios naturales incluidos",
-        "Pago seguro con Mercado Pago"
-      ],
-      buttonText: "Comprar M/G · 6 meses"
+      buttonText: "Activar suscripción",
+      checkoutUrl: "https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=ec5904061c9c487ca87460e189e2a0a7"
     }
+    ,
+    {
+      title: "Plan Mediano",
+      price: "$945",
+      duration: "Pago mensual",
+      portions: "30 porciones",
+      promo: "Compra única",
+      features: [
+        "Ideal para perros medianos",
+        "Más porciones para el mes",
+        "Sin compromiso mensual",
+        "Seguimiento personalizado",
+        "Pago seguro con Mercado Pago"
+      ],
+      buttonText: "Compra única"
+    },
+
   ];
 
   return (
@@ -76,19 +78,18 @@ export default function Plans() {
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-20">
-
           <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
-            Hot Sale LOBO
+            Planes LOBO
           </p>
 
           <h2 className="text-5xl md:text-7xl font-bold uppercase mt-4">
-            Elige según su talla.
+            Elige cómo quieres pedir.
           </h2>
 
           <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
-            Paga en MSI, congela precio y recibe comida real sin vueltas.
+            Compra una vez o deja tu entrega programada cada mes.
+            Comida real, lista para servir.
           </p>
-
         </div>
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
@@ -103,42 +104,21 @@ export default function Plans() {
               features={plan.features}
               popular={plan.popular}
               buttonText={plan.buttonText}
+              checkoutUrl={plan.checkoutUrl}
             />
           ))}
         </div>
 
         <div className="max-w-4xl mx-auto mt-16 border border-white/10 rounded-3xl p-8 bg-white/5 text-center">
-          <p className="uppercase tracking-[0.3em] text-xs text-gray-500">
-            Otras formas de empezar
-          </p>
-
-          <h3 className="text-2xl md:text-3xl font-bold uppercase mt-4">
-            ¿Todavía no sabes qué plan elegir?
+          <h3 className="text-2xl font-bold uppercase">
+            ¿No sabes cuál elegir?
           </h3>
 
-          <div className="mt-8 grid md:grid-cols-2 gap-6 text-left">
-
-            <div className="border border-white/10 rounded-2xl p-6 bg-black/30">
-              <h4 className="text-xl font-bold">
-                Compra mensual
-              </h4>
-
-              <p className="mt-3 text-gray-400">
-                Planes desde $630. Escríbenos y armamos el plan según su peso, talla y consumo.
-              </p>
-            </div>
-
-            <div className="border border-white/10 rounded-2xl p-6 bg-black/30">
-              <h4 className="text-xl font-bold">
-                Premium Box
-              </h4>
-
-              <p className="mt-3 text-gray-400">
-                10 porciones por $370. Ideal si es la primera vez que tu perro prueba LOBO.
-              </p>
-            </div>
-
-          </div>
+          <p className="mt-4 text-gray-400">
+            Mándanos el peso de tu perro para un plan personalizado según:
+            <br />
+            su tamaño, actividad y alimentación actual.
+          </p>
 
           <a
             href="https://wa.me/5213330626243"
