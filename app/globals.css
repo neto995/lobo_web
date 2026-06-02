@@ -42,3 +42,19 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes shine {
+  0% {
+    transform: translateX(-140%) rotate(12deg);
+  }
+  45% {
+    transform: translateX(240%) rotate(12deg);
+  }
+  100% {
+    transform: translateX(240%) rotate(12deg);
+  }
+}
+
+.animate-shine {
+  animation: shine 3.8s ease-in-out infinite;
+}
