@@ -60,9 +60,8 @@ export default function Hero() {
             </a>
 
             <a
-              href="https://wa.me/5213330626243"
-              target="_blank"
-              className="inline-flex justify-center rounded-full border border-[#F4EFE3]/20 px-8 py-4 text-sm font-bold uppercase tracking-wide text-[#F4EFE3] transition hover:bg-[#F4EFE3]/10"
+              href="/calculadora"
+                className="inline-flex justify-center rounded-full border border-[#F4EFE3]/20 px-8 py-4 text-sm font-bold uppercase tracking-wide text-[#F4EFE3] transition hover:bg-[#F4EFE3]/10"
             >
               Personalizar plan
             </a>
