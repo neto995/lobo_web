@@ -13,39 +13,25 @@ function OptionButton({
   active,
   label,
   description,
-  onClick
+  onClick,
 }: OptionButtonProps) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={`
-        group min-h-[104px] rounded-2xl border p-5 text-left transition
+        text-left rounded-2xl border p-4 transition
         ${
           active
-            ? "border-[#A93622] bg-[#A93622]/20 text-[#F4EFE3] shadow-[0_0_36px_rgba(169,54,34,0.18)]"
-            : "border-[#F4EFE3]/10 bg-black/30 text-[#C9BDAA] hover:border-[#F4EFE3]/25 hover:bg-[#F4EFE3]/[0.06]"
+            ? "border-[#A93622] bg-[#A93622]/20 text-white"
+            : "border-white/10 bg-black/30 text-gray-400 hover:bg-white/5"
         }
       `}
     >
-      <span
-        className={`
-          mb-4 grid h-7 w-7 place-items-center rounded-full border transition
-          ${
-            active
-              ? "border-[#A93622] bg-[#A93622]"
-              : "border-[#F4EFE3]/20 bg-[#F4EFE3]/[0.03] group-hover:border-[#F4EFE3]/40"
-          }
-        `}
-        aria-hidden="true"
-      >
-        {active && <span className="h-2.5 w-2.5 rounded-full bg-[#F4EFE3]" />}
-      </span>
-
-      <p className="text-sm font-black uppercase tracking-[0.08em]">{label}</p>
+      <p className="font-bold uppercase">{label}</p>
 
       {description && (
-        <p className="mt-2 text-sm leading-5 text-[#8E7F6A]">{description}</p>
+        <p className="mt-1 text-sm text-gray-500">{description}</p>
       )}
     </button>
   );
@@ -125,7 +111,7 @@ export default function Calculator() {
       dailyLoboGrams: Math.round(dailyLoboGrams),
       portions,
       plan,
-      message
+      message,
     };
   }, [weight, stage, neutered, bodyCondition, movement, loboPercent]);
 
@@ -177,47 +163,41 @@ export default function Calculator() {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-[#F4EFE3]/10 bg-[#080706] shadow-2xl shadow-black/40">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F4EFE3]/30 to-transparent" />
-      <div className="absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-[#A93622]/20 blur-3xl" />
-
-      <div className="relative p-5 sm:p-6 md:p-8 lg:p-10">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-8">
       {step <= totalSteps && (
-        <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="uppercase tracking-[0.3em] text-xs text-[#8E7F6A]">
+        <div>
+          <div className="flex items-center justify-between gap-4">
+            <p className="uppercase tracking-[0.3em] text-xs text-gray-500">
               Paso {step} de {totalSteps}
             </p>
 
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#C9BDAA]">
-              {progress}% completo
-            </p>
+            <p className="text-sm text-gray-500">{progress}% completo</p>
           </div>
 
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#F4EFE3]/10">
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-[#A93622] shadow-[0_0_18px_rgba(169,54,34,0.65)] transition-all"
+              className="h-full rounded-full bg-[#A93622] transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
       )}
 
-      <div className="mt-8 flex min-h-[540px] flex-col md:mt-10">
+      <div className="mt-8 md:mt-10 min-h-[420px] md:min-h-[520px] flex flex-col">
         {step === 1 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
               Tu perro
             </p>
 
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
               Empecemos con lo básico.
             </h2>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-5">
-                <label className="block text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
-                  Nombre de tu lobo
+            <div className="mt-8 md:mt-10 grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
+                  Nombre del perro
                 </label>
 
                 <input
@@ -225,12 +205,12 @@ export default function Calculator() {
                   value={dogName}
                   onChange={(e) => setDogName(e.target.value)}
                   placeholder="Ej. Nube"
-                  className="mt-4 w-full rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.04] px-4 py-4 text-[#F4EFE3] outline-none transition placeholder:text-[#8E7F6A]/60 focus:border-[#A93622] focus:ring-4 focus:ring-[#A93622]/15"
+                  className="mt-4 w-full rounded-2xl bg-black border border-white/10 px-4 py-4 text-white placeholder:text-gray-700"
                 />
               </div>
 
-              <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-5">
-                <label className="block text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
+              <div>
+                <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
                   Peso: {weight} kg
                 </label>
 
@@ -240,10 +220,10 @@ export default function Calculator() {
                   max="60"
                   value={weight}
                   onChange={(e) => setWeight(Number(e.target.value))}
-                  className="mt-7 w-full accent-[#A93622]"
+                  className="w-full mt-7"
                 />
 
-                <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-[#8E7F6A]">
+                <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-gray-600">
                   <span>2kg</span>
                   <span>60kg</span>
                 </div>
@@ -254,15 +234,15 @@ export default function Calculator() {
 
         {step === 2 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
               Etapa
             </p>
 
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
               ¿En qué etapa está {displayName}?
             </h2>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid md:grid-cols-3 gap-4">
               <OptionButton
                 active={stage === "puppy"}
                 label="Cachorro"
@@ -286,11 +266,11 @@ export default function Calculator() {
             </div>
 
             <div className="mt-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
+              <p className="text-sm uppercase tracking-[0.2em] text-gray-500">
                 ¿Está esterilizado/castrado?
               </p>
 
-              <div className="mt-4 grid max-w-md grid-cols-2 gap-4">
+              <div className="mt-4 grid grid-cols-2 gap-4 max-w-md">
                 <OptionButton
                   active={neutered === "yes"}
                   label="Sí"
@@ -309,15 +289,15 @@ export default function Calculator() {
 
         {step === 3 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
               Condición
             </p>
 
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
               ¿Qué silueta lo representa mejor?
             </h2>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid md:grid-cols-3 gap-4">
               <OptionButton
                 active={bodyCondition === "thin"}
                 label="Delgado"
@@ -340,7 +320,7 @@ export default function Calculator() {
               />
             </div>
 
-            <p className="mt-6 max-w-2xl rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-4 text-sm leading-6 text-[#8E7F6A]">
+            <p className="mt-6 text-sm text-gray-500 max-w-2xl">
               La silueta ayuda a ajustar la estimación inicial. No sustituye una
               evaluación veterinaria.
             </p>
@@ -349,15 +329,15 @@ export default function Calculator() {
 
         {step === 4 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
               Rutina
             </p>
 
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
               ¿Cuánto movimiento real tiene al día?
             </h2>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid md:grid-cols-3 gap-4">
               <OptionButton
                 active={movement === "low"}
                 label="Poco"
@@ -380,7 +360,7 @@ export default function Calculator() {
               />
             </div>
 
-            <p className="mt-6 max-w-2xl rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-4 text-sm leading-6 text-[#8E7F6A]">
+            <p className="mt-6 text-sm text-gray-500 max-w-2xl">
               Cuenta movimiento real: caminatas, juego activo, correr o
               entrenamiento. No solo “es inquieto en casa”.
             </p>
@@ -389,15 +369,15 @@ export default function Calculator() {
 
         {step === 5 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
               Objetivo
             </p>
 
-            <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
               ¿Qué quieres lograr con LOBO?
             </h2>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
+            <div className="mt-10 grid md:grid-cols-2 gap-4">
               <OptionButton
                 active={goal === "try"}
                 label="Probar"
@@ -439,8 +419,8 @@ export default function Calculator() {
               />
             </div>
 
-            <div className="mt-10 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-5">
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
+            <div className="mt-10">
+              <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
                 LOBO en el plato: {loboPercent}%
               </label>
 
@@ -451,10 +431,10 @@ export default function Calculator() {
                 step="10"
                 value={loboPercent}
                 onChange={(e) => setLoboPercent(Number(e.target.value))}
-                className="mt-5 w-full accent-[#A93622]"
+                className="w-full mt-4"
               />
 
-              <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-[#8E7F6A]">
+              <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-gray-600">
                 <span>Más croqueta</span>
                 <span>Más LOBO</span>
               </div>
@@ -463,58 +443,60 @@ export default function Calculator() {
         )}
 
         {step === 6 && (
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-6 lg:gap-8">
             <div>
-              <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+              <p className="uppercase tracking-[0.3em] text-xs md:text-sm text-gray-500">
                 Resultado
               </p>
 
-              <h2 className="mt-4 text-4xl font-black uppercase leading-[0.9] text-[#F4EFE3] md:text-6xl">
+              <h2 className="mt-4 text-3xl md:text-6xl font-black uppercase leading-[0.9]">
                 Para {displayName}, lo lógico es:
               </h2>
 
-              <p className="mt-6 text-[#C9BDAA] text-lg">{result.message}</p>
+              <p className="mt-5 text-[#C9BDAA] text-base md:text-lg leading-relaxed">
+                {result.message}
+              </p>
 
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="mt-8 rounded-full border border-[#F4EFE3]/15 px-6 py-3 text-sm font-bold uppercase text-[#C9BDAA] transition hover:border-[#F4EFE3]/30 hover:bg-[#F4EFE3]/[0.06]"
+                className="mt-6 rounded-full border border-white/10 px-5 py-3 text-xs md:text-sm font-bold uppercase text-gray-300 transition hover:bg-white/5"
               >
                 Recalcular
               </button>
             </div>
 
-            <div className="rounded-[2rem] border border-[#F4EFE3]/10 bg-black/50 p-5 shadow-2xl shadow-black/30 sm:p-8">
-              <p className="uppercase tracking-[0.3em] text-sm text-[#8E7F6A]">
+            <div className="rounded-3xl bg-black/50 border border-white/10 p-5 md:p-8">
+              <p className="uppercase tracking-[0.3em] text-xs md:text-sm text-gray-500">
                 Plan recomendado
               </p>
 
-              <h3 className="mt-4 text-4xl font-black uppercase leading-none text-[#F4EFE3] sm:text-5xl">
+              <h3 className="text-4xl md:text-5xl font-black mt-4 uppercase text-white">
                 {result.plan}
               </h3>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-[#A93622]/30 bg-[#A93622]/15 p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
+              <div className="mt-6 grid grid-cols-2 gap-3 md:gap-4">
+                <div className="rounded-2xl border border-[#A93622]/40 bg-[#A93622]/10 p-4 md:p-5">
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
                     Porciones / mes
                   </p>
-                  <p className="mt-2 text-4xl font-black text-[#F4EFE3]">
+                  <p className="mt-2 text-3xl md:text-4xl font-black">
                     {result.portions}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
                     LOBO diario
                   </p>
-                  <p className="mt-2 text-4xl font-black text-[#F4EFE3]">
+                  <p className="mt-2 text-3xl md:text-4xl font-black">
                     {result.dailyLoboGrams}g
                   </p>
                 </div>
               </div>
 
-              <div className="mt-8 rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-5">
-                <div className="flex items-center justify-between gap-4 text-xs uppercase tracking-[0.2em] text-[#8E7F6A]">
+              <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">
+                <div className="flex items-center justify-between text-[10px] md:text-xs uppercase tracking-[0.18em] text-gray-500">
                   <span>Más croqueta</span>
                   <span>Más LOBO</span>
                 </div>
@@ -526,71 +508,61 @@ export default function Calculator() {
                   step="10"
                   value={loboPercent}
                   onChange={(e) => setLoboPercent(Number(e.target.value))}
-                  className="mt-5 w-full accent-[#A93622]"
+                  className="mt-5 w-full"
                 />
 
-                <p className="mt-5 text-center text-sm text-[#C9BDAA]">
-                  Mix feeding estimado:{" "}
-                  <span className="font-bold text-[#F4EFE3]">
+                <p className="mt-4 text-center text-sm md:text-base text-gray-400 leading-relaxed">
+                  <span className="font-bold text-white">
                     {loboPercent}% LOBO
                   </span>{" "}
                   +{" "}
-                  <span className="font-bold text-[#F4EFE3]">
+                  <span className="font-bold text-white">
                     {100 - loboPercent}% alimento actual
                   </span>
                 </p>
 
-                <p className="mt-3 text-center text-xs leading-5 text-[#8E7F6A]">
-                  Al mover la barra, se recalculan las porciones mensuales y el
-                  plan recomendado.
+                <p className="mt-2 text-center text-xs text-gray-500">
+                  Al mover la barra, se recalcula el plan.
                 </p>
               </div>
 
-              <div className="mt-8 grid gap-3 text-sm text-[#8E7F6A] sm:grid-cols-2">
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Peso
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
-                    {weight} kg
-                  </span>
-                </p>
+              <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Peso</p>
+                  <p className="mt-1 font-bold text-white">{weight} kg</p>
+                </div>
 
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Etapa
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
-                    {stageLabel}
-                  </span>
-                </p>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Etapa</p>
+                  <p className="mt-1 font-bold text-white">{stageLabel}</p>
+                </div>
 
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Silueta
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Silueta</p>
+                  <p className="mt-1 font-bold text-white">
                     {bodyConditionLabel}
-                  </span>
-                </p>
+                  </p>
+                </div>
 
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Movimiento
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
-                    {movementLabel}
-                  </span>
-                </p>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Objetivo</p>
+                  <p className="mt-1 font-bold text-white">{goalLabel}</p>
+                </div>
 
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Objetivo
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
-                    {goalLabel}
-                  </span>
-                </p>
+                <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Movimiento</p>
+                  <p className="mt-1 font-bold text-white">{movementLabel}</p>
+                </div>
 
-                <p className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                  Energía diaria estimada
-                  <span className="mt-1 block font-bold text-[#F4EFE3]">
+                <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-gray-500">Energía diaria estimada</p>
+                  <p className="mt-1 font-bold text-white">
                     {result.mer} kcal/día
-                  </span>
-                </p>
+                  </p>
+                </div>
               </div>
 
-              <p className="mt-8 text-sm leading-6 text-[#8E7F6A]">
+              <p className="mt-6 text-xs md:text-sm text-gray-500 leading-relaxed">
                 Estimación inicial. Ajustamos según apetito, popó, peso y
                 respuesta del perro.
               </p>
@@ -612,7 +584,7 @@ Porciones estimadas: ${result.portions}
 Plan recomendado: ${result.plan}`
                 )}`}
                 target="_blank"
-                className="mt-8 inline-flex w-full justify-center rounded-full bg-[#F4EFE3] px-7 py-4 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-white"
+                className="inline-flex mt-6 w-full justify-center rounded-full bg-white px-6 py-4 text-xs md:text-sm font-bold uppercase text-black transition hover:bg-gray-200"
               >
                 Mandar cálculo por WhatsApp
               </a>
@@ -621,12 +593,12 @@ Plan recomendado: ${result.plan}`
         )}
 
         {step <= totalSteps && (
-          <div className="mt-auto flex items-center justify-between gap-4 pt-10">
+          <div className="mt-auto pt-10 flex items-center justify-between gap-4">
             <button
               type="button"
               onClick={goBack}
               disabled={step === 1}
-              className="rounded-full border border-[#F4EFE3]/15 px-6 py-3 text-sm font-bold uppercase text-[#C9BDAA] transition hover:border-[#F4EFE3]/30 hover:bg-[#F4EFE3]/[0.06] disabled:opacity-30 disabled:hover:border-[#F4EFE3]/15 disabled:hover:bg-transparent"
+              className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold uppercase text-gray-400 transition hover:bg-white/5 disabled:opacity-30 disabled:hover:bg-transparent"
             >
               Atrás
             </button>
@@ -634,13 +606,12 @@ Plan recomendado: ${result.plan}`
             <button
               type="button"
               onClick={step === totalSteps ? goToResult : goNext}
-              className="rounded-full bg-[#F4EFE3] px-8 py-4 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-white"
+              className="rounded-full bg-white px-8 py-4 text-sm font-bold uppercase text-black transition hover:bg-gray-200"
             >
               {step === totalSteps ? "Ver resultado" : "Continuar"}
             </button>
           </div>
         )}
-      </div>
       </div>
     </div>
   );

@@ -2,8 +2,7 @@ import Calculator from "@/components/Calculator";
 
 export default function CalculadoraPage() {
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-32">
-      <section className="max-w-5xl mx-auto">
+    <main className="min-h-screen bg-black text-white px-5 py-24 md:px-6 md:py-32">      <section className="max-w-5xl mx-auto">
 
         <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
           Calculadora LOBO
