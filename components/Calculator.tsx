@@ -23,15 +23,15 @@ function OptionButton({
         text-left rounded-2xl border p-4 transition
         ${
           active
-            ? "border-[#A93622] bg-[#A93622]/20 text-white"
-            : "border-white/10 bg-black/30 text-gray-400 hover:bg-white/5"
+            ? "border-[#A93622] bg-[#F4EFE3]/10 text-white shadow-[0_14px_40px_rgba(0,0,0,0.22)]"
+            : "border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] text-[#F4EFE3] hover:border-[#F4EFE3]/30 hover:bg-[#F4EFE3]/[0.085]"
         }
       `}
     >
       <p className="font-bold uppercase">{label}</p>
 
       {description && (
-        <p className="mt-1 text-sm text-gray-500">{description}</p>
+        <p className="mt-1 text-sm text-[#C9BDAA]">{description}</p>
       )}
     </button>
   );
@@ -74,13 +74,14 @@ export default function Calculator() {
 
     const mer = rer * baseFactor * bodyFactor * movementFactor;
 
-    // Estimación por gramaje hasta tener kcal reales por porción LOBO.
+    // Estimación por gramaje calibrada con observación real LOBO.
+    // Cuando tengamos kcal reales por porción, esto se cambia a cálculo energético.
     const estimatedDailyFoodGrams =
       movement === "low"
-        ? weight * 1000 * 0.017
+        ? weight * 1000 * 0.0135
         : movement === "high"
-        ? weight * 1000 * 0.023
-        : weight * 1000 * 0.02;
+        ? weight * 1000 * 0.018
+        : weight * 1000 * 0.016;
 
     const dailyLoboGrams = estimatedDailyFoodGrams * (loboPercent / 100);
     const monthlyLoboGrams = dailyLoboGrams * 30;
@@ -97,11 +98,11 @@ export default function Calculator() {
 
     const message =
       portions <= 10
-        ? "Prueba inteligente, sin apostar el mes completo."
+        ? "Prueba inteligente, sin apostar el mes completo. Premium Box $370."
         : portions <= 20
-        ? "Mejora el plato sin cambiar todo de golpe."
+        ? "Mejora el plato sin cambiar todo de golpe. Sugerencia: Suscripción al Plan Chico. $630/mes."
         : portions <= 30
-        ? "Más consistencia sin estar reordenando."
+        ? "Más consistencia sin estar reordenando. Sugerencia: Suscripción al Plan Mensual Mediano $945/mes."
         : "Conviene personalizar. No todos necesitan 100% LOBO para empezar.";
 
     return {
@@ -163,18 +164,20 @@ export default function Calculator() {
   }
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-8">
+    <div className="rounded-[2rem] border border-black/10 bg-[#14110F] p-4 text-[#F4EFE3] shadow-2xl shadow-black/20 sm:p-5 md:p-8">
       {step <= totalSteps && (
-        <div>
+        <div className="rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.075] p-4">
           <div className="flex items-center justify-between gap-4">
-            <p className="uppercase tracking-[0.3em] text-xs text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA]">
               Paso {step} de {totalSteps}
             </p>
 
-            <p className="text-sm text-gray-500">{progress}% completo</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C9BDAA] sm:text-sm">
+              {progress}% completo
+            </p>
           </div>
 
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#F4EFE3]/15">
             <div
               className="h-full rounded-full bg-[#A93622] transition-all"
               style={{ width: `${progress}%` }}
@@ -183,20 +186,20 @@ export default function Calculator() {
         </div>
       )}
 
-      <div className="mt-8 md:mt-10 min-h-[420px] md:min-h-[520px] flex flex-col">
+      <div className="mt-8 flex min-h-[420px] flex-col md:mt-10 md:min-h-[520px]">
         {step === 1 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
               Tu perro
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.92] text-white sm:text-4xl md:text-6xl">
               Empecemos con lo básico.
             </h2>
 
-            <div className="mt-8 md:mt-10 grid md:grid-cols-2 gap-6">
+            <div className="mt-8 grid gap-5 md:mt-10 md:grid-cols-2 md:gap-6">
               <div>
-                <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
+                <label className="block text-xs uppercase tracking-[0.2em] text-[#C9BDAA] md:text-sm">
                   Nombre del perro
                 </label>
 
@@ -205,12 +208,12 @@ export default function Calculator() {
                   value={dogName}
                   onChange={(e) => setDogName(e.target.value)}
                   placeholder="Ej. Nube"
-                  className="mt-4 w-full rounded-2xl bg-black border border-white/10 px-4 py-4 text-white placeholder:text-gray-700"
+                  className="mt-4 w-full rounded-2xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] px-4 py-4 text-white outline-none transition placeholder:text-[#C9BDAA]/55 focus:border-[#A93622] focus:ring-4 focus:ring-[#A93622]/15"
                 />
               </div>
 
               <div>
-                <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
+                <label className="block text-xs uppercase tracking-[0.2em] text-[#C9BDAA] md:text-sm">
                   Peso: {weight} kg
                 </label>
 
@@ -220,10 +223,10 @@ export default function Calculator() {
                   max="60"
                   value={weight}
                   onChange={(e) => setWeight(Number(e.target.value))}
-                  className="w-full mt-7"
+                  className="mt-7 w-full accent-[#A93622]"
                 />
 
-                <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-gray-600">
+                <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-[#C9BDAA]">
                   <span>2kg</span>
                   <span>60kg</span>
                 </div>
@@ -234,15 +237,15 @@ export default function Calculator() {
 
         {step === 2 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
               Etapa
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.92] text-white sm:text-4xl md:text-6xl">
               ¿En qué etapa está {displayName}?
             </h2>
 
-            <div className="mt-10 grid md:grid-cols-3 gap-4">
+            <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
               <OptionButton
                 active={stage === "puppy"}
                 label="Cachorro"
@@ -266,11 +269,11 @@ export default function Calculator() {
             </div>
 
             <div className="mt-10">
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-500">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#C9BDAA] md:text-sm">
                 ¿Está esterilizado/castrado?
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-4 max-w-md">
+              <div className="mt-4 grid max-w-md grid-cols-2 gap-4">
                 <OptionButton
                   active={neutered === "yes"}
                   label="Sí"
@@ -289,38 +292,38 @@ export default function Calculator() {
 
         {step === 3 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
               Condición
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.92] text-white sm:text-4xl md:text-6xl">
               ¿Qué silueta lo representa mejor?
             </h2>
 
-            <div className="mt-10 grid md:grid-cols-3 gap-4">
+            <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
               <OptionButton
                 active={bodyCondition === "thin"}
                 label="Delgado"
-                description="Se ve muy marcado"
+                description="Se ve muy delgado"
                 onClick={() => setBodyCondition("thin")}
               />
 
               <OptionButton
                 active={bodyCondition === "ideal"}
                 label="Ideal"
-                description="Se ve proporcionado"
+                description="Se ve bien su cintura y costillas"
                 onClick={() => setBodyCondition("ideal")}
               />
 
               <OptionButton
                 active={bodyCondition === "over"}
                 label="Con pancita"
-                description="Podría ajustar"
+                description="Podría bajar un poco de peso"
                 onClick={() => setBodyCondition("over")}
               />
             </div>
 
-            <p className="mt-6 text-sm text-gray-500 max-w-2xl">
+            <p className="mt-6 max-w-2xl rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-4 text-sm leading-6 text-[#C9BDAA]">
               La silueta ayuda a ajustar la estimación inicial. No sustituye una
               evaluación veterinaria.
             </p>
@@ -329,15 +332,15 @@ export default function Calculator() {
 
         {step === 4 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
               Rutina
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.92] text-white sm:text-4xl md:text-6xl">
               ¿Cuánto movimiento real tiene al día?
             </h2>
 
-            <div className="mt-10 grid md:grid-cols-3 gap-4">
+            <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
               <OptionButton
                 active={movement === "low"}
                 label="Poco"
@@ -360,7 +363,7 @@ export default function Calculator() {
               />
             </div>
 
-            <p className="mt-6 text-sm text-gray-500 max-w-2xl">
+            <p className="mt-6 max-w-2xl rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.03] p-4 text-sm leading-6 text-[#C9BDAA]">
               Cuenta movimiento real: caminatas, juego activo, correr o
               entrenamiento. No solo “es inquieto en casa”.
             </p>
@@ -369,15 +372,15 @@ export default function Calculator() {
 
         {step === 5 && (
           <div>
-            <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+            <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
               Objetivo
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-6xl font-black uppercase leading-[0.9]">
+            <h2 className="mt-4 text-3xl font-black uppercase leading-[0.92] text-white sm:text-4xl md:text-6xl">
               ¿Qué quieres lograr con LOBO?
             </h2>
 
-            <div className="mt-10 grid md:grid-cols-2 gap-4">
+            <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2">
               <OptionButton
                 active={goal === "try"}
                 label="Probar"
@@ -419,8 +422,8 @@ export default function Calculator() {
               />
             </div>
 
-            <div className="mt-10">
-              <label className="block text-sm uppercase tracking-[0.2em] text-gray-500">
+            <div className="mt-10 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-5">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
                 LOBO en el plato: {loboPercent}%
               </label>
 
@@ -431,10 +434,10 @@ export default function Calculator() {
                 step="10"
                 value={loboPercent}
                 onChange={(e) => setLoboPercent(Number(e.target.value))}
-                className="w-full mt-4"
+                className="mt-5 w-full accent-[#A93622]"
               />
 
-              <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-gray-600">
+              <div className="mt-3 flex justify-between text-xs uppercase tracking-[0.15em] text-[#C9BDAA]">
                 <span>Más croqueta</span>
                 <span>Más LOBO</span>
               </div>
@@ -443,60 +446,62 @@ export default function Calculator() {
         )}
 
         {step === 6 && (
-          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-6 lg:gap-8">
+          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
             <div>
-              <p className="uppercase tracking-[0.3em] text-xs md:text-sm text-gray-500">
+              <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
                 Resultado
               </p>
 
-              <h2 className="mt-4 text-3xl md:text-6xl font-black uppercase leading-[0.9]">
+              <h2 className="mt-4 text-3xl font-black uppercase leading-[0.9] text-white md:text-6xl">
                 Para {displayName}, lo lógico es:
               </h2>
 
-              <p className="mt-5 text-[#C9BDAA] text-base md:text-lg leading-relaxed">
+              <p className="mt-5 text-base leading-relaxed text-[#C9BDAA] md:text-lg">
                 {result.message}
               </p>
 
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="mt-6 rounded-full border border-white/10 px-5 py-3 text-xs md:text-sm font-bold uppercase text-gray-300 transition hover:bg-white/5"
+                className="mt-6 rounded-full border border-[#F4EFE3]/15 px-5 py-3 text-xs font-bold uppercase text-[#C9BDAA] transition hover:bg-[#F4EFE3]/[0.06] md:text-sm"
               >
                 Recalcular
               </button>
             </div>
 
-            <div className="rounded-3xl bg-black/50 border border-white/10 p-5 md:p-8">
-              <p className="uppercase tracking-[0.3em] text-xs md:text-sm text-gray-500">
+            <div className="rounded-3xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] p-5 md:p-8">
+              <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
                 Plan recomendado
               </p>
 
-              <h3 className="text-4xl md:text-5xl font-black mt-4 uppercase text-white">
+              <h3 className="mt-4 text-4xl font-black uppercase text-white md:text-5xl">
                 {result.plan}
               </h3>
 
               <div className="mt-6 grid grid-cols-2 gap-3 md:gap-4">
                 <div className="rounded-2xl border border-[#A93622]/40 bg-[#A93622]/10 p-4 md:p-5">
-                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#C9BDAA] md:text-xs">
                     Porciones / mes
                   </p>
-                  <p className="mt-2 text-3xl md:text-4xl font-black">
+
+                  <p className="mt-2 text-3xl font-black text-white md:text-4xl">
                     {result.portions}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">
-                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#C9BDAA]">
+                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4 md:p-5">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#C9BDAA] md:text-xs">
                     LOBO diario
                   </p>
-                  <p className="mt-2 text-3xl md:text-4xl font-black">
+
+                  <p className="mt-2 text-3xl font-black text-white md:text-4xl">
                     {result.dailyLoboGrams}g
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">
-                <div className="flex items-center justify-between text-[10px] md:text-xs uppercase tracking-[0.18em] text-gray-500">
+              <div className="mt-6 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4 md:p-5">
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-[#C9BDAA] md:text-xs">
                   <span>Más croqueta</span>
                   <span>Más LOBO</span>
                 </div>
@@ -508,10 +513,10 @@ export default function Calculator() {
                   step="10"
                   value={loboPercent}
                   onChange={(e) => setLoboPercent(Number(e.target.value))}
-                  className="mt-5 w-full"
+                  className="mt-5 w-full accent-[#A93622]"
                 />
 
-                <p className="mt-4 text-center text-sm md:text-base text-gray-400 leading-relaxed">
+                <p className="mt-4 text-center text-sm leading-relaxed text-[#C9BDAA] md:text-base">
                   <span className="font-bold text-white">
                     {loboPercent}% LOBO
                   </span>{" "}
@@ -521,48 +526,48 @@ export default function Calculator() {
                   </span>
                 </p>
 
-                <p className="mt-2 text-center text-xs text-gray-500">
+                <p className="mt-2 text-center text-xs text-[#C9BDAA]">
                   Al mover la barra, se recalcula el plan.
                 </p>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Peso</p>
+                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Peso</p>
                   <p className="mt-1 font-bold text-white">{weight} kg</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Etapa</p>
+                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Etapa</p>
                   <p className="mt-1 font-bold text-white">{stageLabel}</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Silueta</p>
+                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Silueta</p>
                   <p className="mt-1 font-bold text-white">
                     {bodyConditionLabel}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Objetivo</p>
+                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Objetivo</p>
                   <p className="mt-1 font-bold text-white">{goalLabel}</p>
                 </div>
 
-                <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Movimiento</p>
+                <div className="col-span-2 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Movimiento</p>
                   <p className="mt-1 font-bold text-white">{movementLabel}</p>
                 </div>
 
-                <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-gray-500">Energía diaria estimada</p>
+                <div className="col-span-2 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
+                  <p className="text-[#C9BDAA]">Energía diaria estimada</p>
                   <p className="mt-1 font-bold text-white">
                     {result.mer} kcal/día
                   </p>
                 </div>
               </div>
 
-              <p className="mt-6 text-xs md:text-sm text-gray-500 leading-relaxed">
+              <p className="mt-6 text-xs leading-relaxed text-[#C9BDAA] md:text-sm">
                 Estimación inicial. Ajustamos según apetito, popó, peso y
                 respuesta del perro.
               </p>
@@ -584,7 +589,7 @@ Porciones estimadas: ${result.portions}
 Plan recomendado: ${result.plan}`
                 )}`}
                 target="_blank"
-                className="inline-flex mt-6 w-full justify-center rounded-full bg-white px-6 py-4 text-xs md:text-sm font-bold uppercase text-black transition hover:bg-gray-200"
+                className="mt-6 inline-flex w-full justify-center rounded-full bg-[#F4EFE3] px-6 py-4 text-xs font-bold uppercase text-black transition hover:bg-white md:text-sm"
               >
                 Mandar cálculo por WhatsApp
               </a>
@@ -593,12 +598,12 @@ Plan recomendado: ${result.plan}`
         )}
 
         {step <= totalSteps && (
-          <div className="mt-auto pt-10 flex items-center justify-between gap-4">
+          <div className="mt-auto flex flex-col-reverse gap-3 pt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <button
               type="button"
               onClick={goBack}
               disabled={step === 1}
-              className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold uppercase text-gray-400 transition hover:bg-white/5 disabled:opacity-30 disabled:hover:bg-transparent"
+              className="w-full rounded-full border border-[#F4EFE3]/15 px-6 py-3 text-sm font-bold uppercase text-[#C9BDAA] transition hover:border-[#F4EFE3]/30 hover:bg-[#F4EFE3]/[0.06] disabled:opacity-30 disabled:hover:border-[#F4EFE3]/15 disabled:hover:bg-transparent sm:w-auto"
             >
               Atrás
             </button>
@@ -606,7 +611,7 @@ Plan recomendado: ${result.plan}`
             <button
               type="button"
               onClick={step === totalSteps ? goToResult : goNext}
-              className="rounded-full bg-white px-8 py-4 text-sm font-bold uppercase text-black transition hover:bg-gray-200"
+              className="w-full rounded-full bg-[#F4EFE3] px-8 py-4 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-white sm:w-auto"
             >
               {step === totalSteps ? "Ver resultado" : "Continuar"}
             </button>
