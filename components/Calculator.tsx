@@ -37,6 +37,79 @@ function OptionButton({
   );
 }
 
+function MixPlate({ loboPercent }: { loboPercent: number }) {
+  const kibblePercent = 100 - loboPercent;
+
+  return (
+    <div className="mt-7 rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.04] p-3.5 sm:mt-8 sm:rounded-3xl sm:p-5 md:mt-10 md:p-6">
+      <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#C9BDAA] sm:text-xs">
+        Así se ve el plato
+      </p>
+
+      <div className="mt-5 flex flex-col items-center sm:mt-6 md:mt-8">
+        <div
+          role="img"
+          aria-label={`Plato con ${loboPercent}% LOBO y ${kibblePercent}% croqueta`}
+          className="relative grid aspect-square w-full max-w-[11.5rem] place-items-center rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.06] p-3.5 shadow-2xl shadow-black/30 min-[380px]:max-w-[13rem] sm:max-w-[16rem] sm:p-4 md:max-w-[18rem] md:p-5"
+        >
+          <div
+            className="h-full w-full rounded-full border border-[#F4EFE3]/20 shadow-inner shadow-black/30 transition-[background] duration-300"
+            style={{
+              background: `conic-gradient(
+                #A93622 0% ${loboPercent}%,
+                #B68A45 ${loboPercent}% 100%
+              )`,
+            }}
+          />
+
+          <div className="absolute grid h-16 w-16 place-items-center rounded-full border border-[#F4EFE3]/10 bg-[#14110F] text-center shadow-xl shadow-black/40 min-[380px]:h-20 min-[380px]:w-20 sm:h-24 sm:w-24">
+            <div>
+              <p className="text-xl font-black text-white min-[380px]:text-2xl sm:text-3xl">
+                {loboPercent}%
+              </p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-[#C9BDAA] sm:text-[10px]">
+                LOBO
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 grid w-full grid-cols-2 gap-2.5 sm:mt-6 sm:gap-3">
+          <div className="min-w-0 rounded-2xl border border-[#A93622]/35 bg-[#A93622]/10 p-3 sm:p-4">
+            <div className="flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="h-2.5 w-2.5 rounded-full bg-[#A93622]"
+              />
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[#C9BDAA]">
+                LOBO
+              </p>
+            </div>
+            <p className="mt-2 text-xl font-black text-white sm:text-2xl">
+              {loboPercent}%
+            </p>
+          </div>
+
+          <div className="min-w-0 rounded-2xl border border-[#B68A45]/35 bg-[#B68A45]/10 p-3 sm:p-4">
+            <div className="flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="h-2.5 w-2.5 rounded-full bg-[#B68A45]"
+              />
+              <p className="truncate text-[9px] uppercase tracking-[0.15em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
+                Croqueta
+              </p>
+            </div>
+            <p className="mt-2 text-xl font-black text-white sm:text-2xl">
+              {kibblePercent}%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Calculator() {
   const [step, setStep] = useState(1);
 
@@ -517,49 +590,51 @@ export default function Calculator() {
 
         {step === 6 && (
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
-            <div>
+            <div className="min-w-0">
               <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
                 Resultado
               </p>
 
-              <h2 className="mt-4 text-3xl font-black uppercase leading-[0.9] text-white md:text-6xl">
+              <h2 className="mt-3 text-3xl font-black uppercase leading-[0.92] text-white sm:mt-4 md:text-6xl">
                 Para {displayName}, lo lógico es:
               </h2>
 
-              <p className="mt-5 text-base leading-relaxed text-[#C9BDAA] md:text-lg">
+              <p className="mt-4 text-sm leading-6 text-[#C9BDAA] sm:mt-5 sm:text-base md:text-lg">
                 {result.message}
               </p>
 
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="mt-6 rounded-full border border-[#F4EFE3]/15 px-5 py-3 text-xs font-bold uppercase text-[#C9BDAA] transition hover:bg-[#F4EFE3]/[0.06] md:text-sm"
+                className="mt-5 w-full rounded-full border border-[#F4EFE3]/15 px-5 py-3 text-xs font-bold uppercase text-[#C9BDAA] transition hover:bg-[#F4EFE3]/[0.06] sm:mt-6 sm:w-auto md:text-sm"
               >
                 Recalcular
               </button>
+
+              <MixPlate loboPercent={result.loboGramPercent} />
             </div>
 
-            <div className="rounded-3xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] p-5 md:p-8">
+            <div className="min-w-0 rounded-2xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] p-4 sm:rounded-3xl sm:p-5 md:p-8">
               <p className="uppercase tracking-[0.3em] text-xs text-[#C9BDAA] md:text-sm">
                 Plan recomendado
               </p>
 
-              <h3 className="mt-4 whitespace-pre-line text-4xl font-black uppercase leading-tight text-white md:text-5xl">
+              <h3 className="mt-3 whitespace-pre-line break-words text-3xl font-black uppercase leading-tight text-white sm:mt-4 sm:text-4xl md:text-5xl">
                 {result.plan}
               </h3>
 
               {/* Header: porciones necesarias */}
               <div className="mt-6">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Porciones necesarias LOBO
                 </p>
 
-                <div className="rounded-2xl border border-[#A93622]/40 bg-[#A93622]/10 p-5 md:p-6">
+                <div className="rounded-2xl border border-[#A93622]/40 bg-[#A93622]/10 p-4 sm:p-5 md:p-6">
                   <p className="text-[10px] uppercase tracking-[0.25em] text-[#C9BDAA] md:text-xs">
                     Porciones / mes
                   </p>
 
-                  <p className="mt-2 text-5xl font-black text-white md:text-6xl">
+                  <p className="mt-2 text-4xl font-black text-white sm:text-5xl md:text-6xl">
                     {result.portions}
                   </p>
 
@@ -572,7 +647,7 @@ export default function Calculator() {
 
               {/* Header: recomendación diaria */}
               <div className="mt-6">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Recomendación diaria
                 </p>
 
@@ -601,7 +676,7 @@ export default function Calculator() {
 
               {/* Header: mix feeding */}
               <div className="mt-6">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Mix feeding
                 </p>
 
@@ -636,7 +711,7 @@ export default function Calculator() {
 
               {/* Header: datos del cálculo */}
               <div className="mt-6">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Datos del cálculo
                 </p>
 
@@ -672,7 +747,7 @@ export default function Calculator() {
 
               {/* Header: energía del mix */}
               <div className="mt-6">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Energía del mix
                 </p>
 
@@ -718,16 +793,16 @@ export default function Calculator() {
 
               {/* Header: nota */}
               <div className="mt-6 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C9BDAA]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
                   Disclaimer
                 </p>
 
                 <p className="mt-3 text-xs leading-6 text-[#C9BDAA] md:text-sm">
-                Estimación orientativa, no diagnóstico ni recomendación médica. 
-                Los resultados pueden variar según cada perro.
-                Si tu perro tiene una condición médica o requiere dieta especial,
-                consulta a tu veterinario o nutricionista veterinario
-                antes de cambiar su alimentación.
+                  Estimación orientativa, no diagnóstico ni recomendación médica.
+                  Los resultados pueden variar según cada perro. Si tu perro
+                  tiene una condición médica o requiere dieta especial, consulta
+                  a tu veterinario o nutricionista veterinario antes de cambiar
+                  su alimentación.
                 </p>
               </div>
 
