@@ -218,6 +218,7 @@ export default function Calculator() {
     const monthlyLoboGrams = dailyLoboGrams * 30;
     const portions = Math.ceil(monthlyLoboGrams / gramsPerPortion);
     const dailyPortions = dailyLoboGrams / gramsPerPortion;
+    const monthlyPortions = Math.ceil(dailyPortions * 30);
 
     // 13. Energía aportada por cada parte
     const dailyLoboKcal = dailyLoboGrams * kcalPerGramLobo;
@@ -244,7 +245,7 @@ export default function Calculator() {
         ? "Plan Chico $630/mes"
         : portions <= 30
         ? "Plan Mediano $945/mes"
-        : "Plan personalizado";
+        : "Plan\npersonalizado";
 
     const message =
       portions <= 10
@@ -278,6 +279,7 @@ export default function Calculator() {
 
       portions,
       dailyPortions: Number(dailyPortions.toFixed(1)),
+      monthlyPortions,
       plan,
       message,
     };
@@ -648,17 +650,17 @@ export default function Calculator() {
                   Plan recomendado
                 </p>
 
-                <h3 className="mt-2 whitespace-pre-line break-words text-lg font-black uppercase leading-tight text-white min-[380px]:text-xl sm:mt-4 sm:text-4xl md:text-5xl">
+                <h3 className="mt-2 whitespace-pre-line break-normal text-base font-black uppercase leading-tight text-white min-[380px]:text-lg sm:mt-4 sm:text-4xl md:text-5xl">
                   {result.plan}
                 </h3>
 
                 <div className="mt-3 grid gap-2 sm:mt-6 sm:grid-cols-2 sm:gap-3">
-                  <div className="rounded-xl border border-[#A93622]/40 bg-[#A93622]/10 p-2.5 sm:rounded-2xl sm:p-4">
+                  <div className="rounded-xl border border-[#A93622]/40 bg-[#A93622]/10 p-2.5 sm:col-span-2 sm:rounded-2xl sm:p-4">
                     <p className="text-[7px] uppercase tracking-[0.1em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
-                      LOBO diario
+                      LOBO mensual
                     </p>
                     <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-                      {result.dailyLoboGrams}g
+                      {result.monthlyPortions} porciones
                     </p>
                   </div>
 
@@ -668,6 +670,15 @@ export default function Calculator() {
                     </p>
                     <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
                       {result.dailyPortions}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-[#F4EFE3]/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-4">
+                    <p className="text-[7px] uppercase tracking-[0.1em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
+                      LOBO diario
+                    </p>
+                    <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
+                      {result.dailyLoboGrams}g
                     </p>
                   </div>
                 </div>
@@ -809,6 +820,7 @@ Objetivo: ${goalLabel}
 
 Porciones LOBO estimadas: ${result.portions}
 Porciones LOBO diarias: ${result.dailyPortions}
+Porciones LOBO mensuales: ${result.monthlyPortions}
 LOBO diario estimado: ${result.dailyLoboGrams}g
 Croqueta diaria estimada: ${result.dailyKibbleGrams}g
 
