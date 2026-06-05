@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -11,9 +12,10 @@ export default function Hero() {
         <div className="relative h-full w-full">
           <Image
             src="/lobo_brutal.png"
-            alt="LOBO comida real para perros"
+            alt="Bolsa de comida real LOBO para perros"
             fill
             priority
+            sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover object-center opacity-80"
           />
 
@@ -34,14 +36,14 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 max-w-4xl">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.88] tracking-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.88] tracking-tight">
               Más comida.
               <br />
               <span className="relative inline-block overflow-hidden text-[#A93622]">
                 Menos marketing.
                 <span className="absolute top-0 left-0 h-full w-[20%] bg-gradient-to-r from-transparent via-[#F4EFE3]/35 to-transparent animate-shine pointer-events-none" />
               </span>
-            </h2>
+            </h1>
           </div>
 
           <div className="mt-10 max-w-xl">
@@ -52,19 +54,19 @@ export default function Hero() {
           </div>
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4">
-            <a
-              href="#planes"
+            <Link
+              href="/#planes"
               className="inline-flex justify-center rounded-full bg-[#F4EFE3] px-8 py-4 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-white"
             >
               Ver planes
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/calculadora"
-                className="inline-flex justify-center rounded-full border border-[#F4EFE3]/20 px-8 py-4 text-sm font-bold uppercase tracking-wide text-[#F4EFE3] transition hover:bg-[#F4EFE3]/10"
+              className="inline-flex justify-center rounded-full border border-[#F4EFE3]/20 px-8 py-4 text-sm font-bold uppercase tracking-wide text-[#F4EFE3] transition hover:bg-[#F4EFE3]/10"
             >
               Personalizar plan
-            </a>
+            </Link>
           </div>
 
           {/* Cómo usar */}

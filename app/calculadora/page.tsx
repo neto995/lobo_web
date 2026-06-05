@@ -1,5 +1,26 @@
+import type { Metadata } from "next";
 import Calculator from "@/components/Calculator";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Calculadora LOBO | Calcula el plan ideal para tu perro",
+  description:
+    "Calcula una estimación inicial de porciones LOBO según peso, etapa, silueta, movimiento real y mix feeding con croquetas.",
+  alternates: {
+    canonical: "/calculadora",
+  },
+  openGraph: {
+    title: "Calculadora LOBO | Calcula el plan ideal para tu perro",
+    description:
+      "Calcula una estimación inicial de porciones LOBO según peso, etapa, silueta, movimiento real y mix feeding con croquetas.",
+    url: "/calculadora",
+  },
+  twitter: {
+    title: "Calculadora LOBO | Calcula el plan ideal para tu perro",
+    description:
+      "Calcula una estimación inicial de porciones LOBO según peso, etapa, silueta, movimiento real y mix feeding con croquetas.",
+  },
+};
 
 export default function CalculadoraPage() {
   return (
@@ -35,43 +56,43 @@ export default function CalculadoraPage() {
               Arma su plan con criterio.
             </h1>
 
-            <div className="mt-6 rounded-2xl border border-black/10 bg-white/45 p-4 shadow-xl shadow-black/5 backdrop-blur sm:mt-8 sm:rounded-3xl sm:p-5 md:p-6">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#A93622] md:text-xs">
-                  Metodología
-                </p>
-
-                <p className="mt-4 text-sm leading-6 text-black/65 md:text-base md:leading-7">
-                  <span className="font-bold text-black">
-                    No calculamos “al tanteo”.
-                  </span>{" "}
-                  Usamos RER/MER como base energética, ajustamos por etapa,
-                  silueta y movimiento real, y después convertimos esas kcal en
-                  una mezcla práctica de LOBO + croqueta.{" "}
-                  <span className="font-semibold text-black/80">
-                    Es una estimación, pero tiene criterio.
-                  </span>
-                </p>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
-                <span className="rounded-full bg-black px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-[#F4EFE3] sm:text-[10px] md:text-xs">
-                  Mix feeding
-                </span>
-
-                <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
-                  Sin cambiar todo
-                </span>
-
-                <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
-                  Plan personalizado
-                </span>
-              </div>
+            <div className="mt-8 sm:mt-10 md:mt-14">
+              <Calculator />
             </div>
           </div>
 
-          <div className="mt-8 sm:mt-10 md:mt-14">
-            <Calculator />
+          <div className="mt-8 rounded-2xl border border-black/10 bg-white/45 p-4 shadow-xl shadow-black/5 backdrop-blur sm:mt-10 sm:rounded-3xl sm:p-5 md:mt-14 md:p-6">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#A93622] md:text-xs">
+                Metodología
+              </p>
+
+              <p className="mt-4 text-sm leading-6 text-black/65 md:text-base md:leading-7">
+                <span className="font-bold text-black">
+                  No calculamos “al tanteo”.
+                </span>{" "}
+                Usamos RER/MER como base energética, ajustamos por etapa,
+                silueta y movimiento real, y después convertimos esas kcal en
+                una mezcla práctica de LOBO + croqueta.{" "}
+                <span className="font-semibold text-black/80">
+                  Es una estimación, pero tiene criterio.
+                </span>
+              </p>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
+              <span className="rounded-full bg-black px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-[#F4EFE3] sm:text-[10px] md:text-xs">
+                Mix feeding
+              </span>
+
+              <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
+                Sin cambiar todo
+              </span>
+
+              <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
+                Plan personalizado
+              </span>
+            </div>
           </div>
         </section>
       </div>
