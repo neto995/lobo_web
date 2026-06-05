@@ -1,47 +1,62 @@
 const faqs = [
   {
-    question: "¿Cómo funciona LOBO mensual?",
+    question: "¿Qué es LOBO?",
     answer:
-      "Activamos una entrega programada cada mes con las porciones que necesita tu perro. Tú no tienes que estar haciendo pedidos nuevos: LOBO queda programado."
+      "LOBO es comida real cocinada para perros. No es croqueta maquillada ni comida casera improvisada. Es alimento húmedo, porcionado y listo para servir o mezclar con su comida actual."
+  },
+  {
+    question: "¿Qué ingredientes tiene?",
+    answer:
+      "Usamos ingredientes reconocibles como pollo, res, arroz integral, camote, zanahoria, chícharos, manzana verde, aceite de girasol, cáscara de huevo y sal yodada en cantidades controladas."
+  },
+  {
+    question: "¿LOBO es balanceado?",
+    answer:
+      "LOBO está formulado con criterio nutricional y porciones controladas. Aun así, cada perro es distinto. Por eso recomendamos ajustar según peso, etapa, condición corporal, apetito, popó y respuesta individual."
+  },
+  {
+    question: "¿LOBO reemplaza las croquetas?",
+    answer:
+      "Puede ser parte importante de su alimentación, pero no siempre recomendamos cambiar todo de golpe. Muchos perros empiezan con mix feeding: una parte LOBO y una parte croqueta, para mejorar el plato sin complicar la transición."
+  },
+  {
+    question: "¿Qué es el Plan Mensual?",
+    answer:
+      "El Plan Mensual es para quienes quieren recibir LOBO de forma constante. Tú eliges el plan según las porciones que necesita tu perro y nosotros te ayudamos a calcular una cantidad realista."
   },
   {
     question: "¿Puedo comprar una sola vez?",
     answer:
-      "Sí. Puedes elegir compra única si quieres probar LOBO sin activar un pago recurrente. Es ideal para conocer el producto y ver cómo le cae a tu perro."
+      "Sí. Puedes hacer pago único si quieres probar LOBO sin activar un plan mensual. Es ideal para empezar, ver si le gusta y observar cómo le cae."
   },
   {
-    question: "¿Qué plan le conviene a mi perro?",
+    question: "¿Cómo funciona la calculadora?",
     answer:
-      "Depende de su peso, apetito y si LOBO será su comida principal o un complemento. Si tienes duda, mándanos su peso por WhatsApp y te ayudamos a elegir."
+      "La calculadora estima un punto de partida usando peso, etapa, silueta, movimiento real y objetivo. Después traduce eso a porciones LOBO, croqueta diaria aproximada y mix feeding."
   },
   {
-    question: "¿Las porciones vienen listas para servir?",
+    question: "¿Qué es mix feeding?",
     answer:
-      "Sí. Vienen porcionadas y listas para guardar, descongelar y servir."
+      "Mix feeding es combinar LOBO con su comida actual. No se trata de cambiar todo de golpe. Se trata de mejorar el plato con criterio, usando una proporción realista para tu perro y tu presupuesto."
   },
   {
-    question: "¿Puedo cancelar el plan mensual?",
+    question: "¿Cómo se sirve LOBO?",
     answer:
-      "Sí. Puedes cancelar cuando quieras. LOBO mensual está hecho para simplificarte la vida, no para amarrarte a algo que ya no necesitas."
+      "Mantén las porciones congeladas, descongela la que vas a usar y sírvela sola o mezclada con su alimento actual. La idea es que comer mejor no se vuelva más complicado."
   },
   {
-    question: "¿Cómo se paga?",
+    question: "¿Cómo sé qué plan le conviene a mi perro?",
     answer:
-      "El pago se procesa de forma segura con Mercado Pago. En compra única pagas una vez; en plan mensual se activa el cobro recurrente del plan elegido."
-  },
-  {
-    question: "¿LOBO sirve para mix feeding?",
-    answer:
-      "Sí. Muchos clientes usan LOBO como complemento de croquetas o como parte de una transición a comida real. Te ayudamos a ajustar porciones según el caso."
+      "Depende de su peso, etapa, condición corporal, movimiento y objetivo. Puedes usar la calculadora o mandarnos su peso por WhatsApp para recomendarte una forma lógica de empezar."
   }
 ];
 
 export default function FAQ() {
   return (
-    <section id="faq" className="py-32 px-6 bg-black text-white">
+    <section id="faq" className="bg-[#F4EFE3] px-6 py-32 text-black">
       <div className="max-w-4xl mx-auto">
 
-        <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+        <p className="uppercase tracking-[0.3em] text-sm font-bold text-[#A93622]">
           FAQ
         </p>
 
@@ -49,18 +64,18 @@ export default function FAQ() {
           ¿Dudas antes de pedir?
         </h2>
 
-        <p className="mt-6 text-gray-400 text-lg max-w-2xl">
+        <p className="mt-6 text-black/65 text-lg max-w-2xl">
           Respuestas rápidas sobre planes, porciones y entregas. Limpio, directo y sin vueltas.
         </p>
 
-        <div className="mt-14 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
+        <div className="mt-14 overflow-hidden rounded-3xl border border-black/10 bg-white shadow-2xl shadow-black/5">
           {faqs.map((faq, index) => (
             <details
               key={faq.question}
-              className="group border-t border-white/10 first:border-t-0 open:bg-white/[0.06]"
+              className="group border-t border-black/10 first:border-t-0 open:bg-[#FBF7EF]"
               open={index === 0}
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-6 text-left transition hover:bg-white/[0.04] md:px-8 [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-6 text-left transition hover:bg-[#FBF7EF] md:px-8 [&::-webkit-details-marker]:hidden">
                 <h3 className="text-xl font-bold uppercase md:text-2xl">
                   {faq.question}
                 </h3>
@@ -73,16 +88,16 @@ export default function FAQ() {
                 </span>
               </summary>
 
-              <p className="px-6 pb-7 pr-20 text-base leading-7 text-gray-400 md:px-8 md:text-lg">
+              <p className="px-6 pb-7 pr-20 text-base leading-7 text-black/65 md:px-8 md:text-lg">
                 {faq.answer}
               </p>
             </details>
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col gap-5 rounded-3xl border border-yellow-500/30 bg-yellow-500/10 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+        <div className="mt-10 flex flex-col gap-5 rounded-3xl border border-black/10 bg-white/60 p-6 shadow-xl shadow-black/5 md:flex-row md:items-center md:justify-between md:p-8">
           <div>
-            <p className="uppercase tracking-[0.3em] text-xs text-yellow-300">
+            <p className="uppercase tracking-[0.3em] text-xs font-bold text-[#A93622]">
               Atención LOBO
             </p>
 
@@ -94,7 +109,7 @@ export default function FAQ() {
           <a
             href="https://wa.me/5213330626243"
             target="_blank"
-            className="inline-flex justify-center rounded-full bg-white px-7 py-4 text-sm font-bold uppercase text-black transition hover:bg-gray-200"
+            className="inline-flex justify-center rounded-full bg-black px-7 py-4 text-sm font-bold uppercase text-[#F4EFE3] transition hover:bg-[#A93622]"
           >
             Escribir por WhatsApp
           </a>
