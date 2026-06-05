@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 
 type OptionButtonProps = {
@@ -49,19 +50,19 @@ function MixPlate({
   const kibblePercent = 100 - loboPercent;
 
   return (
-    <div className="min-w-0 rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.04] p-2.5 sm:rounded-3xl sm:p-5 md:p-6">
-      <p className="text-[8px] font-bold uppercase tracking-[0.16em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-        Así se ve el plato
+    <div className="min-w-0 rounded-2xl border border-black/10 bg-white/35 p-2.5 shadow-[0_18px_55px_rgba(20,17,15,0.08)] sm:rounded-3xl sm:p-5 md:p-6">
+      <p className="text-[8px] font-bold uppercase tracking-[0.16em] text-[#3D342B] sm:text-xs sm:tracking-[0.25em]">
+        El plato, sin teatro
       </p>
 
       <div className="mt-3 flex flex-col items-center sm:mt-6 md:mt-8">
         <div
           role="img"
           aria-label={`Plato con ${loboPercent}% LOBO y ${kibblePercent}% croqueta`}
-          className="relative grid aspect-square w-full max-w-[7.25rem] place-items-center rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.06] p-2 shadow-2xl shadow-black/30 min-[380px]:max-w-[8.5rem] sm:max-w-[16rem] sm:p-4 md:max-w-[18rem] md:p-5"
+          className="relative grid aspect-square w-full max-w-[7.25rem] place-items-center rounded-full border border-black/10 bg-[#14110F]/10 p-2 shadow-2xl shadow-black/15 min-[380px]:max-w-[8.5rem] sm:max-w-[16rem] sm:p-4 md:max-w-[18rem] md:p-5"
         >
           <div
-            className="h-full w-full rounded-full border border-[#F4EFE3]/20 shadow-inner shadow-black/30 transition-[background] duration-300"
+            className="h-full w-full rounded-full border border-white/40 shadow-inner shadow-black/20 transition-[background] duration-300"
             style={{
               background: `conic-gradient(
                 #A93622 0% ${loboPercent}%,
@@ -70,7 +71,7 @@ function MixPlate({
             }}
           />
 
-          <div className="absolute grid h-11 w-11 place-items-center rounded-full border border-[#F4EFE3]/10 bg-[#14110F] text-center shadow-xl shadow-black/40 min-[380px]:h-12 min-[380px]:w-12 sm:h-24 sm:w-24">
+          <div className="absolute grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-[#14110F] text-center shadow-xl shadow-black/35 min-[380px]:h-12 min-[380px]:w-12 sm:h-24 sm:w-24">
             <div>
               <p className="text-sm font-black text-white min-[380px]:text-base sm:text-3xl">
                 {loboPercent}%
@@ -83,39 +84,39 @@ function MixPlate({
         </div>
 
         <div className="mt-3 grid w-full grid-cols-2 gap-1.5 sm:mt-6 sm:gap-3">
-          <div className="min-w-0 rounded-xl border border-[#A93622]/35 bg-[#A93622]/10 p-2 sm:rounded-2xl sm:p-4">
+          <div className="min-w-0 rounded-xl border border-[#A93622]/20 bg-[#A93622]/10 p-2 sm:rounded-2xl sm:p-4">
             <div className="flex items-center gap-2">
               <span
                 aria-hidden="true"
                 className="h-2 w-2 shrink-0 rounded-full bg-[#A93622] sm:h-2.5 sm:w-2.5"
               />
-              <p className="truncate text-[7px] uppercase tracking-[0.12em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
+              <p className="truncate text-[7px] uppercase tracking-[0.12em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
                 LOBO
               </p>
             </div>
-            <p className="mt-1 text-base font-black text-white sm:mt-2 sm:text-2xl">
+            <p className="mt-1 text-base font-black text-[#14110F] sm:mt-2 sm:text-2xl">
               {loboPercent}%
             </p>
           </div>
 
-          <div className="min-w-0 rounded-xl border border-[#B68A45]/35 bg-[#B68A45]/10 p-2 sm:rounded-2xl sm:p-4">
+          <div className="min-w-0 rounded-xl border border-[#B68A45]/25 bg-[#B68A45]/10 p-2 sm:rounded-2xl sm:p-4">
             <div className="flex items-center gap-2">
               <span
                 aria-hidden="true"
                 className="h-2 w-2 shrink-0 rounded-full bg-[#B68A45] sm:h-2.5 sm:w-2.5"
               />
-              <p className="truncate text-[7px] uppercase tracking-[0.08em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
+              <p className="truncate text-[7px] uppercase tracking-[0.08em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
                 Croqueta
               </p>
             </div>
-            <p className="mt-1 text-base font-black text-white sm:mt-2 sm:text-2xl">
+            <p className="mt-1 text-base font-black text-[#14110F] sm:mt-2 sm:text-2xl">
               {kibblePercent}%
             </p>
           </div>
         </div>
 
-        <div className="mt-3 w-full border-t border-[#F4EFE3]/10 pt-3 sm:mt-5 sm:pt-5">
-          <p className="text-[7px] font-bold uppercase tracking-[0.12em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
+        <div className="mt-3 w-full border-t border-black/10 pt-3 sm:mt-5 sm:pt-5">
+          <p className="text-[7px] font-bold uppercase tracking-[0.12em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
             Mix feeding
           </p>
           <input
@@ -127,11 +128,63 @@ function MixPlate({
             onChange={(event) => onChange(Number(event.target.value))}
             className="mt-2 w-full accent-[#A93622] sm:mt-4"
           />
-          <div className="mt-1 flex justify-between text-[6px] uppercase tracking-[0.06em] text-[#C9BDAA] sm:mt-2 sm:text-[9px]">
+          <div className="mt-1 flex justify-between text-[6px] uppercase tracking-[0.06em] text-[#3D342B] sm:mt-2 sm:text-[9px]">
             <span>Más croqueta</span>
             <span>Más LOBO</span>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function DetailSection({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <details
+      open={defaultOpen}
+      className="group rounded-2xl border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.045] shadow-[0_18px_55px_rgba(0,0,0,0.16)] backdrop-blur"
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 text-[#F4EFE3] marker:hidden sm:px-5 [&::-webkit-details-marker]:hidden">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] sm:text-xs sm:tracking-[0.25em]">
+          {title}
+        </span>
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/5 text-lg leading-none transition group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <div className="border-t border-[#F4EFE3]/10 px-4 pb-4 pt-4 sm:px-5 sm:pb-5">
+        {children}
+      </div>
+    </details>
+  );
+}
+
+function SilverCard({
+  label,
+  value,
+  className = "",
+}: {
+  label: string;
+  value: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-[#F4EFE3]/10 bg-white/[0.075] p-4 text-[#F4EFE3] shadow-inner shadow-white/[0.04] ${className}`}
+    >
+      <p className="text-[10px] uppercase tracking-[0.18em] text-[#E4D8C5]">
+        {label}
+      </p>
+      <div className="mt-2 text-2xl font-black text-white sm:text-3xl">
+        {value}
       </div>
     </div>
   );
@@ -621,189 +674,147 @@ export default function Calculator() {
 
         {step === 6 && (
           <div>
-            <div className="mb-3 flex items-end justify-between gap-3 sm:mb-6">
-              <div className="min-w-0">
-                <p className="text-[9px] uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.3em]">
-                  Resultado para {displayName}
-                </p>
-                <p className="mt-1 truncate text-[10px] text-[#C9BDAA] sm:mt-2 sm:text-base">
-                  {result.message}
-                </p>
+            <div className="rounded-[1.75rem] border border-black/10 bg-[#F4EFE3] p-3 text-[#14110F] shadow-2xl shadow-black/10 sm:rounded-[2rem] sm:p-5 md:p-7">
+              <div className="mb-3 flex items-end justify-between gap-3 sm:mb-6">
+                <div className="min-w-0">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#3D342B] sm:text-xs sm:tracking-[0.3em]">
+                    Resultado para {displayName}
+                  </p>
+                  <p className="mt-1 truncate text-[10px] text-[#4A4036] sm:mt-2 sm:text-base">
+                    {result.message}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="shrink-0 rounded-full border border-black/15 px-3 py-2 text-[8px] font-bold uppercase text-[#14110F] transition hover:bg-white/45 sm:px-5 sm:py-3 sm:text-xs"
+                >
+                  Recalcular
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="shrink-0 rounded-full border border-[#F4EFE3]/15 px-3 py-2 text-[8px] font-bold uppercase text-[#C9BDAA] transition hover:bg-[#F4EFE3]/[0.06] sm:px-5 sm:py-3 sm:text-xs"
-              >
-                Recalcular
-              </button>
-            </div>
 
-            <div className="grid grid-cols-2 items-stretch gap-2.5 sm:gap-6">
-              <MixPlate
-                loboPercent={result.loboGramPercent}
-                onChange={setLoboPercent}
-              />
+              <div className="grid grid-cols-2 items-stretch gap-2.5 sm:gap-6">
+                <MixPlate
+                  loboPercent={result.loboGramPercent}
+                  onChange={setLoboPercent}
+                />
 
-              <div className="min-w-0 rounded-2xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] p-2.5 sm:rounded-3xl sm:p-5 md:p-8">
-                <p className="text-[8px] font-bold uppercase tracking-[0.12em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-                  Plan recomendado
-                </p>
+                <div className="min-w-0 rounded-2xl border border-black/10 bg-white/35 p-2.5 shadow-[0_18px_55px_rgba(20,17,15,0.08)] sm:rounded-3xl sm:p-5 md:p-8">
+                  <p className="text-[8px] font-bold uppercase tracking-[0.12em] text-[#3D342B] sm:text-xs sm:tracking-[0.25em]">
+                    Plan recomendado
+                  </p>
 
-                <h3 className="mt-2 whitespace-pre-line break-normal text-base font-black uppercase leading-tight text-white min-[380px]:text-lg sm:mt-4 sm:text-4xl md:text-5xl">
-                  {result.plan}
-                </h3>
+                  <h3 className="mt-2 whitespace-pre-line break-normal text-base font-black uppercase leading-tight text-[#14110F] min-[380px]:text-lg sm:mt-4 sm:text-4xl md:text-5xl">
+                    {result.plan}
+                  </h3>
 
-                <div className="mt-3 grid gap-2 sm:mt-6 sm:grid-cols-2 sm:gap-3">
-                  <div className="rounded-xl border border-[#A93622]/40 bg-[#A93622]/10 p-2.5 sm:col-span-2 sm:rounded-2xl sm:p-4">
-                    <p className="text-[7px] uppercase tracking-[0.1em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
-                      LOBO mensual
-                    </p>
-                    <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-                      {result.monthlyPortions} porciones
-                    </p>
-                  </div>
+                  <div className="mt-3 grid gap-2 sm:mt-6 sm:grid-cols-2 sm:gap-3">
+                    <div className="rounded-xl border border-[#A93622]/25 bg-[#A93622]/10 p-2.5 sm:col-span-2 sm:rounded-2xl sm:p-4">
+                      <p className="text-[7px] font-bold uppercase tracking-[0.1em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
+                        LOBO mensual
+                      </p>
+                      <p className="mt-1 text-xl font-black text-[#14110F] sm:mt-2 sm:text-3xl">
+                        {result.monthlyPortions} porciones
+                      </p>
+                    </div>
 
-                  <div className="rounded-xl border border-[#F4EFE3]/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-4">
-                    <p className="text-[7px] uppercase tracking-[0.1em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
-                      Porciones / día
-                    </p>
-                    <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-                      {result.dailyPortions}
-                    </p>
-                  </div>
+                    <div className="rounded-xl border border-black/10 bg-white/40 p-2.5 sm:rounded-2xl sm:p-4">
+                      <p className="text-[7px] font-bold uppercase tracking-[0.1em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
+                        Porciones / día
+                      </p>
+                      <p className="mt-1 text-xl font-black text-[#14110F] sm:mt-2 sm:text-3xl">
+                        {result.dailyPortions}
+                      </p>
+                    </div>
 
-                  <div className="rounded-xl border border-[#F4EFE3]/10 bg-black/30 p-2.5 sm:rounded-2xl sm:p-4">
-                    <p className="text-[7px] uppercase tracking-[0.1em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
-                      LOBO diario
-                    </p>
-                    <p className="mt-1 text-xl font-black text-white sm:mt-2 sm:text-3xl">
-                      {result.dailyLoboGrams}g
-                    </p>
+                    <div className="rounded-xl border border-black/10 bg-white/40 p-2.5 sm:rounded-2xl sm:p-4">
+                      <p className="text-[7px] font-bold uppercase tracking-[0.1em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
+                        LOBO diario
+                      </p>
+                      <p className="mt-1 text-xl font-black text-[#14110F] sm:mt-2 sm:text-3xl">
+                        {result.dailyLoboGrams}g
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-[#F4EFE3]/15 bg-[#F4EFE3]/[0.055] p-4 sm:mt-8 sm:rounded-3xl sm:p-5 md:p-8">
-              <div>
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-                  Recomendación diaria
+            <div className="mt-5 rounded-[1.75rem] border border-[#F4EFE3]/10 bg-[#14110F] p-3 text-[#F4EFE3] shadow-2xl shadow-black/20 sm:mt-8 sm:rounded-[2rem] sm:p-5 md:p-7">
+              <div className="flex flex-col gap-1 px-1 pb-3 sm:px-2 sm:pb-5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F4EFE3] sm:text-xs sm:tracking-[0.28em]">
+                  Detalles del plan
                 </p>
-
-                <div className="grid gap-3 sm:grid-cols-2 md:gap-4">
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4 md:p-5">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#C9BDAA] md:text-xs">
-                      LOBO diario
-                    </p>
-                    <p className="mt-2 text-3xl font-black text-white md:text-4xl">
-                      {result.dailyLoboGrams}g
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4 md:p-5">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#C9BDAA] md:text-xs">
-                      Croqueta diaria
-                    </p>
-                    <p className="mt-2 text-3xl font-black text-white md:text-4xl">
-                      {result.dailyKibbleGrams}g
-                    </p>
-                  </div>
-                </div>
+                <p className="max-w-2xl text-sm leading-6 text-[#DED4C4]">
+                  Consulta la recomendación completa cuando la necesites, sin
+                  llenar de datos el resultado principal.
+                </p>
               </div>
 
-              <div className="mt-6">
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-                  Datos del cálculo
-                </p>
+              <div className="grid gap-3">
+                <DetailSection title="Recomendación diaria" defaultOpen>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <SilverCard
+                      label="LOBO diario"
+                      value={`${result.dailyLoboGrams}g`}
+                    />
+                    <SilverCard
+                      label="Croqueta diaria"
+                      value={`${result.dailyKibbleGrams}g`}
+                    />
+                  </div>
+                </DetailSection>
 
-                <div className="grid gap-3 text-sm sm:grid-cols-2">
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                    <p className="text-[#C9BDAA]">Peso</p>
-                    <p className="mt-1 font-bold text-white">{weight} kg</p>
+                <DetailSection title="Datos del cálculo">
+                  <div className="grid gap-3 text-sm sm:grid-cols-2">
+                    <SilverCard label="Peso" value={`${weight} kg`} />
+                    <SilverCard label="Etapa" value={stageLabel} />
+                    <SilverCard label="Silueta" value={bodyConditionLabel} />
+                    <SilverCard label="Objetivo" value={goalLabel} />
+                    <SilverCard
+                      label="Movimiento"
+                      value={movementLabel}
+                      className="sm:col-span-2"
+                    />
+                  </div>
+                </DetailSection>
+
+                <DetailSection title="Energía del mix">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <SilverCard
+                      label="LOBO"
+                      value={`${result.dailyLoboKcal} kcal/día`}
+                    />
+                    <SilverCard
+                      label="Croqueta"
+                      value={`${result.dailyKibbleKcal} kcal/día`}
+                    />
+                    <SilverCard
+                      label="Total mix"
+                      value={`${result.totalMixKcal} kcal/día`}
+                    />
+                    <SilverCard
+                      label="Por energía"
+                      value={`${result.loboKcalPercent}% LOBO / ${result.kibbleKcalPercent}% croqueta`}
+                    />
                   </div>
 
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                    <p className="text-[#C9BDAA]">Etapa</p>
-                    <p className="mt-1 font-bold text-white">{stageLabel}</p>
-                  </div>
-
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                    <p className="text-[#C9BDAA]">Silueta</p>
-                    <p className="mt-1 font-bold text-white">
-                      {bodyConditionLabel}
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                    <p className="text-[#C9BDAA]">Objetivo</p>
-                    <p className="mt-1 font-bold text-white">{goalLabel}</p>
-                  </div>
-
-                  <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4 sm:col-span-2">
-                    <p className="text-[#C9BDAA]">Movimiento</p>
-                    <p className="mt-1 font-bold text-white">{movementLabel}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6">
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-                  Energía del mix
-                </p>
-
-                <div className="rounded-2xl border border-[#F4EFE3]/10 bg-black/20 p-4">
-                  <div className="grid gap-4 text-xs text-[#C9BDAA] sm:grid-cols-2 sm:gap-3">
-                    <div>
-                      <p>LOBO</p>
-                      <p className="mt-1 font-bold text-white">
-                        {result.dailyLoboKcal} kcal/día
-                      </p>
-                    </div>
-
-                    <div>
-                      <p>Croqueta</p>
-                      <p className="mt-1 font-bold text-white">
-                        {result.dailyKibbleKcal} kcal/día
-                      </p>
-                    </div>
-
-                    <div>
-                      <p>Total mix</p>
-                      <p className="mt-1 font-bold text-white">
-                        {result.totalMixKcal} kcal/día
-                      </p>
-                    </div>
-
-                    <div>
-                      <p>Por energía</p>
-                      <p className="mt-1 font-bold text-white">
-                        {result.loboKcalPercent}% LOBO /{" "}
-                        {result.kibbleKcalPercent}% croqueta
-                      </p>
-                    </div>
-                  </div>
-
-                  <p className="mt-4 text-xs leading-5 text-[#C9BDAA]">
+                  <p className="mt-4 rounded-2xl border border-[#F4EFE3]/10 bg-white/[0.075] p-4 text-xs leading-5 text-[#DED4C4]">
                     Base usada: LOBO {result.kcalPerLoboPortion} kcal por
                     porción de 170g · Kirkland Cordero{" "}
                     {result.kcalPerGramKibble} kcal/g.
                   </p>
-                </div>
-              </div>
+                </DetailSection>
 
-              <div className="mt-6 rounded-2xl border border-[#F4EFE3]/10 bg-black/30 p-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.25em]">
-                  Disclaimer
-                </p>
-
-                <p className="mt-3 text-xs leading-6 text-[#C9BDAA] md:text-sm">
-                  Estimación orientativa, no diagnóstico ni recomendación médica.
-                  Los resultados pueden variar según cada perro. Si tu perro
-                  tiene una condición médica o requiere dieta especial, consulta
-                  a tu veterinario o nutricionista veterinario antes de cambiar
-                  su alimentación.
-                </p>
+                <DetailSection title="Nota importante">
+                  <p className="rounded-2xl border border-[#F4EFE3]/10 bg-white/[0.075] p-4 text-sm leading-6 text-[#DED4C4]">
+                    Estimación orientativa, no diagnóstico ni recomendación
+                    médica. Los resultados pueden variar según cada perro. Si tu
+                    perro tiene una condición médica o requiere dieta especial,
+                    consulta a tu veterinario o nutricionista veterinario antes
+                    de cambiar su alimentación.
+                  </p>
+                </DetailSection>
               </div>
 
               <a
@@ -834,7 +845,7 @@ Mix por energía: ${result.loboKcalPercent}% kcal LOBO / ${result.kibbleKcalPerc
 Plan recomendado: ${result.plan}`
                 )}`}
                 target="_blank"
-                className="mt-6 inline-flex w-full justify-center rounded-full bg-[#F4EFE3] px-6 py-4 text-xs font-bold uppercase text-black transition hover:bg-white md:text-sm"
+                className="mt-4 inline-flex w-full justify-center rounded-full bg-[#F4EFE3] px-6 py-4 text-xs font-bold uppercase text-[#14110F] transition hover:bg-white md:text-sm"
               >
                 Mandar cálculo por WhatsApp
               </a>

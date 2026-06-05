@@ -67,32 +67,32 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Cómo usar compacto */}
-          <div className="mt-14 flex flex-row gap-3 overflow-x-auto pb-2 max-w-3xl">
-            <div className="min-w-[150px] rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.05] px-4 py-3 backdrop-blur">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E7F6A]">
-              Paso 1
+          {/* Cómo usar */}
+          <div className="mt-14 max-w-2xl border-y border-[#F4EFE3]/10 bg-black/20 backdrop-blur">
+            <div className="grid grid-cols-[2.25rem_1fr] items-center gap-3 border-b border-[#F4EFE3]/10 py-4 sm:grid-cols-[3rem_1fr] sm:gap-5">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#A93622]">
+                01
               </p>
-              <p className="mt-1 text-xs font-bold uppercase leading-tight">
-              Descongela 1 min
-              </p>
-            </div>
-
-            <div className="min-w-[170px] rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.05] px-4 py-3 backdrop-blur">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E7F6A]">
-                Paso 2
-              </p>
-              <p className="mt-1 text-xs font-bold uppercase leading-tight">
-                Sirve con su comida
+              <p className="text-sm font-black uppercase leading-tight text-[#F4EFE3] sm:text-lg">
+                No tienes que cambiar todo
               </p>
             </div>
 
-            <div className="min-w-[140px] rounded-full border border-[#F4EFE3]/10 bg-[#F4EFE3]/[0.05] px-4 py-3 backdrop-blur">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E7F6A]">
-              Paso 3
+            <div className="grid grid-cols-[2.25rem_1fr] items-center gap-3 border-b border-[#F4EFE3]/10 py-4 sm:grid-cols-[3rem_1fr] sm:gap-5">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#A93622]">
+                02
               </p>
-              <p className="mt-1 text-xs font-bold uppercase leading-tight">
-                Velo disfrutar
+              <p className="text-sm font-black uppercase leading-tight text-[#F4EFE3] sm:text-lg">
+                Empieza con mix feeding
+              </p>
+            </div>
+
+            <div className="grid grid-cols-[2.25rem_1fr] items-center gap-3 py-4 sm:grid-cols-[3rem_1fr] sm:gap-5">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#A93622]">
+                03
+              </p>
+              <p className="text-sm font-black uppercase leading-tight text-[#F4EFE3] sm:text-lg">
+                Mide, observa y ajusta
               </p>
             </div>
           </div>
