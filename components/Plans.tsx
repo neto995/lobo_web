@@ -33,7 +33,8 @@ export default function Plans() {
         "Seguimiento personalizado",
         "Pago seguro con Mercado Pago"
       ],
-      buttonText: "Compra única"
+      buttonText: "Compra única",
+      planId: "plan-chico-unico"
     },
     {
       title: "Plan Mediano",
@@ -65,7 +66,8 @@ export default function Plans() {
         "Seguimiento personalizado",
         "Pago seguro con Mercado Pago"
       ],
-      buttonText: "Compra única"
+      buttonText: "Compra única",
+      planId: "plan-mediano-unico"
     },
 
   ];
@@ -105,6 +107,7 @@ export default function Plans() {
               popular={plan.popular}
               buttonText={plan.buttonText}
               checkoutUrl={plan.checkoutUrl}
+              planId={plan.planId}
             />
           ))}
         </div>

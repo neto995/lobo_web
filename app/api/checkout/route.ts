@@ -1,11 +1,44 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
 
+const checkoutPlans = {
+  "plan-chico-unico": {
+    id: "plan-chico-unico",
+    title: "Plan Chico",
+    unitPrice: 630,
+  },
+  "plan-mediano-unico": {
+    id: "plan-mediano-unico",
+    title: "Plan Mediano",
+    unitPrice: 945,
+  },
+} as const;
+
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN!,
 });
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  const planId =
+    typeof body === "object" &&
+    body !== null &&
+    "planId" in body &&
+    typeof body.planId === "string"
+      ? body.planId
+      : "";
+
+  const plan = checkoutPlans[planId as keyof typeof checkoutPlans];
+
+  if (!plan) {
+    return Response.json({ error: "Invalid checkout plan" }, { status: 400 });
+  }
 
   const preference = new Preference(client);
 
@@ -13,19 +46,18 @@ export async function POST(request: Request) {
     body: {
       items: [
         {
-          id: body.title.toLowerCase().replaceAll(" ", "-"),
-          title: body.title,
+          id: plan.id,
+          title: plan.title,
           quantity: 1,
           currency_id: "MXN",
-          unit_price: Number(
-            body.price.replace(/[^0-9.]/g, "")),
+          unit_price: plan.unitPrice,
         },
-      ],    
+      ],
       back_urls: {
         success: "https://eatlikeawolf.mx/success",
         failure: "https://eatlikeawolf.mx/failure",
         pending: "https://eatlikeawolf.mx/pending",
-},
+      },
     },
   });
 

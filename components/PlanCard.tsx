@@ -10,6 +10,7 @@ type PlanCardProps = {
   popular?: boolean;
   buttonText: string;
   checkoutUrl?: string;
+  planId?: string;
 };
 
 export default function PlanCard({
@@ -21,7 +22,8 @@ export default function PlanCard({
   features,
   popular,
   buttonText,
-  checkoutUrl
+  checkoutUrl,
+  planId
 }: PlanCardProps) {
   return (
     <div
@@ -81,11 +83,7 @@ export default function PlanCard({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              title,
-              price,
-              duration,
-              portions,
-              promo
+              planId
             }),
           });
 
