@@ -67,6 +67,45 @@ function IngredientCard({
   );
 }
 
+function MobileIngredientCard({
+  group,
+  index,
+  className = "",
+}: {
+  group: (typeof ingredientGroups)[number];
+  index: number;
+  className?: string;
+}) {
+  return (
+    <article
+      className={`absolute z-20 rounded-2xl border border-black/10 bg-[#F4EFE3]/95 p-3 shadow-xl shadow-black/5 backdrop-blur ${className}`}
+    >
+      <p className="text-[10px] font-black tracking-[0.2em] text-[#A93622]">
+        {String(index + 1).padStart(2, "0")}
+      </p>
+
+      <h3 className="mt-2 text-sm font-black uppercase leading-none text-[#14110F] min-[380px]:text-base">
+        {group.title}
+      </h3>
+
+      <ul className="mt-2 flex flex-wrap gap-1.5">
+        {group.items.map((item) => (
+          <li
+            key={item}
+            className="rounded-full border border-[#8A6632]/20 bg-[#8A6632]/10 px-2 py-1 text-[7px] font-bold uppercase tracking-[0.1em] text-[#6F4D21] min-[380px]:text-[8px]"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-2 text-[10px] leading-4 text-black/60 min-[380px]:text-xs min-[380px]:leading-5">
+        {group.copy}
+      </p>
+    </article>
+  );
+}
+
 export default function Ingredients() {
   const leftGroups = [ingredientGroups[0], ingredientGroups[2]];
   const rightGroups = [ingredientGroups[1], ingredientGroups[3]];
@@ -90,28 +129,65 @@ export default function Ingredients() {
           <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-black/65 md:text-xl md:leading-8">
             Si tienes que leer veinte ingredientes raros para entender qué compras, algo no cuadra. 
             LOBO usa ingredientes reales que puedes ver. 
-            Comida que tiene sentido.
+            Más comida. Menos marketing.
 
           </p>
         </div>
 
-        <div className="mt-14 lg:hidden">
-          <div className="mx-auto flex w-full max-w-[18rem] justify-center sm:max-w-[22rem]">
+        <div className="relative mx-auto mt-12 h-[870px] max-w-[25rem] sm:h-[920px] sm:max-w-[32rem] md:h-[760px] md:max-w-3xl lg:hidden">
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[8.5rem] h-[23rem] w-[23rem] -translate-x-1/2 rounded-full border border-[#8A6632]/10 sm:top-[9rem] sm:h-[27rem] sm:w-[27rem] md:top-[5rem]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[18rem] h-px w-[86%] -translate-x-1/2 bg-[#8A6632]/18 md:top-[17rem] md:w-[70%]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[37.5rem] h-px w-[80%] -translate-x-1/2 bg-[#8A6632]/14 md:top-[34rem] md:w-[64%]"
+          />
+
+          <div className="absolute left-1/2 top-[9.75rem] z-10 flex w-full max-w-[17.5rem] -translate-x-1/2 justify-center sm:top-[10.5rem] sm:max-w-[21rem] md:top-[5.25rem] md:max-w-[22rem]">
             <Image
               src={productImageSrc}
               alt="Bolsa de comida real LOBO con ingredientes para perros"
               width={675}
               height={1200}
-              sizes="(min-width: 640px) 22rem, 18rem"
+              sizes="(min-width: 768px) 22rem, (min-width: 640px) 21rem, 17.5rem"
               className="h-auto w-full drop-shadow-[0_26px_52px_rgba(20,17,15,0.18)]"
             />
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {ingredientGroups.map((group, index) => (
-              <IngredientCard key={group.title} group={group} index={index} />
-            ))}
-          </div>
+          <MobileIngredientCard
+            group={ingredientGroups[0]}
+            index={0}
+            className="left-0 top-0 w-[10.25rem] min-[380px]:w-[11rem] sm:left-8 sm:w-[12.5rem] md:left-0 md:top-16"
+          />
+
+          <MobileIngredientCard
+            group={ingredientGroups[1]}
+            index={1}
+            className="right-0 top-5 w-[10.25rem] min-[380px]:w-[11rem] sm:right-8 sm:w-[12.5rem] md:right-0 md:top-20"
+          />
+
+          <MobileIngredientCard
+            group={ingredientGroups[2]}
+            index={2}
+            className="left-0 top-[34rem] w-[11.25rem] min-[380px]:w-[12rem] sm:left-8 sm:top-[38rem] sm:w-[14rem] md:left-8 md:top-[31rem]"
+          />
+
+          <MobileIngredientCard
+            group={ingredientGroups[3]}
+            index={3}
+            className="right-0 top-[36.5rem] w-[11.25rem] min-[380px]:w-[12rem] sm:right-8 sm:top-[40.5rem] sm:w-[14rem] md:right-8 md:top-[32.5rem]"
+          />
+
+          <MobileIngredientCard
+            group={ingredientGroups[4]}
+            index={4}
+            className="bottom-0 left-1/2 w-[16rem] -translate-x-1/2 min-[380px]:w-[17.5rem] sm:w-[20rem] md:bottom-2"
+          />
         </div>
 
         <div className="relative mt-16 hidden items-center gap-8 lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(24rem,1fr)_minmax(0,18rem)] xl:gap-12">
