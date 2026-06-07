@@ -41,6 +41,7 @@ function IngredientCard({
   onDeactivate,
   onHoverEnd,
   onToggle,
+  isActive,
 }: {
   group: (typeof ingredientGroups)[number];
   index: number;
@@ -49,6 +50,7 @@ function IngredientCard({
   onDeactivate?: () => void;
   onHoverEnd?: () => void;
   onToggle?: () => void;
+  isActive?: boolean;
 }) {
   return (
     <button
@@ -58,7 +60,9 @@ function IngredientCard({
       onBlur={onDeactivate}
       onMouseEnter={onActivate}
       onMouseLeave={onHoverEnd}
-      className={`w-full rounded-[1.75rem] border border-black/10 bg-[#F4EFE3] p-5 text-left shadow-xl shadow-black/5 transition duration-300 hover:-translate-y-1 hover:border-[#A93622]/45 hover:bg-[#FBF7EF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A93622]/45 md:p-6 ${className}`}
+      className={`min-h-[13rem] rounded-[1.75rem] border border-black/10 bg-[#F4EFE3] p-5 text-left shadow-xl shadow-black/5 transition duration-300 hover:-translate-y-1 hover:border-[#A93622]/45 hover:bg-[#FBF7EF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A93622]/45 md:p-6 ${
+        isActive ? "scale-95 opacity-0" : "scale-100 opacity-100"
+      } ${className}`}
     >
       <p className="text-xs font-black tracking-[0.24em] text-[#A93622]">
         {String(index + 1).padStart(2, "0")}
@@ -144,7 +148,7 @@ function FeaturedIngredientCard({
   onClose: () => void;
 }) {
   return (
-    <article className="absolute left-1/2 top-1/2 z-50 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-[#A93622]/35 bg-[#FBF7EF]/98 p-5 text-left shadow-2xl shadow-black/25 backdrop-blur md:p-6">
+    <article className="pointer-events-auto absolute left-1/2 top-1/2 z-50 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-[#A93622]/35 bg-[#FBF7EF]/98 p-5 text-left shadow-2xl shadow-black/25 backdrop-blur [animation:ingredient-card-pop_180ms_ease-out] md:p-6">
       <button
         type="button"
         aria-label="Cerrar ingrediente destacado"
@@ -307,6 +311,8 @@ export default function Ingredients() {
                   onActivate={() => setActiveIngredient(index)}
                   onDeactivate={() => setActiveIngredient(null)}
                   onToggle={() => toggleIngredient(index)}
+                  isActive={activeIngredient === index}
+                  className="w-full"
                 />
               );
             })}
@@ -355,6 +361,8 @@ export default function Ingredients() {
                   onActivate={() => setActiveIngredient(index)}
                   onDeactivate={() => setActiveIngredient(null)}
                   onToggle={() => toggleIngredient(index)}
+                  isActive={activeIngredient === index}
+                  className="w-full"
                 />
               );
             })}
@@ -366,11 +374,12 @@ export default function Ingredients() {
             onActivate={() => setActiveIngredient(4)}
             onDeactivate={() => setActiveIngredient(null)}
             onToggle={() => toggleIngredient(4)}
-            className="absolute bottom-0 left-1/2 z-20 w-[18rem] -translate-x-1/2"
+            isActive={activeIngredient === 4}
+            className="absolute bottom-0 left-1/2 z-20 w-72 -translate-x-1/2"
           />
 
           {activeIngredient !== null && activeGroup ? (
-            <div className="absolute inset-0 z-40">
+            <div className="pointer-events-none absolute inset-0 z-40">
               <FeaturedIngredientCard
                 group={activeGroup}
                 index={activeIngredient}
