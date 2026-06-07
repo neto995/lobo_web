@@ -9,27 +9,27 @@ const ingredientGroups = [
   {
     title: "Proteína",
     items: ["Pollo", "Res"],
-    copy: "Base animal real para aportar proteína y palatabilidad.",
+    copy: "Proteína biodisponbile de alta calidad para fuerza, músculo y recuperación.",
   },
   {
     title: "Carbohidratos",
     items: ["Arroz integral", "Camote"],
-    copy: "Energía práctica, fácil de porcionar y sostener.",
+    copy: "Energía limpia, fácil de digestión y absorción natural.",
   },
   {
     title: "Vegetales",
     items: ["Zanahoria", "Chícharos", "Manzana verde"],
-    copy: "Ingredientes reconocibles. Nada que tengas que descifrar.",
+    copy: "Ingredientes visiblemente reconocibles. Nada que tengas que descifrar.",
   },
   {
     title: "Micronutrientes",
     items: ["Cáscara de huevo", "Sal yodada", "Aceite de girasol"],
-    copy: "Pequeños ajustes que ayudan a completar la receta con criterio.",
+    copy: "Microdosis de nutrientes esenciales que completan la receta con criterio.",
   },
   {
     title: "Humedad",
     items: ["Caldo natural de cocción"],
-    copy: "Más humedad real. No una bolita seca intentando parecer comida.",
+    copy: "Hecho con caldo de pollo real para mejorar palatabilidad, hidratación y absorción de nutrientes.",
   },
 ];
 
