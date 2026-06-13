@@ -2,27 +2,30 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur border-b border-white/10">
-      <div className="max-w-6xl mx-auto px-4 py-3 md:px-6 md:py-4">
+    <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/78 text-white backdrop-blur-md">
+      <div className="mx-auto max-w-6xl px-4 py-3 md:px-6">
         <div className="flex items-center justify-between">
           <Link
             href="/#inicio"
-            className="font-bold tracking-[0.3em] hover:text-gray-300 transition"
+            className="font-black tracking-[0.34em] transition hover:text-[#F4EFE3]"
           >
             LOBO
           </Link>
 
-          <div className="hidden md:flex gap-8 text-sm text-gray-300">
+          <div className="hidden items-center gap-7 text-xs font-bold uppercase tracking-wide text-white/70 md:flex">
             <Link href="/#planes" className="hover:text-white transition">
               Planes
             </Link>
 
-            <Link href="/#ingredientes" className="hover:text-white transition">
-              Ingredientes
+            <Link
+              href="/mix-feeding-para-perros"
+              className="hover:text-white transition"
+            >
+              Mix feeding
             </Link>
 
-            <Link href="/#faq" className="hover:text-white transition">
-              FAQ
+            <Link href="/#ingredientes" className="hover:text-white transition">
+              Producto
             </Link>
 
             <Link href="/calculadora" className="hover:text-white transition">
@@ -32,30 +35,24 @@ export default function Navbar() {
 
           <Link
             href="/#planes"
-            className="hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-gray-200 md:inline-flex"
+            className="hidden rounded-full bg-white px-5 py-2.5 text-xs font-black uppercase tracking-wide text-black transition hover:bg-[#F4EFE3] md:inline-flex"
           >
-            Comprar
+            Empezar
           </Link>
         </div>
 
-        <div className="mt-3 grid grid-cols-3 gap-1.5 md:hidden">
-          <Link
-            href="/#ingredientes"
-            className="rounded-full border border-white/15 bg-white/8 px-2 py-2 text-center text-[9px] font-bold uppercase tracking-[0.06em] text-white transition hover:bg-white/15 min-[380px]:text-[10px]"
-          >
-            Ingredientes
-          </Link>
+        <div className="mt-3 grid grid-cols-2 gap-2 md:hidden">
           <Link
             href="/calculadora"
-            className="rounded-full border border-white/15 bg-white/8 px-2 py-2 text-center text-[9px] font-bold uppercase tracking-[0.06em] text-white transition hover:bg-white/15 min-[380px]:text-[10px]"
+            className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wide text-white transition hover:bg-white/15"
           >
-            Calculadora
+            Calcular mix
           </Link>
           <Link
             href="/#planes"
-            className="rounded-full bg-white px-2 py-2 text-center text-[9px] font-bold uppercase tracking-[0.06em] text-black transition hover:bg-gray-200 min-[380px]:text-[10px]"
+            className="rounded-full bg-white px-3 py-2.5 text-center text-[10px] font-black uppercase tracking-wide text-black transition hover:bg-[#F4EFE3]"
           >
-            Comprar
+            Ver planes
           </Link>
         </div>
       </div>

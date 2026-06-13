@@ -1,168 +1,55 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
-
-const productImageSrc = "/ingredientes_3.png";
 
 const ingredientGroups = [
   {
+    number: "01",
     title: "Proteína",
     items: ["Pollo", "Res"],
-    copy: "Proteína biodisponbile de alta calidad para fuerza, músculo y recuperación.",
+    copy: "Base de proteína reconocible para la receta.",
   },
   {
+    number: "02",
     title: "Carbohidratos",
     items: ["Arroz integral", "Camote"],
-    copy: "Energía limpia, fácil de digestión y absorción natural.",
+    copy: "Energía práctica y textura real en cada porción.",
   },
   {
+    number: "03",
     title: "Vegetales",
     items: ["Zanahoria", "Chícharos", "Manzana verde"],
-    copy: "Ingredientes visiblemente reconocibles. Nada que tengas que descifrar.",
+    copy: "Ingredientes visibles. Nada que tengas que descifrar.",
   },
   {
+    number: "04",
     title: "Micronutrientes",
     items: ["Cáscara de huevo", "Sal yodada", "Aceite de girasol"],
-    copy: "Microdosis de nutrientes esenciales que completan la receta con criterio.",
+    copy: "Detalles medidos para completar la receta con criterio.",
   },
   {
+    number: "05",
     title: "Humedad",
     items: ["Caldo natural de cocción"],
-    copy: "Hecho con caldo de pollo real para mejorar palatabilidad, hidratación y absorción de nutrientes.",
+    copy: "Comida húmeda lista para servir o mezclar con croquetas.",
   },
 ];
 
 function IngredientCard({
   group,
-  index,
-  className = "",
-  onActivate,
-  onDeactivate,
-  onHoverEnd,
-  onToggle,
-  isActive,
+  compact = false,
 }: {
   group: (typeof ingredientGroups)[number];
-  index: number;
-  className?: string;
-  onActivate?: () => void;
-  onDeactivate?: () => void;
-  onHoverEnd?: () => void;
-  onToggle?: () => void;
-  isActive?: boolean;
+  compact?: boolean;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      onFocus={onActivate}
-      onBlur={onDeactivate}
-      onMouseEnter={onActivate}
-      onMouseLeave={onHoverEnd}
-      className={`min-h-[13rem] rounded-[1.75rem] border border-black/10 bg-[#F4EFE3] p-5 text-left shadow-xl shadow-black/5 transition duration-300 hover:-translate-y-1 hover:border-[#A93622]/45 hover:bg-[#FBF7EF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A93622]/45 md:p-6 ${
-        isActive ? "scale-95 opacity-0" : "scale-100 opacity-100"
-      } ${className}`}
-    >
-      <p className="text-xs font-black tracking-[0.24em] text-[#A93622]">
-        {String(index + 1).padStart(2, "0")}
-      </p>
-
-      <h3 className="mt-3 text-2xl font-black uppercase leading-none text-[#14110F]">
-        {group.title}
-      </h3>
-
-      <ul className="mt-4 flex flex-wrap gap-2">
-        {group.items.map((item) => (
-          <li
-            key={item}
-            className="rounded-full border border-[#8A6632]/20 bg-[#8A6632]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#6F4D21]"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-
-      <p className="mt-4 text-sm leading-6 text-black/65">{group.copy}</p>
-    </button>
-  );
-}
-
-function MobileIngredientCard({
-  group,
-  index,
-  className = "",
-  onToggle,
-  isActive,
-}: {
-  group: (typeof ingredientGroups)[number];
-  index: number;
-  className?: string;
-  onToggle?: () => void;
-  isActive?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      aria-expanded={isActive}
-      onClick={onToggle}
-      className={`absolute z-20 rounded-[1.15rem] border border-black/10 bg-[#F4EFE3]/95 p-2.5 text-left shadow-xl shadow-black/5 backdrop-blur transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A93622]/45 ${className} ${
-        isActive
-          ? "border-[#A93622]/50 bg-[#FBF7EF] shadow-2xl shadow-black/15"
-          : ""
+    <article
+      className={`rounded-lg border border-black/10 bg-[#FBF7EF]/92 p-5 shadow-[0_18px_50px_rgba(20,17,15,0.055)] ${
+        compact ? "md:p-5" : "md:p-6"
       }`}
     >
-      <p className="text-[9px] font-black tracking-[0.18em] text-[#A93622]">
-        {String(index + 1).padStart(2, "0")}
+      <p className="text-xs font-black tracking-[0.28em] text-[#A93622]">
+        {group.number}
       </p>
-
-      <h3 className="mt-1.5 text-[0.72rem] font-black uppercase leading-none text-[#14110F] min-[390px]:text-[0.82rem]">
-        {group.title}
-      </h3>
-
-      <ul className="mt-1.5 flex flex-wrap gap-1">
-        {group.items.map((item) => (
-          <li
-            key={item}
-            className="rounded-full border border-[#8A6632]/20 bg-[#8A6632]/10 px-1.5 py-0.5 text-[5.8px] font-bold uppercase tracking-[0.08em] text-[#6F4D21] min-[390px]:text-[6.5px]"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-
-      <p className="mt-1.5 text-[8px] leading-3 text-black/60 min-[390px]:text-[9px] min-[390px]:leading-3.5">
-        {group.copy}
-      </p>
-    </button>
-  );
-}
-
-function FeaturedIngredientCard({
-  group,
-  index,
-  onClose,
-}: {
-  group: (typeof ingredientGroups)[number];
-  index: number;
-  onClose: () => void;
-}) {
-  return (
-    <article className="pointer-events-auto absolute left-1/2 top-1/2 z-50 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-[#A93622]/35 bg-[#FBF7EF]/98 p-5 text-left shadow-2xl shadow-black/25 backdrop-blur [animation:ingredient-card-pop_180ms_ease-out] md:p-6">
-      <button
-        type="button"
-        aria-label="Cerrar ingrediente destacado"
-        onClick={onClose}
-        className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/70 text-xs font-black text-black/60 transition hover:bg-white hover:text-[#A93622] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A93622]/45"
-      >
-        X
-      </button>
-
-      <p className="text-xs font-black tracking-[0.24em] text-[#A93622]">
-        {String(index + 1).padStart(2, "0")}
-      </p>
-
-      <h3 className="mt-3 pr-8 text-2xl font-black uppercase leading-none text-[#14110F] md:text-3xl">
+      <h3 className="mt-3 text-2xl font-black uppercase leading-tight text-[#14110F]">
         {group.title}
       </h3>
 
@@ -170,223 +57,81 @@ function FeaturedIngredientCard({
         {group.items.map((item) => (
           <li
             key={item}
-            className="rounded-full border border-[#8A6632]/20 bg-[#8A6632]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#6F4D21]"
+            className="rounded-full border border-[#8A6632]/20 bg-[#8A6632]/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-[#6F4D21]"
           >
             {item}
           </li>
         ))}
       </ul>
 
-      <p className="mt-4 text-sm leading-6 text-black/65 md:text-base md:leading-7">
-        {group.copy}
-      </p>
+      <p className="mt-4 text-sm leading-6 text-black/62">{group.copy}</p>
     </article>
   );
 }
 
 export default function Ingredients() {
-  const [activeIngredient, setActiveIngredient] = useState<number | null>(null);
   const leftGroups = [ingredientGroups[0], ingredientGroups[2]];
   const rightGroups = [ingredientGroups[1], ingredientGroups[3]];
   const humidityGroup = ingredientGroups[4];
-  const activeGroup =
-    activeIngredient === null ? null : ingredientGroups[activeIngredient];
-
-  const toggleIngredient = (index: number) => {
-    setActiveIngredient((current) => (current === index ? null : index));
-  };
 
   return (
     <section
       id="ingredientes"
-      className="overflow-hidden bg-white px-4 py-16 text-[#14110F] sm:px-6 md:py-32"
+      className="scroll-mt-36 overflow-hidden bg-[#F4EFE3] px-4 py-16 text-[#14110F] sm:px-6 md:scroll-mt-20 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#A93622] md:text-sm">
-            Ingredientes
+        <div className="max-w-3xl">
+          <p className="text-xs font-bold uppercase tracking-[0.32em] text-[#A93622]">
+            Producto
           </p>
 
-          <h2 className="mt-4 text-4xl font-black uppercase leading-[0.92] sm:text-5xl md:text-7xl">
-            Si parece comida... es porque lo es.
+          <h2 className="mt-4 text-4xl font-black uppercase leading-[0.92] tracking-normal sm:text-5xl md:text-7xl">
+            Ingredientes que ves
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-black/65 md:text-xl md:leading-8">
+          <p className="mt-5 max-w-2xl text-base leading-7 text-black/64 md:text-xl md:leading-8">
             Si tienes que leer veinte ingredientes raros para entender qué
-            compras, algo no cuadra. LOBO usa ingredientes reales que puedes
-            ver. Más comida. Menos marketing.
+            compras, algo no cuadra.
           </p>
         </div>
 
-        <div className="relative mx-auto mt-8 h-[43rem] max-w-[25rem] lg:hidden">
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-[12.5rem] h-[21rem] w-[21rem] -translate-x-1/2 rounded-full border border-[#8A6632]/10 min-[390px]:h-[22.5rem] min-[390px]:w-[22.5rem]"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-[23rem] h-px w-[92%] -translate-x-1/2 bg-[#8A6632]/14"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-[12rem] h-[30rem] w-px bg-[#8A6632]/10"
-          />
+        <div className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.86fr)_minmax(0,0.9fr)] lg:items-center">
+          <div className="hidden gap-5 lg:grid">
+            {leftGroups.map((group) => (
+              <IngredientCard key={group.title} group={group} compact />
+            ))}
+          </div>
 
-          <div className="absolute left-1/2 top-[8.7rem] z-10 w-[13.25rem] -translate-x-1/2 min-[390px]:top-[8.4rem] min-[390px]:w-[14.25rem]">
+          <div className="relative order-first mx-auto grid min-h-[27rem] w-full max-w-[18rem] place-items-center sm:max-w-[22rem] lg:order-none lg:min-h-[31rem] lg:max-w-[27rem]">
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-8 bottom-7 h-16 rounded-full bg-black/18 blur-2xl"
+            />
             <Image
-              src={productImageSrc}
+              src="/ingredientes_3.png"
               alt="Bolsa de comida real LOBO con ingredientes para perros"
               width={675}
               height={1200}
-              sizes="(min-width: 390px) 14.25rem, 13.25rem"
-              className="h-auto w-full drop-shadow-[0_24px_48px_rgba(20,17,15,0.18)]"
+              sizes="(min-width: 1024px) 27rem, 22rem"
+              className="relative h-auto w-full drop-shadow-[0_34px_70px_rgba(20,17,15,0.2)]"
             />
           </div>
 
-          <MobileIngredientCard
-            group={ingredientGroups[0]}
-            index={0}
-            isActive={activeIngredient === 0}
-            onToggle={() => toggleIngredient(0)}
-            className="left-0 top-0 w-[9.7rem] min-[390px]:w-[10.6rem]"
-          />
-          <MobileIngredientCard
-            group={ingredientGroups[1]}
-            index={1}
-            isActive={activeIngredient === 1}
-            onToggle={() => toggleIngredient(1)}
-            className="right-0 top-3 w-[9.7rem] min-[390px]:w-[10.6rem]"
-          />
-          <MobileIngredientCard
-            group={ingredientGroups[2]}
-            index={2}
-            isActive={activeIngredient === 2}
-            onToggle={() => toggleIngredient(2)}
-            className="left-0 bottom-[4.8rem] w-[10.7rem] min-[390px]:w-[11.3rem]"
-          />
-          <MobileIngredientCard
-            group={ingredientGroups[3]}
-            index={3}
-            isActive={activeIngredient === 3}
-            onToggle={() => toggleIngredient(3)}
-            className="right-0 bottom-[3.3rem] w-[10.9rem] min-[390px]:w-[11.6rem]"
-          />
-          <MobileIngredientCard
-            group={ingredientGroups[4]}
-            index={4}
-            isActive={activeIngredient === 4}
-            onToggle={() => toggleIngredient(4)}
-            className="bottom-0 left-1/2 w-[12.5rem] -translate-x-1/2 min-[390px]:w-[13.5rem]"
-          />
-
-          {activeIngredient !== null && activeGroup ? (
-            <>
-              <button
-                type="button"
-                aria-label="Cerrar ingrediente destacado"
-                onClick={() => setActiveIngredient(null)}
-                className="absolute inset-0 z-40 bg-white/20 backdrop-blur-[1px]"
-              />
-              <FeaturedIngredientCard
-                group={activeGroup}
-                index={activeIngredient}
-                onClose={() => setActiveIngredient(null)}
-              />
-            </>
-          ) : null}
+          <div className="hidden gap-5 lg:grid">
+            {rightGroups.map((group) => (
+              <IngredientCard key={group.title} group={group} compact />
+            ))}
+          </div>
         </div>
 
-        <div
-          onMouseLeave={() => setActiveIngredient(null)}
-          className="relative mt-16 hidden items-center gap-8 lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(24rem,1fr)_minmax(0,18rem)] xl:gap-12"
-        >
-          <div className="grid gap-10">
-            {leftGroups.map((group) => {
-              const index = ingredientGroups.indexOf(group);
-              return (
-                <IngredientCard
-                  key={group.title}
-                  group={group}
-                  index={index}
-                  onActivate={() => setActiveIngredient(index)}
-                  onDeactivate={() => setActiveIngredient(null)}
-                  onToggle={() => toggleIngredient(index)}
-                  isActive={activeIngredient === index}
-                  className="w-full"
-                />
-              );
-            })}
-          </div>
+        <div className="mt-5 grid gap-5 lg:hidden">
+          {ingredientGroups.slice(0, 4).map((group) => (
+            <IngredientCard key={group.title} group={group} compact />
+          ))}
+        </div>
 
-          <div className="relative mx-auto flex min-h-[660px] w-full max-w-[28rem] items-center justify-center">
-            <div
-              aria-hidden="true"
-              className="absolute left-1/2 top-1/2 h-[32rem] w-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8A6632]/12"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute left-0 top-[32%] h-px w-24 bg-[#8A6632]/25"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute right-0 top-[32%] h-px w-24 bg-[#8A6632]/25"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute left-4 bottom-[34%] h-px w-24 -rotate-12 bg-[#8A6632]/25"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute right-4 bottom-[34%] h-px w-24 rotate-12 bg-[#8A6632]/25"
-            />
-
-            <Image
-              src={productImageSrc}
-              alt="Bolsa de comida real LOBO con ingredientes para perros"
-              width={675}
-              height={1200}
-              sizes="28rem"
-              className="relative z-10 h-auto w-full max-w-[24rem] drop-shadow-[0_34px_70px_rgba(20,17,15,0.22)]"
-            />
-          </div>
-
-          <div className="grid gap-10">
-            {rightGroups.map((group) => {
-              const index = ingredientGroups.indexOf(group);
-              return (
-                <IngredientCard
-                  key={group.title}
-                  group={group}
-                  index={index}
-                  onActivate={() => setActiveIngredient(index)}
-                  onDeactivate={() => setActiveIngredient(null)}
-                  onToggle={() => toggleIngredient(index)}
-                  isActive={activeIngredient === index}
-                  className="w-full"
-                />
-              );
-            })}
-          </div>
-
-          <IngredientCard
-            group={humidityGroup}
-            index={4}
-            onActivate={() => setActiveIngredient(4)}
-            onDeactivate={() => setActiveIngredient(null)}
-            onToggle={() => toggleIngredient(4)}
-            isActive={activeIngredient === 4}
-            className="absolute bottom-0 left-1/2 z-20 w-72 -translate-x-1/2"
-          />
-
-          {activeIngredient !== null && activeGroup ? (
-            <div className="pointer-events-none absolute inset-0 z-40">
-              <FeaturedIngredientCard
-                group={activeGroup}
-                index={activeIngredient}
-                onClose={() => setActiveIngredient(null)}
-              />
-            </div>
-          ) : null}
+        <div className="mt-5 lg:mx-auto lg:max-w-[34rem]">
+          <IngredientCard group={humidityGroup} />
         </div>
       </div>
     </section>

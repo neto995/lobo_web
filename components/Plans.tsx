@@ -42,6 +42,7 @@ export default function Plans() {
       duration: "Entrega programada",
       portions: "30 porciones",
       promo: "Cobro recurrente mensual",
+      highlight: true,
       features: [
         "LOBO llega cada mes",
         "Más comida real disponible",
@@ -75,26 +76,28 @@ export default function Plans() {
   return (
     <section
       id="planes"
-      className="py-32 px-6 bg-black"
+      className="bg-black px-4 py-16 text-[#F4EFE3] sm:px-6 md:py-24"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
 
-        <div className="text-center mb-20">
-          <p className="uppercase tracking-[0.3em] text-sm text-gray-500">
+        <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-end">
+          <div>
+          <p className="text-xs font-bold uppercase tracking-[0.32em] text-[#C9BDAA]">
             Planes LOBO
           </p>
 
-          <h2 className="text-5xl md:text-7xl font-bold uppercase mt-4">
-            Elige cómo quieres pedir.
+          <h2 className="mt-4 text-4xl font-black uppercase leading-[0.92] tracking-normal sm:text-5xl md:text-7xl">
+            Hazlo constante
           </h2>
+          </div>
 
-          <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
-            Compra una vez o deja tu entrega programada cada mes.
-            Comida real, lista para servir.
+          <p className="text-base leading-7 text-[#DED4C4] md:text-xl md:leading-8">
+            Premium Box para empezar, compra única si quieres control y plan
+            mensual cuando LOBO ya forma parte de su rutina.
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {plans.map((plan) => (
             <PlanCard
               key={`${plan.title}-${plan.duration}`}
@@ -105,6 +108,7 @@ export default function Plans() {
               promo={plan.promo}
               features={plan.features}
               popular={plan.popular}
+              highlight={plan.highlight}
               buttonText={plan.buttonText}
               checkoutUrl={plan.checkoutUrl}
               planId={plan.planId}
@@ -112,21 +116,49 @@ export default function Plans() {
           ))}
         </div>
 
-        <div className="max-w-4xl mx-auto mt-16 border border-white/10 rounded-3xl p-8 bg-white/5 text-center">
-          <h3 className="text-2xl font-bold uppercase">
+        <div className="mt-4 rounded-lg border border-white/10 bg-white/[0.045] p-5 md:p-7">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#C9BDAA]">
+                Premium Box
+              </p>
+              <h3 className="mt-3 text-4xl font-black uppercase leading-none md:text-5xl">
+                10 porciones
+              </h3>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#DED4C4]">
+                Para probar sin comprar todo el mes. Ideal para ver apetito,
+                tolerancia y rutina.
+              </p>
+            </div>
+
+            <a
+              href="https://wa.me/5213330626243"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex justify-center rounded-full border border-white/20 px-8 py-4 text-xs font-black uppercase tracking-wide text-[#F4EFE3] transition hover:bg-white/10 md:min-w-72"
+            >
+              Pedir por WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-5 border-t border-white/10 pt-8 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+          <h3 className="text-2xl font-black uppercase">
             ¿No sabes cuál elegir?
           </h3>
 
-          <p className="mt-4 text-gray-400">
-            Mándanos el peso de tu perro para un plan personalizado según:
-            <br />
-            su tamaño, actividad y alimentación actual.
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#C9BDAA] md:text-base">
+            Mándanos peso, actividad y qué come hoy. Te calculamos una entrada
+            realista.
           </p>
+          </div>
 
           <a
             href="https://wa.me/5213330626243"
             target="_blank"
-            className="inline-block mt-8 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition"
+            rel="noopener noreferrer"
+            className="inline-flex justify-center rounded-full bg-[#F4EFE3] px-7 py-4 text-xs font-black uppercase tracking-wide text-black transition hover:bg-white"
           >
             Armar plan por WhatsApp
           </a>

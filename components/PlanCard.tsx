@@ -8,6 +8,7 @@ type PlanCardProps = {
   promo: string;
   features: string[];
   popular?: boolean;
+  highlight?: boolean;
   buttonText: string;
   checkoutUrl?: string;
   planId?: string;
@@ -21,51 +22,62 @@ export default function PlanCard({
   promo,
   features,
   popular,
+  highlight,
   buttonText,
   checkoutUrl,
   planId
 }: PlanCardProps) {
+  const isLight = popular || highlight;
+
   return (
     <div
       className={`
-        rounded-3xl p-10 relative
-        ${popular
-          ? "border border-yellow-500 bg-yellow-500/10"
-          : "border border-white/10 bg-white/5 backdrop-blur"}
+        relative flex min-h-full flex-col rounded-lg p-5 md:p-7
+        ${isLight
+          ? "border border-[#F4EFE3]/35 bg-[#F4EFE3] text-black"
+          : "border border-white/10 bg-white/[0.045] text-[#F4EFE3]"}
       `}
     >
       {popular && (
-        <div className="absolute top-4 right-4 text-xs uppercase bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
+        <div className="absolute right-4 top-4 rounded-full bg-black px-3 py-1 text-[10px] font-black uppercase tracking-wide text-[#F4EFE3]">
           Más elegido
         </div>
       )}
 
-      <p className="uppercase text-sm text-gray-400">
+      <p
+        className={`text-xs font-bold uppercase tracking-[0.24em] ${
+          isLight ? "text-black/55" : "text-[#C9BDAA]"
+        }`}
+      >
         {title}
       </p>
 
-      <h3 className="text-5xl font-bold mt-4">
+      <h3 className="mt-4 text-5xl font-black uppercase leading-none">
         {price}
       </h3>
 
       <div className="mt-5 space-y-2">
-        <p className="text-xl font-semibold text-white">
+        <p className="text-xl font-black uppercase leading-tight">
           {duration}
         </p>
 
-        <p className="text-gray-400">
+        <p className={isLight ? "text-black/62" : "text-[#C9BDAA]"}>
           {portions}
         </p>
 
-        <p className="text-yellow-300 font-semibold">
+        <p className={isLight ? "font-bold text-black" : "font-bold text-white"}>
           {promo}
         </p>
       </div>
 
-      <ul className="mt-8 space-y-4 text-gray-300">
+      <ul
+        className={`mt-8 grid gap-3 text-sm leading-6 ${
+          isLight ? "text-black/64" : "text-[#DED4C4]"
+        }`}
+      >
         {features.map((feature) => (
-          <li key={feature}>
-            • {feature}
+          <li key={feature} className="border-t border-current/10 pt-3">
+            {feature}
           </li>
         ))}
       </ul>
@@ -91,7 +103,11 @@ export default function PlanCard({
 
           window.location.href = data.init_point;
         }}
-        className="mt-10 w-full bg-white text-black py-4 rounded-full font-semibold hover:bg-gray-200 transition"
+        className={`mt-auto w-full rounded-full px-6 py-4 text-xs font-black uppercase tracking-wide transition ${
+          isLight
+            ? "bg-black text-[#F4EFE3] hover:bg-[#A93622]"
+            : "bg-[#F4EFE3] text-black hover:bg-white"
+        }`}
       >
         {buttonText}
       </button>
