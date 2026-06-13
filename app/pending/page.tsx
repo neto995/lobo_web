@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PendingPage() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6 text-center">
@@ -14,12 +16,12 @@ export default function PendingPage() {
           Tu pago está en revisión. Te contactaremos cuando se confirme.
         </p>
 
-        <a
+        <Link
           href="/"
           className="inline-block mt-10 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition"
         >
           Volver al inicio
-        </a>
+        </Link>
       </div>
     </main>
   );

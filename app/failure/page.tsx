@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function FailurePage() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6 text-center">
@@ -14,12 +16,12 @@ export default function FailurePage() {
           No se realizó el cobro. Puedes intentarlo nuevamente.
         </p>
 
-        <a
+        <Link
           href="/#planes"
           className="inline-block mt-10 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition"
         >
           Volver a planes
-        </a>
+        </Link>
       </div>
     </main>
   );

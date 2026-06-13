@@ -81,17 +81,27 @@ export default function CalculadoraPage() {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
-              <span className="rounded-full bg-black px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-[#F4EFE3] sm:text-[10px] md:text-xs">
+              <Link
+                href="/mix-feeding-para-perros"
+                className="rounded-full bg-black px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-[#F4EFE3] transition hover:bg-[#A93622] sm:text-[10px] md:text-xs"
+              >
                 Mix feeding
-              </span>
+              </Link>
 
-              <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
-                Sin cambiar todo
-              </span>
+              <Link
+                href="/comida-real-cocinada-para-perros"
+                className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 transition hover:bg-white hover:text-black sm:text-[10px] md:text-xs"
+              >
+                Comida real cocinada
+              </Link>
 
-              <span className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 sm:text-[10px] md:text-xs">
-                Plan personalizado
-              </span>
+              <a
+                href="https://wa.me/5213330626243"
+                target="_blank"
+                className="rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[9px] font-bold uppercase tracking-wide text-black/65 transition hover:bg-white hover:text-black sm:text-[10px] md:text-xs"
+              >
+                WhatsApp
+              </a>
             </div>
           </div>
         </section>
