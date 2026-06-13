@@ -33,7 +33,9 @@ export default function PlanCard({
     <div
       className={`
         relative flex min-h-full flex-col rounded-lg p-5 md:p-7
-        ${isLight
+        ${popular
+          ? "border-[4px] border-[#F4D26A] bg-[#F4EFE3] text-black shadow-[0_0_0_1px_rgba(244,210,106,0.35)]"
+          : isLight
           ? "border border-[#F4EFE3]/35 bg-[#F4EFE3] text-black"
           : "border border-white/10 bg-white/[0.045] text-[#F4EFE3]"}
       `}
