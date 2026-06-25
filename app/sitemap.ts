@@ -31,6 +31,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      path: "/comida-cocinada-para-perros-guadalajara",
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       path: "/calculadora-comida-para-perros",
       changeFrequency: "weekly",
       priority: 0.85,
