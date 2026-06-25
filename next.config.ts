@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/comida-para-perros-guadalajara",
+        destination: "/comida-cocinada-para-perros-guadalajara",
+        statusCode: 301,
+      },
+    ];
+  },
   async headers() {
     return [
       {

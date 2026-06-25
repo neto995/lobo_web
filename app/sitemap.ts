@@ -26,11 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
-      path: "/comida-para-perros-guadalajara",
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
       path: "/comida-cocinada-para-perros-guadalajara",
       changeFrequency: "weekly",
       priority: 0.9,

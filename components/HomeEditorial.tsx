@@ -95,7 +95,7 @@ export function HomeIntro() {
               Comida real cocinada
             </Link>
             <Link
-              href="/comida-para-perros-guadalajara"
+              href="/comida-cocinada-para-perros-guadalajara"
               className="inline-flex justify-center rounded-full border border-black/15 px-5 py-3 text-xs font-black uppercase tracking-wide text-black/70 transition hover:bg-white hover:text-black"
             >
               Comida para perros en GDL
@@ -284,7 +284,9 @@ export function HomeFooter() {
         <div className="mt-12 flex flex-wrap gap-4 border-t border-white/10 pt-6 text-xs font-bold uppercase tracking-wide text-white/55">
           <Link href="/comida-real-cocinada-para-perros">Comida real</Link>
           <Link href="/mix-feeding-para-perros">Mix feeding</Link>
-          <Link href="/comida-para-perros-guadalajara">GDL/Zapopan</Link>
+          <Link href="/comida-cocinada-para-perros-guadalajara">
+            GDL/Zapopan
+          </Link>
           <Link href="/articulos">Artículos</Link>
         </div>
       </div>

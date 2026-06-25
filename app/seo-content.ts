@@ -125,7 +125,7 @@ export const seoPages: Record<string, SeoPageContent> = {
       { label: "Calculadora LOBO", href: "/calculadora" },
       {
         label: "Comida para perros en Guadalajara",
-        href: "/comida-para-perros-guadalajara",
+        href: "/comida-cocinada-para-perros-guadalajara",
       },
     ],
   },
@@ -191,65 +191,6 @@ export const seoPages: Record<string, SeoPageContent> = {
         label: "Cuánta comida debe comer mi perro",
         href: "/articulos/cuanta-comida-debe-comer-mi-perro",
       },
-      { label: "Calculadora LOBO", href: "/calculadora" },
-    ],
-  },
-  "/comida-para-perros-guadalajara": {
-    slug: "/comida-para-perros-guadalajara",
-    title: "Comida para perros en Guadalajara | LOBO",
-    description:
-      "LOBO entrega comida real cocinada para perros en Guadalajara y Zapopan. Porciones listas para servir, planes mensuales y mix feeding.",
-    eyebrow: "Guadalajara y Zapopan",
-    h1: "Comida para perros en Guadalajara",
-    intro:
-      "LOBO cocina comida real para perros en Guadalajara y Zapopan: porciones húmedas, listas para servir, pedir una vez o recibir cada mes.",
-    sections: [
-      {
-        title: "LOBO: comida real cocinada en GDL/Zapopan",
-        body: [
-          "LOBO existe para quienes quieren mejorar el plato de su perro sin caer en promesas enormes ni dietas improvisadas.",
-          "La idea es simple: comida real, porciones claras, mix feeding cuando tenga sentido y seguimiento por WhatsApp.",
-        ],
-      },
-      {
-        title: "Entregas",
-        body: [
-          "Trabajamos entregas en Guadalajara y Zapopan. La cobertura puede variar por zona y horario, así que lo más práctico es mandarnos tu ubicación.",
-          "Te decimos si llegamos, cuándo conviene entregar y qué formato te conviene según el consumo estimado.",
-        ],
-      },
-      {
-        title: "Premium Box",
-        body: [
-          "Premium Box es la forma más simple de probar LOBO: 10 porciones para empezar sin comprar todo el mes.",
-          "Sirve para ver si le gusta, observar tolerancia y decidir si tiene sentido pasar a plan mensual.",
-        ],
-      },
-      {
-        title: "Plan mensual",
-        body: [
-          "El plan mensual ayuda cuando LOBO ya forma parte de la rutina. Puedes pedir compra única o entrega programada, según el plan disponible.",
-          "No todos necesitan 100% LOBO para empezar. Muchas familias usan LOBO como una parte del plato.",
-        ],
-      },
-      {
-        title: "Cómo cotizar",
-        body: [
-          "Mándanos peso, edad aproximada, actividad y qué come hoy. Con eso te proponemos una entrada realista.",
-          "También puedes usar la calculadora para llegar con una estimación inicial antes de escribirnos.",
-        ],
-      },
-    ],
-    cta: {
-      label: "Mándanos su peso y te damos su plan",
-      href: whatsappUrl,
-      secondaryLabel: "Usa la calculadora LOBO",
-      secondaryHref: "/calculadora",
-    },
-    faqs: sharedFaqs,
-    related: [
-      { label: "Premium Box", href: "/#planes" },
-      { label: "Mix feeding", href: "/mix-feeding-para-perros" },
       { label: "Calculadora LOBO", href: "/calculadora" },
     ],
   },

@@ -114,6 +114,11 @@ const internalLinks = [
   { label: "Inicio", href: "/" },
   { label: "Calculadora", href: "/calculadora" },
   { label: "Planes", href: "/#planes" },
+  { label: "Mix feeding", href: "/mix-feeding-para-perros" },
+  {
+    label: "Comida real cocinada",
+    href: "/comida-real-cocinada-para-perros",
+  },
   { label: "Ingredientes", href: "/#ingredientes" },
   { label: "FAQ", href: "/#faq" },
 ];
@@ -234,8 +239,8 @@ export default function ComidaCocinadaParaPerrosGuadalajaraPage() {
             </p>
             <p className="mt-5 max-w-2xl text-sm leading-7 text-[#C9BDAA] md:text-base">
               LOBO entrega comida real cocinada para perros en Guadalajara y
-              Zapopan, con porciones claras y recomendación según la rutina de
-              cada perro.
+              Zapopan: porciones listas para servir o usar en mix feeding con
+              croquetas, con recomendación según la rutina de cada perro.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
