@@ -9,11 +9,19 @@ export default function Hero() {
     >
       <Image
         src="/lobo_brutal.png"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="100vw"
+        className="absolute inset-0 -z-30 h-full w-full scale-105 object-cover object-[58%_40%] opacity-55 blur-[2px] md:object-[54%_46%]"
+      />
+      <Image
+        src="/lobo_brutal.png"
         alt="Bolsa LOBO de comida real cocinada para perros con ingredientes visibles"
         fill
         preload
         sizes="100vw"
-        className="absolute inset-0 -z-20 h-full w-full object-cover object-[58%_40%] md:object-[62%_46%]"
+        className="absolute inset-0 -z-20 h-full w-full scale-[0.97] object-cover object-[56%_40%] md:scale-[0.94] md:object-[54%_46%]"
       />
       <div
         aria-hidden="true"
@@ -33,14 +41,14 @@ export default function Hero() {
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               href="/calculadora"
-              className="inline-flex min-h-13 items-center justify-center rounded-full bg-hueso px-8 text-sm font-black uppercase tracking-wide text-negro transition hover:bg-white"
+              className="inline-flex min-h-13 items-center justify-center rounded-full border border-white/45 bg-hueso/90 px-8 text-sm font-black uppercase tracking-wide text-negro shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_14px_36px_rgba(0,0,0,0.22)] backdrop-blur-md transition hover:bg-white"
             >
               Calcular su mix
             </Link>
 
             <Link
               href="/#planes"
-              className="text-sm font-bold text-hueso/70 underline decoration-hueso/25 underline-offset-4 transition hover:text-hueso hover:decoration-hueso"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-hueso/14 bg-hueso/[0.055] px-5 text-sm font-bold text-hueso/72 backdrop-blur-md transition hover:border-hueso/24 hover:bg-hueso/[0.09] hover:text-hueso"
             >
               Ver planes
             </Link>

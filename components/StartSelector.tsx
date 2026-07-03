@@ -54,7 +54,8 @@ type StartOption = (typeof startOptions)[number];
 export default function StartSelector() {
   const [activeId, setActiveId] = useState<StartOption["id"]>("mezclar");
   const active = useMemo(
-    () => startOptions.find((option) => option.id === activeId) ?? startOptions[1],
+    () =>
+      startOptions.find((option) => option.id === activeId) ?? startOptions[1],
     [activeId],
   );
   const isCalculator = active.href === "/calculadora";
@@ -74,7 +75,7 @@ export default function StartSelector() {
 
           <div
             aria-label="Opciones para empezar con LOBO"
-            className="grid grid-cols-3 overflow-hidden rounded-full border border-carbon/12 bg-hueso p-1"
+            className="grid grid-cols-3 overflow-hidden rounded-full border border-carbon/10 bg-white/42 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_16px_48px_rgba(20,17,15,0.08)] backdrop-blur-xl"
             role="tablist"
           >
             {startOptions.map((option) => {
@@ -87,8 +88,8 @@ export default function StartSelector() {
                   aria-selected={selected}
                   className={`min-h-12 rounded-full px-3 text-xs font-black uppercase tracking-wide transition sm:text-sm ${
                     selected
-                      ? "bg-carbon text-hueso shadow-[0_10px_28px_rgba(20,17,15,0.18)]"
-                      : "text-carbon/58 hover:text-carbon"
+                      ? "border border-rojo/40 bg-carbon/92 text-hueso shadow-[inset_0_1px_0_rgba(244,239,227,0.18),0_10px_28px_rgba(20,17,15,0.20)]"
+                      : "border border-transparent text-carbon/52 hover:bg-white/42 hover:text-carbon"
                   }`}
                   role="tab"
                   type="button"
@@ -103,7 +104,7 @@ export default function StartSelector() {
 
         <article
           id="start-selector-panel"
-          className="mt-8 grid overflow-hidden rounded-lg border border-carbon/10 bg-hueso shadow-[0_24px_70px_rgba(20,17,15,0.08)] md:grid-cols-[1.08fr_0.92fr]"
+          className="mt-8 grid overflow-hidden rounded-lg border border-carbon/10 bg-white/44 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_24px_70px_rgba(20,17,15,0.08)] backdrop-blur-xl md:grid-cols-[1.08fr_0.92fr]"
           role="tabpanel"
         >
           <div className="relative min-h-[19rem] overflow-hidden bg-negro sm:min-h-[24rem] md:min-h-[30rem]">
@@ -121,7 +122,7 @@ export default function StartSelector() {
             />
           </div>
 
-          <div className="flex flex-col justify-between p-5 sm:p-7 md:p-9">
+          <div className="flex flex-col justify-between bg-hueso/38 p-5 sm:p-7 md:p-9">
             <div>
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-rojo sm:text-[11px]">
                 {active.eyebrow}
@@ -138,8 +139,8 @@ export default function StartSelector() {
               href={active.href}
               className={`mt-8 inline-flex min-h-13 items-center justify-center rounded-full px-7 text-xs font-black uppercase tracking-wide transition sm:w-fit ${
                 isCalculator
-                  ? "bg-carbon text-hueso hover:bg-rojo"
-                  : "border border-carbon/20 bg-white text-carbon hover:border-carbon hover:bg-carbon hover:text-hueso"
+                  ? "border border-carbon/20 bg-carbon/92 text-hueso shadow-[inset_0_1px_0_rgba(244,239,227,0.16)] backdrop-blur-md hover:bg-rojo"
+                  : "border border-carbon/14 bg-white/54 text-carbon shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md hover:border-carbon/24 hover:bg-white"
               }`}
             >
               {active.cta}

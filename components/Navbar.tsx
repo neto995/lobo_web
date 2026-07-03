@@ -28,7 +28,7 @@ export default function Navbar() {
 
           <Link
             href="/calculadora"
-            className="inline-flex rounded-full bg-white px-5 py-2.5 text-xs font-black uppercase tracking-wide text-black transition hover:bg-[#F4EFE3]"
+            className="inline-flex rounded-full border border-white/45 bg-white/86 px-5 py-2.5 text-xs font-black uppercase tracking-wide text-black shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md transition hover:bg-white"
           >
             Calcular mix
           </Link>

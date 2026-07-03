@@ -1,12 +1,40 @@
 import Link from "next/link";
 
+const microSeoItems = [
+  "Comida real cocinada para perros.",
+  "Porciones listas para mezclar con su comida actual.",
+  "Entrega en Guadalajara y Zapopan.",
+  "Mix feeding con criterio.",
+  "Premium Box para probar sin comprar todo el mes.",
+  "Plan mensual con porciones programadas.",
+];
+
 export function MicroSeo() {
   return (
-    <section className="border-b border-carbon/10 bg-hueso px-4 py-5 sm:px-6">
-      <div className="mx-auto grid max-w-6xl gap-2 text-sm leading-6 text-ceniza md:grid-cols-3 md:gap-6">
-        <p>Comida real cocinada para perros.</p>
-        <p>Porciones listas para mezclar con su comida actual.</p>
-        <p>Entrega en Guadalajara y Zapopan.</p>
+    <section
+      aria-label={microSeoItems.join(" ")}
+      className="overflow-hidden border-y border-carbon/10 bg-hueso/92 text-ceniza"
+    >
+      <div className="micro-seo-track py-3.5">
+        {[0, 1].map((set) => (
+          <ul
+            key={set}
+            aria-hidden={set === 1 ? true : undefined}
+            className="flex shrink-0 items-center"
+          >
+            {microSeoItems.map((item) => (
+              <li
+                key={`${set}-${item}`}
+                className="whitespace-nowrap px-7 text-sm leading-6 sm:px-9"
+              >
+                {item}
+                <span aria-hidden="true" className="mx-7 text-carbon/24 sm:mx-9">
+                  {" · "}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ))}
       </div>
     </section>
   );
