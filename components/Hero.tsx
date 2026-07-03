@@ -13,7 +13,7 @@ export default function Hero() {
         aria-hidden="true"
         fill
         sizes="100vw"
-        className="absolute inset-0 -z-30 h-full w-full scale-105 object-cover object-[58%_40%] opacity-55 blur-[2px] md:object-[54%_46%]"
+        className="absolute inset-0 -z-30 h-full w-full scale-105 object-cover object-[58%_40%] opacity-55 blur-[2px] md:translate-x-16 md:object-[54%_46%]"
       />
       <Image
         src="/lobo_brutal.png"
@@ -21,7 +21,7 @@ export default function Hero() {
         fill
         preload
         sizes="100vw"
-        className="absolute inset-0 -z-20 h-full w-full scale-[0.97] object-cover object-[56%_40%] md:scale-[0.94] md:object-[54%_46%]"
+        className="absolute inset-0 -z-20 h-full w-full scale-[0.97] object-cover object-[56%_40%] md:translate-x-20 md:scale-[0.94] md:object-[54%_46%]"
       />
       <div
         aria-hidden="true"
@@ -31,7 +31,9 @@ export default function Hero() {
       <div className="mx-auto flex min-h-[calc(100svh-8rem)] max-w-6xl items-end md:min-h-[600px] md:items-center">
         <div className="hero-enter glass-panel w-full max-w-xl p-5 shadow-[0_28px_80px_rgba(0,0,0,0.34)] sm:p-7 md:p-8">
           <h1 className="text-[2.125rem] uppercase leading-[0.9] sm:text-6xl md:text-7xl">
-            Tu perro no necesita más marketing.
+            Tu perro no necesita{" "}
+            <span className="text-white">más</span>{" "}
+            <span className="text-rojo">marketing.</span>
           </h1>
 
           <p className="mt-5 max-w-md text-lg leading-7 text-hueso/82 md:text-xl md:leading-8">
@@ -41,9 +43,9 @@ export default function Hero() {
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               href="/calculadora"
-              className="inline-flex min-h-13 items-center justify-center rounded-full border border-white/45 bg-hueso/90 px-8 text-sm font-black uppercase tracking-wide text-negro shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_14px_36px_rgba(0,0,0,0.22)] backdrop-blur-md transition hover:bg-white"
+              className="inline-flex min-h-13 items-center justify-center whitespace-nowrap rounded-full border border-white/45 bg-hueso/90 px-6 text-[11px] font-black uppercase tracking-wide text-negro shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_14px_36px_rgba(0,0,0,0.22)] backdrop-blur-md transition hover:bg-white sm:px-8 sm:text-sm"
             >
-              Calcular su mix
+              Calcula su mix, mejora su plato
             </Link>
 
             <Link
@@ -53,6 +55,10 @@ export default function Hero() {
               Ver planes
             </Link>
           </div>
+
+          <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-hueso/44">
+            Más comida. Menos marketing.
+          </p>
 
           <p className="mt-7 border-t border-hueso/14 pt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-hueso/62 sm:text-[11px]">
             Guadalajara y Zapopan · Premium Box · Plan mensual
