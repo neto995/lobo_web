@@ -76,7 +76,7 @@ export default function Plans() {
   return (
     <section
       id="planes"
-      className="bg-black px-4 py-16 text-[#F4EFE3] sm:px-6 md:py-24"
+      className="bg-negro px-4 py-16 text-hueso sm:px-6 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
 

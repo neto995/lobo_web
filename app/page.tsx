@@ -4,13 +4,9 @@ import Hero from "@/components/Hero";
 import Plans from "@/components/Plans";
 import Ingredients from "@/components/Ingredients";
 import FAQ from "@/components/FAQ";
-import {
-  CalculatorSpotlight,
-  CriterionSection,
-  HomeFooter,
-  HomeIntro,
-  MixFeedingSection,
-} from "@/components/HomeEditorial";
+import { CalculatorSpotlight, HomeFooter } from "@/components/HomeEditorial";
+import { LocalSeoSection, MicroSeo } from "@/components/HomeProduct";
+import StartSelector from "@/components/StartSelector";
 
 export const metadata: Metadata = {
   title: "LOBO | Comida real cocinada para perros en Guadalajara",
@@ -34,16 +30,16 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="bg-black text-white">
+    <main className="bg-hueso text-carbon">
 
       <Navbar />
       <Hero />
-      <HomeIntro />
-      <MixFeedingSection />
-      <Ingredients />
+      <MicroSeo />
+      <StartSelector />
       <Plans />
       <CalculatorSpotlight />
-      <CriterionSection />
+      <Ingredients />
+      <LocalSeoSection />
       <FAQ />
       <HomeFooter />
 

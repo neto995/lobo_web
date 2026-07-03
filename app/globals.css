@@ -13,6 +13,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Sistema LOBO — "Ficha de cocina" */
+@theme {
+  --color-negro: #0a0908;
+  --color-carbon: #14110f;
+  --color-hueso: #f4efe3;
+  --color-arena: #c9bdaa;
+  --color-ceniza: #6f675c;
+  --color-rojo: #a93622;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -38,38 +48,138 @@ h6,
   font-weight: 400;
 }
 
-@keyframes shine {
+/* Glass panel: rgba(10,9,8,0.65) · blur 14px · borde hueso 16% · radio 4px */
+.glass-panel {
+  background: rgba(10, 9, 8, 0.65);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(244, 239, 227, 0.16);
+  border-radius: 4px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rojo);
+  outline-offset: 3px;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .hero-enter {
+    animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Sello de tinta — doble borde rojo, rotado vía utilidades */
+.stamp {
+  display: inline-block;
+  border: 2px solid var(--color-rojo);
+  outline: 2px solid var(--color-rojo);
+  outline-offset: 3px;
+  border-radius: 3px;
+  color: var(--color-rojo);
+}
+
+/* Ticker manifiesto — dos mitades idénticas, translateX(-50%) hace el loop */
+.ticker-track {
+  display: flex;
+  width: max-content;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track {
+    animation: ticker-scroll 28s linear infinite;
+  }
+}
+
+/* Reveal on scroll — sección Ingredientes (scrubbed por scroll, sin JS) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-card {
+      animation-name: reveal-rise;
+      animation-duration: 1ms; /* requerido por Firefox; Chrome usa el timeline */
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    .reveal-stamp {
+      animation-name: reveal-stamp;
+      animation-duration: 1ms;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 15% entry 75%;
+    }
+
+    .reveal-product {
+      animation-name: reveal-settle;
+      animation-duration: 1ms;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-stamp {
   0% {
-    left: -150%;
+    opacity: 0;
+    transform: scale(1.6) rotate(-8deg);
   }
-
-  100% {
-    left: 150%;
-  }
-}
-
-.animate-shine {
-  animation: shine 3s linear infinite;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-140%) rotate(12deg);
-  }
-  45% {
-    transform: translateX(240%) rotate(12deg);
+  55% {
+    opacity: 1;
   }
   100% {
-    transform: translateX(240%) rotate(12deg);
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
   }
 }
 
-.animate-shine {
-  animation: shine 3.8s ease-in-out infinite;
+@keyframes reveal-settle {
+  from {
+    opacity: 0;
+    transform: translateY(34px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes ingredient-card-pop {

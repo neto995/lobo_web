@@ -42,11 +42,11 @@ function IngredientCard({
 }) {
   return (
     <article
-      className={`rounded-lg border border-black/10 bg-[#FBF7EF]/92 p-5 shadow-[0_18px_50px_rgba(20,17,15,0.055)] ${
+      className={`reveal-card rounded-lg border border-black/10 bg-[#FBF7EF]/92 p-5 shadow-[0_18px_50px_rgba(20,17,15,0.055)] ${
         compact ? "md:p-5" : "md:p-6"
       }`}
     >
-      <p className="text-xs font-black tracking-[0.28em] text-[#A93622]">
+      <p className="reveal-stamp origin-left text-xs font-black tracking-[0.28em] text-[#A93622]">
         {group.number}
       </p>
       <h3 className="mt-3 text-2xl font-black uppercase leading-tight text-[#14110F]">
@@ -77,7 +77,7 @@ export default function Ingredients() {
   return (
     <section
       id="ingredientes"
-      className="scroll-mt-36 overflow-hidden bg-[#F4EFE3] px-4 py-16 text-[#14110F] sm:px-6 md:scroll-mt-20 md:py-24"
+      className="scroll-mt-36 overflow-clip bg-[#F4EFE3] px-4 py-16 text-[#14110F] sm:px-6 md:scroll-mt-20 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
@@ -102,7 +102,7 @@ export default function Ingredients() {
             ))}
           </div>
 
-          <div className="relative order-first mx-auto grid min-h-[27rem] w-full max-w-[18rem] place-items-center sm:max-w-[22rem] lg:order-none lg:min-h-[31rem] lg:max-w-[27rem]">
+          <div className="reveal-product relative order-first mx-auto grid min-h-[27rem] w-full max-w-[18rem] place-items-center sm:max-w-[22rem] lg:order-none lg:min-h-[31rem] lg:max-w-[27rem]">
             <div
               aria-hidden="true"
               className="absolute inset-x-8 bottom-7 h-16 rounded-full bg-black/18 blur-2xl"
