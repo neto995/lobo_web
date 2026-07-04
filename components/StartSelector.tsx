@@ -61,8 +61,17 @@ export default function StartSelector() {
   const isCalculator = active.href === "/calculadora";
 
   return (
-    <section className="bg-white px-4 py-14 text-carbon sm:px-6 md:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section className="relative overflow-clip bg-white px-4 py-14 text-carbon sm:px-6 md:py-20">
+      {/* Manchas difusas: materia para que el cristal del toggle refracte */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute right-[2%] top-[4%] h-64 w-64 rounded-full bg-rojo/22 blur-2xl" />
+        <div className="absolute right-[24%] top-[12%] h-56 w-56 rounded-full bg-[#8A6632]/26 blur-2xl" />
+        <div className="absolute right-[12%] top-[2%] h-48 w-48 rounded-full bg-[#5C6E3C]/18 blur-2xl" />
+        <div className="absolute left-[4%] top-[34%] h-80 w-80 rounded-full bg-[#8A6632]/14 blur-3xl" />
+        <div className="absolute bottom-[4%] right-[26%] h-72 w-72 rounded-full bg-hueso/90 blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl">
         <div className="grid gap-7 md:grid-cols-[0.7fr_1fr] md:items-end">
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-rojo sm:text-[11px]">
@@ -75,7 +84,7 @@ export default function StartSelector() {
 
           <div
             aria-label="Opciones para empezar con LOBO"
-            className="grid grid-cols-3 overflow-hidden rounded-full border border-carbon/10 bg-white/42 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_16px_48px_rgba(20,17,15,0.08)] backdrop-blur-xl"
+            className="liquid-glass grid grid-cols-3 overflow-hidden rounded-full p-1"
             role="tablist"
           >
             {startOptions.map((option) => {
@@ -86,16 +95,24 @@ export default function StartSelector() {
                   key={option.id}
                   aria-controls="start-selector-panel"
                   aria-selected={selected}
-                  className={`min-h-12 rounded-full px-3 text-xs font-black uppercase tracking-wide transition sm:text-sm ${
+                  className={`min-h-12 items-center rounded-full px-3 text-xs font-black uppercase tracking-wide transition sm:text-sm ${
                     selected
-                      ? "border border-rojo/40 bg-carbon/92 text-hueso shadow-[inset_0_1px_0_rgba(244,239,227,0.18),0_10px_28px_rgba(20,17,15,0.20)]"
-                      : "border border-transparent text-carbon/52 hover:bg-white/42 hover:text-carbon"
+                      ? "liquid-glass-strong text-carbon"
+                      : "border border-transparent text-carbon/52 hover:bg-white/30 hover:text-carbon"
                   }`}
                   role="tab"
                   type="button"
                   onClick={() => setActiveId(option.id)}
                 >
-                  {option.label}
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <span
+                      aria-hidden="true"
+                      className={`h-1.5 w-1.5 rounded-full transition ${
+                        selected ? "bg-rojo" : "bg-transparent"
+                      }`}
+                    />
+                    {option.label}
+                  </span>
                 </button>
               );
             })}

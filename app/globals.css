@@ -83,6 +83,38 @@ h6,
   }
 }
 
+/* Liquid glass estilo Apple — muy translúcido, blur alto + saturación del
+   backdrop, sheen vertical y doble highlight de borde */
+.liquid-glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.34),
+    rgba(255, 255, 255, 0.12)
+  );
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    0 16px 48px rgba(20, 17, 15, 0.1);
+}
+
+.liquid-glass-strong {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.52),
+    rgba(255, 255, 255, 0.24)
+  );
+  -webkit-backdrop-filter: blur(28px) saturate(1.9);
+  backdrop-filter: blur(28px) saturate(1.9);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 34px rgba(20, 17, 15, 0.16);
+}
+
 /* Sello de tinta — doble borde rojo, rotado vía utilidades */
 .stamp {
   display: inline-block;
@@ -128,6 +160,95 @@ h6,
   .micro-seo-track {
     flex-wrap: wrap;
     width: auto;
+  }
+}
+
+/* Escena 3D — Ingredientes. Perspectiva real, tilt por puntero (vars
+   --tilt-x/--tilt-y seteadas desde JS) y despliegue en abanico por estado. */
+.ingredient-scene {
+  perspective: 1400px;
+  outline-offset: 12px;
+}
+
+.ingredient-stage {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.35s ease-out;
+}
+
+.ingredient-bag {
+  margin-left: -9.5rem;
+  margin-top: -17rem;
+  transform: translateZ(6rem);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.ingredient-scene.is-open .ingredient-bag {
+  transform: translateZ(7rem) scale(1.03);
+}
+
+.ingredient-card-3d {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 17rem;
+  margin-left: -8.5rem;
+  margin-top: -7rem;
+  transform: translate3d(var(--closed-x, 0rem), var(--closed-y, 0rem), -4rem)
+    rotate(var(--closed-r, 0deg));
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.ingredient-scene.is-open .ingredient-card-3d {
+  transform: translate3d(var(--open-x, 0rem), var(--open-y, 0rem), var(--open-z, 0rem))
+    rotate(var(--open-r, 0deg)) rotateY(var(--open-ry, 0deg));
+}
+
+.ingredient-card-inner {
+  transition: transform 0.3s ease-out;
+}
+
+.ingredient-card-3d:hover .ingredient-card-inner {
+  transform: translateZ(1.5rem) scale(1.03);
+}
+
+.ingredient-hint {
+  transition: opacity 0.4s ease;
+}
+
+.ingredient-scene.is-open .ingredient-hint {
+  opacity: 0;
+}
+
+/* Con movimiento reducido: receta desplegada estática, sin tilt ni transiciones */
+@media (prefers-reduced-motion: reduce) {
+  .ingredient-stage {
+    transform: none !important;
+    transition: none;
+  }
+
+  .ingredient-card-3d {
+    transform: translate3d(var(--open-x, 0rem), var(--open-y, 0rem), 0)
+      rotate(var(--open-r, 0deg)) !important;
+    transition: none;
+  }
+
+  .ingredient-bag {
+    transform: none !important;
+    transition: none;
+  }
+
+  .ingredient-card-inner {
+    transition: none;
+  }
+
+  .ingredient-hint {
+    display: none;
   }
 }
 
