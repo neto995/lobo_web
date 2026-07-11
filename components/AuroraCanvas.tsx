@@ -20,6 +20,7 @@ precision mediump float;
 uniform vec2 u_res;
 uniform float u_time;
 uniform float u_intensity;
+uniform float u_scroll;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -47,12 +48,26 @@ float fbm(vec2 p) {
   return value;
 }
 
+// Tres cortes del mismo campo de ruido forman un volumen barato. Al desplazar
+// z obtenemos humo que rota y respira, no una textura plana que solo se mueve.
+float volumeNoise(vec2 p, float z) {
+  float z0 = floor(z);
+  float fz = smoothstep(0.0, 1.0, fract(z));
+  return mix(fbm(p + vec2(z0 * 5.17, z0 * 2.83)),
+             fbm(p + vec2((z0 + 1.0) * 5.17, (z0 + 1.0) * 2.83)), fz);
+}
+
 void main() {
   vec2 uv = gl_FragCoord.xy / u_res;
 
-  // Perspectiva de bóveda: las cortinas se abren abajo y convergen arriba.
-  float persp = mix(1.7, 0.6, uv.y);
-  float px = (uv.x - 0.5) * persp;
+  vec2 p = uv - 0.5;
+  p.x *= u_res.x / max(u_res.y, 1.0);
+
+  // Cámara muy lenta con un pequeño avance al hacer scroll.
+  float camera = u_time * 0.055 + u_scroll * 0.9;
+  float angle = 0.10 * sin(camera * 0.38) + u_scroll * 0.055;
+  mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+  p = rotation * p;
 
   vec3 color = vec3(0.0);
   float weight = 0.0;
@@ -61,19 +76,17 @@ void main() {
     float fi = float(i);
     float depth = fi / 2.0; // 0 = cortina cercana, 1 = lejana
 
-    // Trayectoria ondulante propia de cada cortina, con paralaje por capa.
-    float drift = u_time * (0.05 + depth * 0.035) + fi * 4.7;
-    float path = fbm(vec2(px * (2.2 + depth * 1.6) + drift, fi * 5.3));
-    float center = mix(0.18, 0.84, path);
-
-    float d = uv.y - center;
-    float body = exp(-d * d * (30.0 - depth * 10.0));
-
-    // Estrías verticales: los "rayos" que dan volumen a la cortina.
-    float rays = 0.78 + 0.22 * noise(vec2(
-      px * (9.0 - depth * 3.0) + path * 4.0,
-      u_time * 0.16 + fi * 2.1
-    ));
+    // Planos a distintas profundidades: escala, velocidad y desplazamiento
+    // diferentes producen paralaje. Dos muestras deformadas suavizan el humo.
+    float z = camera * (0.55 + depth * 0.22) + fi * 2.7;
+    vec2 layerP = p * (1.45 + depth * 0.72);
+    layerP.x += mix(-0.38, 0.34, depth) + sin(camera * 0.31 + fi) * 0.08;
+    layerP.y += u_scroll * (0.12 + depth * 0.16);
+    float warp = volumeNoise(layerP * 1.35, z);
+    float cloud = volumeNoise(layerP + vec2(warp * 0.44, -warp * 0.30), z + 0.8);
+    float body = smoothstep(0.42, 0.76, cloud);
+    body *= 1.0 - smoothstep(0.08, 0.70, length(layerP * vec2(0.72, 1.0)));
+    float wisps = 0.72 + 0.28 * volumeNoise(layerP * 2.4, z + 1.6);
 
     // Paleta LOBO luminosa: óxido, oro y salvia con luz propia.
     vec3 tint = i == 0
@@ -82,12 +95,12 @@ void main() {
         ? vec3(0.78, 0.6, 0.28)
         : vec3(0.55, 0.62, 0.38);
 
-    float w = body * rays * (1.0 - depth * 0.35);
+    float w = body * wisps * (0.58 - depth * 0.10);
     color += tint * w;
     weight += w;
   }
 
-  float alpha = (1.0 - exp(-weight * 0.9)) * u_intensity;
+  float alpha = (1.0 - exp(-weight * 0.72)) * u_intensity;
 
   // Fundido en los bordes para integrarse con la sección.
   alpha *= smoothstep(0.0, 0.14, uv.y) * smoothstep(1.0, 0.86, uv.y);
@@ -133,7 +146,7 @@ function compileProgram(gl: WebGLRenderingContext): WebGLProgram | null {
 }
 
 export default function AuroraCanvas({
-  intensity = 0.42,
+  intensity = 0.3,
 }: {
   intensity?: number;
 }) {
@@ -170,6 +183,7 @@ export default function AuroraCanvas({
     const uRes = gl.getUniformLocation(program, "u_res");
     const uTime = gl.getUniformLocation(program, "u_time");
     const uIntensity = gl.getUniformLocation(program, "u_intensity");
+    const uScroll = gl.getUniformLocation(program, "u_scroll");
     gl.uniform1f(uIntensity, intensity);
 
     const syncSize = () => {
@@ -189,8 +203,19 @@ export default function AuroraCanvas({
       gl.uniform2f(uRes, canvas.width, canvas.height);
     };
 
+    let scrollTarget = 0;
+    let scrollCurrent = 0;
+
+    const updateScrollTarget = () => {
+      const rect = canvas.getBoundingClientRect();
+      scrollTarget = (window.innerHeight * 0.5 - (rect.top + rect.height * 0.5)) /
+        Math.max(window.innerHeight, 1);
+    };
+
     const draw = (timeSeconds: number) => {
+      scrollCurrent += (scrollTarget - scrollCurrent) * 0.035;
       gl.uniform1f(uTime, timeSeconds);
+      gl.uniform1f(uScroll, scrollCurrent);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
@@ -215,6 +240,7 @@ export default function AuroraCanvas({
     };
 
     syncSize();
+    updateScrollTarget();
     // Frame estático inicial (y único, con reduced-motion).
     draw(12);
 
@@ -230,6 +256,7 @@ export default function AuroraCanvas({
       else stop();
     });
     intersectionObserver.observe(canvas);
+    window.addEventListener("scroll", updateScrollTarget, { passive: true });
 
     const onMotionChange = () => {
       if (reducedMotion.matches) stop();
@@ -242,6 +269,7 @@ export default function AuroraCanvas({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       reducedMotion.removeEventListener("change", onMotionChange);
+      window.removeEventListener("scroll", updateScrollTarget);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, [intensity]);
