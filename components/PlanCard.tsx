@@ -27,30 +27,24 @@ export default function PlanCard({
   checkoutUrl,
   planId
 }: PlanCardProps) {
-  const isLight = popular || highlight;
-
   return (
     <div
       className={`
-        relative flex min-h-full flex-col rounded-lg p-5 md:p-7
+        relative flex min-h-full flex-col rounded-lg text-carbon shadow-[0_14px_36px_rgba(20,17,15,0.07)] p-5 md:p-7
         ${popular
-          ? "border-[4px] border-[#F4D26A] bg-[#F4EFE3] text-black shadow-[0_0_0_1px_rgba(244,210,106,0.35)]"
-          : isLight
-          ? "border border-[#F4EFE3]/35 bg-[#F4EFE3] text-black"
-          : "border border-white/10 bg-white/[0.045] text-[#F4EFE3]"}
+          ? "border-2 border-rojo bg-[#FBF7ED]"
+          : highlight
+          ? "border-2 border-carbon/55 bg-white"
+          : "border border-carbon/15 bg-white/80"}
       `}
     >
       {popular && (
-        <div className="absolute right-4 top-4 rounded-full bg-black px-3 py-1 text-[10px] font-black uppercase tracking-wide text-[#F4EFE3]">
+        <div className="absolute right-4 top-4 rounded-full bg-rojo px-3 py-1 text-[10px] font-black uppercase tracking-wide text-white">
           Más elegido
         </div>
       )}
 
-      <p
-        className={`text-xs font-bold uppercase tracking-[0.24em] ${
-          isLight ? "text-black/55" : "text-[#C9BDAA]"
-        }`}
-      >
+      <p className="text-xs font-bold uppercase tracking-[0.24em] text-carbon/65">
         {title}
       </p>
 
@@ -63,20 +57,12 @@ export default function PlanCard({
           {duration}
         </p>
 
-        <p className={isLight ? "text-black/62" : "text-[#C9BDAA]"}>
-          {portions}
-        </p>
+        <p className="text-carbon/62">{portions}</p>
 
-        <p className={isLight ? "font-bold text-black" : "font-bold text-white"}>
-          {promo}
-        </p>
+        <p className="font-bold text-carbon">{promo}</p>
       </div>
 
-      <ul
-        className={`mt-8 grid gap-3 text-sm leading-6 ${
-          isLight ? "text-black/64" : "text-[#DED4C4]"
-        }`}
-      >
+      <ul className="mt-8 grid gap-3 text-sm leading-6 text-carbon/64">
         {features.map((feature) => (
           <li key={feature} className="border-t border-current/10 pt-3">
             {feature}
@@ -105,11 +91,7 @@ export default function PlanCard({
 
           window.location.href = data.init_point;
         }}
-        className={`mt-auto w-full rounded-full px-6 py-4 text-xs font-black uppercase tracking-wide transition ${
-          isLight
-            ? "bg-black text-[#F4EFE3] hover:bg-[#A93622]"
-            : "bg-[#F4EFE3] text-black hover:bg-white"
-        }`}
+        className="mt-auto w-full rounded-full bg-carbon px-6 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-rojo hover:text-white"
       >
         {buttonText}
       </button>

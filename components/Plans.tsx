@@ -71,12 +71,12 @@ export default function Plans() {
   return (
     <section
       id="planes"
-      className="scroll-mt-16 bg-negro px-4 py-16 text-hueso sm:px-6 md:py-24"
+      className="scroll-mt-16 border-y border-carbon/10 bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.32em] text-[#C9BDAA]">
+            <p className="text-xs font-bold uppercase tracking-[0.32em] text-rojo">
               Planes LOBO
             </p>
 
@@ -85,7 +85,7 @@ export default function Plans() {
             </h2>
           </div>
 
-          <p className="text-base leading-7 text-[#DED4C4] md:text-xl md:leading-8">
+          <p className="text-base leading-7 text-ceniza md:text-xl md:leading-8">
             Prueba 10 porciones o programa 20–30 para el mes. Sin esconder la
             decisión detrás de un plan complicado.
           </p>
@@ -93,7 +93,7 @@ export default function Plans() {
 
         <article
           id="premium-box"
-          className="mt-10 scroll-mt-24 border-2 border-hueso bg-hueso p-5 text-carbon md:p-8"
+          className="mt-10 scroll-mt-24 border-2 border-carbon bg-white p-5 text-carbon shadow-[0_16px_42px_rgba(20,17,15,0.07)] md:p-8"
         >
           <div className="grid gap-7 md:grid-cols-[0.7fr_1fr_auto] md:items-center">
             <div className="border-b border-carbon/20 pb-5 md:border-b-0 md:border-r md:pb-0 md:pr-7">
@@ -127,16 +127,16 @@ export default function Plans() {
           </div>
         </article>
 
-        <div className="mt-12 flex items-end justify-between gap-5 border-b border-white/12 pb-5">
+        <div className="mt-12 flex items-end justify-between gap-5 border-b border-carbon/15 pb-5">
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-arena">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-rojo">
               Plan mensual
             </p>
             <h3 className="mt-2 text-2xl uppercase sm:text-3xl">
               Elige porciones.
             </h3>
           </div>
-          <p className="hidden text-sm text-arena sm:block">20 o 30 por mes</p>
+          <p className="hidden text-sm text-ceniza sm:block">20 o 30 por mes</p>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -157,17 +157,17 @@ export default function Plans() {
           ))}
         </div>
 
-        <details className="group mt-5 border border-white/12 bg-white/[0.035]">
-          <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-black uppercase tracking-[0.08em] text-hueso [&::-webkit-details-marker]:hidden">
+        <details className="group mt-5 border border-carbon/15 bg-white/60">
+          <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-black uppercase tracking-[0.08em] text-carbon [&::-webkit-details-marker]:hidden">
             Prefiero compra única
             <span
               aria-hidden="true"
-              className="grid h-8 w-8 place-items-center border border-white/20 text-xl leading-none transition group-open:rotate-45"
+              className="grid h-8 w-8 place-items-center border border-carbon/20 text-xl leading-none transition group-open:rotate-45"
             >
               +
             </span>
           </summary>
-          <div className="grid gap-4 border-t border-white/12 p-4 md:grid-cols-2">
+          <div className="grid gap-4 border-t border-carbon/15 p-4 md:grid-cols-2">
             {oneTimePlans.map((plan) => (
               <PlanCard
                 key={`${plan.title}-${plan.duration}`}
@@ -184,20 +184,20 @@ export default function Plans() {
           </div>
         </details>
 
-        <div className="mt-10 grid gap-5 border-t border-white/10 pt-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="mt-10 grid gap-5 border-t border-carbon/15 pt-8 md:grid-cols-[1fr_auto] md:items-center">
           <div>
             <h3 className="text-2xl font-black uppercase">
               ¿No sabes cuál elegir?
             </h3>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#C9BDAA] md:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-ceniza md:text-base">
               Usa su peso, etapa y objetivo para calcular una entrada realista.
             </p>
           </div>
 
           <Link
             href="/calculadora"
-            className="inline-flex justify-center rounded-full bg-[#F4EFE3] px-7 py-4 text-xs font-black uppercase tracking-wide text-black transition hover:bg-white"
+            className="inline-flex justify-center rounded-full bg-carbon px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-rojo hover:text-white"
           >
             Calcular su mix
           </Link>

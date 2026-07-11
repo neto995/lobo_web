@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export function CalculatorSpotlight() {
   return (
-    <section className="bg-carbon px-4 py-16 text-hueso sm:px-6 md:py-24">
+    <section className="border-y border-carbon/10 bg-white px-4 py-16 text-carbon sm:px-6 md:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-arena">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-rojo">
             Calculadora LOBO
           </p>
           <h2 className="mt-4 text-4xl uppercase leading-[0.92] sm:text-5xl md:text-7xl">
@@ -14,13 +14,13 @@ export function CalculatorSpotlight() {
         </div>
 
         <div>
-          <p className="text-lg leading-8 text-arena md:text-xl md:leading-9">
+          <p className="text-lg leading-8 text-ceniza md:text-xl md:leading-9">
             Calcula una opción según su peso, edad y objetivo.
           </p>
 
-          <div className="mt-8 grid grid-cols-3 gap-px overflow-hidden border border-white/12 bg-white/10 font-mono text-[10px] uppercase tracking-[0.14em] text-hueso sm:text-xs">
+          <div className="mt-8 grid grid-cols-3 gap-px overflow-hidden border border-carbon/15 bg-carbon/10 font-mono text-[10px] uppercase tracking-[0.14em] text-carbon sm:text-xs">
             {["Peso", "Etapa", "Objetivo"].map((item) => (
-              <div key={item} className="bg-carbon p-4">
+              <div key={item} className="bg-hueso p-4">
                 {item}
               </div>
             ))}
