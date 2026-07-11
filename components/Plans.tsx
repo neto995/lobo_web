@@ -1,3 +1,4 @@
+import AuroraCanvas from "@/components/AuroraCanvas";
 import PlanCard from "@/components/PlanCard";
 import Link from "next/link";
 
@@ -73,6 +74,7 @@ export default function Plans() {
       id="planes"
       className="aurora-surface scroll-mt-16 border-y border-carbon/10 bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24"
     >
+      <AuroraCanvas />
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-end">
           <div>
@@ -120,7 +122,7 @@ export default function Plans() {
               href="https://wa.me/5213330626243"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-13 items-center justify-center rounded-full bg-carbon px-8 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-rojo md:min-w-56"
+              className="glass-btn glass-btn--dark inline-flex min-h-13 items-center justify-center rounded-full px-8 text-xs font-black uppercase tracking-wide text-hueso hover:text-white md:min-w-56"
             >
               Pedir Premium Box
             </a>
@@ -197,7 +199,7 @@ export default function Plans() {
 
           <Link
             href="/calculadora"
-            className="inline-flex justify-center rounded-full bg-carbon px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-rojo hover:text-white"
+            className="glass-btn glass-btn--dark inline-flex justify-center rounded-full px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso hover:text-white"
           >
             Calcular su mix
           </Link>

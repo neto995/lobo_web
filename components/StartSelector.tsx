@@ -157,10 +157,10 @@ export default function StartSelector() {
 
             <Link
               href={active.href}
-              className={`mt-8 inline-flex min-h-13 items-center justify-center rounded-full px-7 text-xs font-black uppercase tracking-wide transition sm:w-fit ${
+              className={`glass-btn mt-8 inline-flex min-h-13 items-center justify-center rounded-full px-7 text-xs font-black uppercase tracking-wide sm:w-fit ${
                 isCalculator
-                  ? "border border-carbon/20 bg-carbon/92 text-hueso shadow-[inset_0_1px_0_rgba(244,239,227,0.16)] backdrop-blur-md hover:bg-rojo"
-                  : "border border-carbon/14 bg-white/54 text-carbon shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md hover:border-carbon/24 hover:bg-white"
+                  ? "glass-btn--dark text-hueso hover:text-white"
+                  : "glass-btn--light text-carbon"
               }`}
             >
               {active.cta}

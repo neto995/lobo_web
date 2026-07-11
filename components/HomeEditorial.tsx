@@ -1,8 +1,10 @@
+import AuroraCanvas from "@/components/AuroraCanvas";
 import Link from "next/link";
 
 export function CalculatorSpotlight() {
   return (
     <section className="aurora-surface aurora-surface--reverse border-y border-carbon/10 bg-white px-4 py-16 text-carbon sm:px-6 md:py-24">
+      <AuroraCanvas />
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-rojo">
@@ -29,7 +31,7 @@ export function CalculatorSpotlight() {
           <div className="mt-8">
             <Link
               href="/calculadora"
-              className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-rojo px-7 text-xs font-black uppercase tracking-wide text-white transition hover:bg-[#c1442d] sm:w-auto"
+              className="glass-btn glass-btn--rojo inline-flex min-h-13 w-full items-center justify-center rounded-full px-7 text-xs font-black uppercase tracking-wide text-white sm:w-auto"
             >
               Calcular su mix
             </Link>
@@ -57,7 +59,7 @@ export function HomeFooter() {
           <div className="grid gap-3">
             <Link
               href="/calculadora"
-              className="inline-flex justify-center rounded-full bg-hueso px-7 py-4 text-xs font-black uppercase tracking-wide text-negro transition hover:bg-white"
+              className="glass-btn glass-btn--cream inline-flex justify-center rounded-full px-7 py-4 text-xs font-black uppercase tracking-wide text-negro"
             >
               Usar calculadora
             </Link>
@@ -65,7 +67,7 @@ export function HomeFooter() {
               href="https://wa.me/5213330626243"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex justify-center rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-white/10"
+              className="glass-btn glass-btn--ghost inline-flex justify-center rounded-full px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso"
             >
               WhatsApp LOBO
             </a>

@@ -91,7 +91,7 @@ export default function PlanCard({
 
           window.location.href = data.init_point;
         }}
-        className="mt-auto w-full rounded-full bg-carbon px-6 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-rojo hover:text-white"
+        className="glass-btn glass-btn--dark mt-auto w-full rounded-full px-6 py-4 text-xs font-black uppercase tracking-wide text-hueso hover:text-white"
       >
         {buttonText}
       </button>

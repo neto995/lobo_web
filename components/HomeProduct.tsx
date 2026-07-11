@@ -1,3 +1,4 @@
+import AuroraCanvas from "@/components/AuroraCanvas";
 import Link from "next/link";
 
 const microSeoItems = [
@@ -53,6 +54,7 @@ const localLinks = [
 export function LocalSeoSection() {
   return (
     <section className="aurora-surface aurora-surface--reverse bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24">
+      <AuroraCanvas />
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_1fr] md:items-start">
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-rojo sm:text-[11px]">
@@ -76,7 +78,7 @@ export function LocalSeoSection() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="inline-flex items-center rounded-full border border-carbon/15 px-5 py-2.5 text-xs font-black uppercase tracking-wide text-carbon/70 transition hover:bg-white hover:text-carbon"
+                className="glass-btn glass-btn--light inline-flex items-center rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-wide text-carbon/70 hover:text-carbon"
               >
                 {link.label}
               </Link>

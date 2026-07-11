@@ -43,14 +43,14 @@ export default function Hero() {
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               href="/calculadora"
-              className="inline-flex min-h-13 items-center justify-center whitespace-nowrap rounded-full border border-white/45 bg-hueso/90 px-6 text-[11px] font-black uppercase tracking-wide text-negro shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_14px_36px_rgba(0,0,0,0.22)] backdrop-blur-md transition hover:bg-white sm:px-8 sm:text-sm"
+              className="glass-btn glass-btn--cream inline-flex min-h-13 items-center justify-center whitespace-nowrap rounded-full px-6 text-[11px] font-black uppercase tracking-wide text-negro sm:px-8 sm:text-sm"
             >
               Calcula su mix, mejora su plato
             </Link>
 
             <Link
               href="/#planes"
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-hueso/14 bg-hueso/[0.055] px-5 text-sm font-bold text-hueso/72 backdrop-blur-md transition hover:border-hueso/24 hover:bg-hueso/[0.09] hover:text-hueso"
+              className="glass-btn glass-btn--ghost inline-flex min-h-11 items-center justify-center rounded-full px-5 text-sm font-bold text-hueso/72 hover:text-hueso"
             >
               Ver planes
             </Link>

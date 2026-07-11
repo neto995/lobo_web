@@ -1,3 +1,5 @@
+import AuroraCanvas from "@/components/AuroraCanvas";
+
 const faqs = [
   {
     question: "¿Qué es LOBO?",
@@ -35,8 +37,9 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="bg-white px-4 py-16 text-[#14110F] sm:px-6 md:py-24"
+      className="aurora-surface bg-white px-4 py-16 text-[#14110F] sm:px-6 md:py-24"
     >
+      <AuroraCanvas />
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-start">
           <div>
@@ -49,9 +52,12 @@ export default function FAQ() {
             </h2>
           </div>
 
-          <div className="grid gap-px overflow-hidden bg-black/10">
+          <div className="grid gap-px overflow-hidden rounded-lg border border-white/60 bg-black/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_18px_48px_rgba(20,17,15,0.08)]">
             {faqs.map((faq) => (
-              <details key={faq.question} className="group bg-white">
+              <details
+                key={faq.question}
+                className="group bg-white/45 backdrop-blur-2xl backdrop-saturate-150"
+              >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-5 px-4 py-5 text-left [&::-webkit-details-marker]:hidden md:px-6">
                   <h3 className="text-lg font-black uppercase leading-tight">
                     {faq.question}
