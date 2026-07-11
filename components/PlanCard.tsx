@@ -30,12 +30,12 @@ export default function PlanCard({
   return (
     <div
       className={`
-        relative flex min-h-full flex-col rounded-lg text-carbon shadow-[0_14px_36px_rgba(20,17,15,0.07)] p-5 md:p-7
+        frosted-glass relative flex min-h-full flex-col rounded-lg p-5 text-carbon md:p-7
         ${popular
-          ? "border-2 border-rojo bg-[#FBF7ED]"
+          ? "frosted-glass--accent"
           : highlight
-          ? "border-2 border-carbon/55 bg-white"
-          : "border border-carbon/15 bg-white/80"}
+          ? "frosted-glass--ink"
+          : ""}
       `}
     >
       {popular && (

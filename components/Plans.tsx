@@ -71,7 +71,7 @@ export default function Plans() {
   return (
     <section
       id="planes"
-      className="scroll-mt-16 border-y border-carbon/10 bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24"
+      className="aurora-surface scroll-mt-16 border-y border-carbon/10 bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-end">
@@ -93,7 +93,7 @@ export default function Plans() {
 
         <article
           id="premium-box"
-          className="mt-10 scroll-mt-24 border-2 border-carbon bg-white p-5 text-carbon shadow-[0_16px_42px_rgba(20,17,15,0.07)] md:p-8"
+          className="frosted-glass frosted-glass--ink mt-10 scroll-mt-24 p-5 text-carbon md:p-8"
         >
           <div className="grid gap-7 md:grid-cols-[0.7fr_1fr_auto] md:items-center">
             <div className="border-b border-carbon/20 pb-5 md:border-b-0 md:border-r md:pb-0 md:pr-7">
@@ -157,7 +157,7 @@ export default function Plans() {
           ))}
         </div>
 
-        <details className="group mt-5 border border-carbon/15 bg-white/60">
+        <details className="frosted-glass frosted-glass--ink group mt-5">
           <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-black uppercase tracking-[0.08em] text-carbon [&::-webkit-details-marker]:hidden">
             Prefiero compra única
             <span

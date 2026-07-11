@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function CalculatorSpotlight() {
   return (
-    <section className="border-y border-carbon/10 bg-white px-4 py-16 text-carbon sm:px-6 md:py-24">
+    <section className="aurora-surface aurora-surface--reverse border-y border-carbon/10 bg-white px-4 py-16 text-carbon sm:px-6 md:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-rojo">

@@ -52,7 +52,7 @@ const localLinks = [
 
 export function LocalSeoSection() {
   return (
-    <section className="bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24">
+    <section className="aurora-surface aurora-surface--reverse bg-hueso px-4 py-16 text-carbon sm:px-6 md:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_1fr] md:items-start">
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-rojo sm:text-[11px]">

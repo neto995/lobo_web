@@ -9,7 +9,10 @@ export default function Ingredients() {
       className="relative scroll-mt-36 overflow-clip bg-[#F4EFE3] px-4 py-16 text-[#14110F] sm:px-6 md:scroll-mt-20 md:py-24"
     >
       {/* Manchas de color difusas: dan materia al cristal de las fichas */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      <div
+        aria-hidden="true"
+        className="aurora-drift-layer pointer-events-none absolute inset-0"
+      >
         <div className="absolute left-[6%] top-[24%] h-80 w-80 rounded-full bg-rojo/14 blur-3xl" />
         <div className="absolute right-[4%] top-[40%] h-96 w-96 rounded-full bg-[#8A6632]/18 blur-3xl" />
         <div className="absolute bottom-[6%] left-[30%] h-72 w-72 rounded-full bg-white/70 blur-3xl" />

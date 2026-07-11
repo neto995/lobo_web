@@ -63,7 +63,10 @@ export default function StartSelector() {
   return (
     <section className="relative overflow-clip bg-white px-4 py-14 text-carbon sm:px-6 md:py-20">
       {/* Manchas difusas: materia para que el cristal del toggle refracte */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      <div
+        aria-hidden="true"
+        className="aurora-drift-layer pointer-events-none absolute inset-0"
+      >
         <div className="absolute right-[2%] top-[4%] h-64 w-64 rounded-full bg-rojo/22 blur-2xl" />
         <div className="absolute right-[24%] top-[12%] h-56 w-56 rounded-full bg-[#8A6632]/26 blur-2xl" />
         <div className="absolute right-[12%] top-[2%] h-48 w-48 rounded-full bg-[#5C6E3C]/18 blur-2xl" />
@@ -121,7 +124,7 @@ export default function StartSelector() {
 
         <article
           id="start-selector-panel"
-          className="mt-8 grid overflow-hidden rounded-lg border border-carbon/10 bg-white/44 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_24px_70px_rgba(20,17,15,0.08)] backdrop-blur-xl md:grid-cols-[1.08fr_0.92fr]"
+          className="frosted-glass mt-8 grid overflow-hidden rounded-lg md:grid-cols-[1.08fr_0.92fr]"
           role="tabpanel"
         >
           <div className="relative min-h-[19rem] overflow-hidden bg-negro sm:min-h-[24rem] md:min-h-[30rem]">
@@ -139,7 +142,7 @@ export default function StartSelector() {
             />
           </div>
 
-          <div className="flex flex-col justify-between bg-hueso/38 p-5 sm:p-7 md:p-9">
+          <div className="flex flex-col justify-between bg-white/18 p-5 sm:p-7 md:p-9">
             <div>
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-rojo sm:text-[11px]">
                 {active.eyebrow}
