@@ -3,46 +3,36 @@ import Link from "next/link";
 export function CalculatorSpotlight() {
   return (
     <section className="bg-carbon px-4 py-16 text-hueso sm:px-6 md:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.95fr_1.05fr] md:items-center">
+      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-arena">
             Calculadora LOBO
           </p>
           <h2 className="mt-4 text-4xl uppercase leading-[0.92] sm:text-5xl md:text-7xl">
-            Calcula antes de servir.
+            No adivines cuánto darle.
           </h2>
         </div>
 
         <div>
           <p className="text-lg leading-8 text-arena md:text-xl md:leading-9">
-            Peso, etapa, silueta, movimiento real y porcentaje de mix feeding.
-            La calculadora convierte eso en una porción inicial para empezar con
-            más criterio.
+            Calcula una opción según su peso, edad y objetivo.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden bg-white/10 font-mono text-xs uppercase tracking-[0.14em] text-hueso sm:grid-cols-4">
-            {["Peso", "Etapa", "Movimiento", "Mix"].map((item) => (
+          <div className="mt-8 grid grid-cols-3 gap-px overflow-hidden border border-white/12 bg-white/10 font-mono text-[10px] uppercase tracking-[0.14em] text-hueso sm:text-xs">
+            {["Peso", "Etapa", "Objetivo"].map((item) => (
               <div key={item} className="bg-carbon p-4">
                 {item}
               </div>
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8">
             <Link
               href="/calculadora"
-              className="inline-flex justify-center rounded-full bg-hueso px-7 py-4 text-xs font-black uppercase tracking-wide text-negro transition hover:bg-white"
+              className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-rojo px-7 text-xs font-black uppercase tracking-wide text-white transition hover:bg-[#c1442d] sm:w-auto"
             >
-              Calcula su mix
+              Calcular su mix
             </Link>
-            <a
-              href="https://wa.me/5213330626243"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex justify-center rounded-full border border-white/20 px-7 py-4 text-xs font-black uppercase tracking-wide text-hueso transition hover:bg-white/10"
-            >
-              Mándanos su peso
-            </a>
           </div>
         </div>
       </div>
