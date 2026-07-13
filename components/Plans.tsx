@@ -12,9 +12,13 @@ export default function Plans() {
       promo: "Entrega programada",
       popular: true,
       features: [
-        "Cobro recurrente mensual",
-        "Puedes cancelar cuando quieras",
-        "Pago recurrente con Mercado Pago",
+        "Entrega mensual programada",
+        "Cobro seguro con Mercado Pago",
+        "Pausa o cancela cuando quieras",
+        "Seguimiento personalizado",
+        "Acceso anticipado a nuevas recetas",
+        "Perfecto para mejorar su plato con mix feeding",
+        "Precio congelado por 12 meses",
       ],
       buttonText: "Activar suscripción",
       checkoutUrl:
@@ -28,9 +32,13 @@ export default function Plans() {
       promo: "Entrega programada",
       highlight: true,
       features: [
-        "Cobro recurrente mensual",
-        "Puedes cancelar cuando quieras",
-        "Pago recurrente con Mercado Pago",
+        "Más porciones para sostener el hábito o compartir entre varios perros",
+        "Entrega mensual programada",
+        "Cobro seguro con Mercado Pago",
+        "Pausa o cancela cuando quieras",
+        "Seguimiento personalizado",
+        "Acceso anticipado a nuevas recetas",
+        "Precio congelado por 12 meses",
       ],
       buttonText: "Activar suscripción",
       checkoutUrl:
@@ -141,7 +149,7 @@ export default function Plans() {
           <p className="hidden text-sm text-ceniza sm:block">20 o 30 por mes</p>
         </div>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
           {subscriptionPlans.map((plan) => (
             <PlanCard
               key={`${plan.title}-${plan.duration}`}
@@ -153,6 +161,7 @@ export default function Plans() {
               features={plan.features}
               popular={plan.popular}
               highlight={plan.highlight}
+              variant="subscription"
               buttonText={plan.buttonText}
               checkoutUrl={plan.checkoutUrl}
             />

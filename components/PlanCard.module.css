@@ -1,0 +1,425 @@
+.subscriptionCard {
+  --plan-accent: 169 54 34;
+  --plan-accent-deep: 123 38 23;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.82);
+  border-radius: 1.6rem;
+  padding: clamp(1.2rem, 2.7vw, 1.8rem);
+  background:
+    linear-gradient(145deg, rgb(255 253 247 / 0.9), rgb(244 239 227 / 0.72)),
+    rgb(244 239 227 / 0.78);
+  color: var(--color-carbon);
+  -webkit-backdrop-filter: blur(26px) saturate(1.35);
+  backdrop-filter: blur(26px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.98),
+    inset 1px 0 0 rgb(255 255 255 / 0.58),
+    0 28px 72px rgb(20 17 15 / 0.12);
+}
+
+.subscriptionCard::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 12%;
+  left: 12%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--plan-accent) / 0.9),
+    rgb(255 255 255 / 0.96),
+    rgb(var(--plan-accent) / 0.72),
+    transparent
+  );
+  box-shadow: 0 4px 22px rgb(var(--plan-accent) / 0.28);
+}
+
+.subscriptionCard::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -8rem;
+  right: -7rem;
+  width: 23rem;
+  height: 23rem;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgb(var(--plan-accent) / 0.2),
+    rgb(var(--plan-accent) / 0.08) 42%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.popular {
+  --plan-accent: 169 54 34;
+  --plan-accent-deep: 123 38 23;
+}
+
+.medium {
+  --plan-accent: 154 107 47;
+  --plan-accent-deep: 20 17 15;
+}
+
+.cardHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(var(--plan-accent-deep) / 0.72);
+}
+
+.planTitle {
+  margin-top: 0.48rem;
+  font-size: clamp(1.65rem, 3.6vw, 2.3rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.badge {
+  flex: none;
+  border: 1px solid rgb(var(--plan-accent) / 0.28);
+  border-radius: 999px;
+  padding: 0.48rem 0.68rem;
+  background: rgb(var(--plan-accent) / 0.1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.72);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgb(var(--plan-accent-deep));
+}
+
+.priceBlock {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1rem;
+  margin-top: 1.7rem;
+  padding: 1.35rem 0;
+  border-block: 1px solid rgb(20 17 15 / 0.12);
+}
+
+.price {
+  font-family: var(--font-archivo-black), var(--font-geist-sans), sans-serif;
+  font-size: clamp(3.8rem, 7.2vw, 5.85rem);
+  line-height: 0.72;
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+}
+
+.duration {
+  margin-top: 0.8rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(20 17 15 / 0.62);
+}
+
+.portionSeal {
+  display: grid;
+  min-width: 5rem;
+  place-items: center;
+  border: 1px solid rgb(var(--plan-accent) / 0.34);
+  border-radius: 1.15rem;
+  padding: 0.6rem 0.7rem;
+  background:
+    linear-gradient(145deg, rgb(255 255 255 / 0.62), rgb(var(--plan-accent) / 0.08));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.86),
+    0 10px 28px rgb(var(--plan-accent) / 0.1);
+}
+
+.portionNumber {
+  font-family: var(--font-archivo-black), var(--font-geist-sans), sans-serif;
+  font-size: 2rem;
+  line-height: 0.9;
+  color: rgb(var(--plan-accent-deep));
+}
+
+.portionLabel {
+  margin-top: 0.38rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgb(20 17 15 / 0.62);
+}
+
+.delivery {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  border-radius: 999px;
+  padding: 0.5rem 0.7rem;
+  background: rgb(255 255 255 / 0.4);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: rgb(20 17 15 / 0.74);
+}
+
+.deliveryDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgb(var(--plan-accent));
+  box-shadow: 0 0 0 4px rgb(var(--plan-accent) / 0.1);
+}
+
+.benefitsPanel {
+  position: relative;
+  z-index: 1;
+  margin: 1.1rem 0 1.25rem;
+  border: 1px solid rgb(20 17 15 / 0.1);
+  border-radius: 1.25rem;
+  padding: 0.3rem 0.85rem 0.15rem;
+  background: rgb(255 255 255 / 0.34);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.68);
+}
+
+.benefitsTitle {
+  padding: 0.65rem 0 0.6rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--plan-accent-deep) / 0.72);
+}
+
+.benefitsList {
+  list-style: none;
+}
+
+.benefitItem {
+  display: grid;
+  grid-template-columns: 1.55rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.7rem;
+  border-top: 1px solid rgb(20 17 15 / 0.09);
+  padding: 0.62rem 0;
+}
+
+.benefitIndex {
+  padding-top: 0.1rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: rgb(var(--plan-accent-deep) / 0.72);
+}
+
+.benefitText {
+  min-width: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(20 17 15 / 0.8);
+}
+
+.subscriptionCta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  min-height: 3.4rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 999px;
+  padding: 0.48rem 0.55rem 0.48rem 1.2rem;
+  cursor: pointer;
+  background: linear-gradient(
+    145deg,
+    rgb(var(--plan-accent-deep)),
+    rgb(var(--plan-accent-deep) / 0.88)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    0 16px 34px rgb(var(--plan-accent-deep) / 0.24);
+  font-size: 0.69rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--color-hueso);
+}
+
+.ctaArrow {
+  display: grid;
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.ctaArrow svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.subscriptionCard:focus-within {
+  outline: 2px solid rgb(var(--plan-accent));
+  outline-offset: 4px;
+}
+
+@media (min-width: 1024px) {
+  .benefitsList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.9rem;
+  }
+
+  .benefitItem:nth-child(even) {
+    border-left: 1px solid rgb(20 17 15 / 0.08);
+    padding-left: 0.9rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .subscriptionCard {
+    padding: 1.35rem 1.5rem;
+  }
+
+  .priceBlock {
+    margin-top: 1.35rem;
+    padding: 1.05rem 0;
+  }
+
+  .duration {
+    margin-top: 0.55rem;
+  }
+
+  .delivery {
+    margin-top: 0.65rem;
+    padding: 0.42rem 0.7rem;
+  }
+
+  .benefitsPanel {
+    margin: 0.8rem 0 1rem;
+    padding: 0.2rem 0.85rem 0.1rem;
+  }
+
+  .benefitsTitle {
+    padding: 0.5rem 0 0.45rem;
+  }
+
+  .benefitItem {
+    gap: 0.55rem;
+    padding: 0.52rem 0;
+  }
+
+  .benefitText {
+    line-height: 1.4;
+  }
+
+  .subscriptionCta {
+    min-height: 3.25rem;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .subscriptionCard,
+  .subscriptionCta,
+  .ctaArrow {
+    transition:
+      transform 0.28s ease,
+      box-shadow 0.28s ease,
+      background-color 0.28s ease;
+  }
+
+  .subscriptionCard:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.98),
+      inset 1px 0 0 rgb(255 255 255 / 0.58),
+      0 36px 90px rgb(var(--plan-accent-deep) / 0.18);
+  }
+
+  .subscriptionCta:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 20px 42px rgb(var(--plan-accent-deep) / 0.3);
+  }
+
+  .subscriptionCta:hover .ctaArrow {
+    transform: translateX(3px);
+  }
+}
+
+@media (max-width: 390px) {
+  .subscriptionCard {
+    border-radius: 1.4rem;
+    padding: 1.1rem;
+  }
+
+  .cardHeader {
+    gap: 0.65rem;
+  }
+
+  .badge {
+    padding-inline: 0.6rem;
+    font-size: 0.5rem;
+  }
+
+  .priceBlock {
+    gap: 0.7rem;
+  }
+
+  .price {
+    font-size: 3.65rem;
+  }
+
+  .portionSeal {
+    min-width: 4.5rem;
+    padding-inline: 0.55rem;
+  }
+
+  .benefitsPanel {
+    padding-inline: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subscriptionCard,
+  .subscriptionCta,
+  .ctaArrow {
+    transition: none;
+  }
+}
