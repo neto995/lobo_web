@@ -105,35 +105,53 @@ export default function Plans() {
           id="premium-box"
           className="frosted-glass frosted-glass--ink mt-10 scroll-mt-24 p-5 text-carbon md:p-8"
         >
-          <div className="grid gap-7 md:grid-cols-[0.7fr_1fr_auto] md:items-center">
-            <div className="border-b border-carbon/20 pb-5 md:border-b-0 md:border-r md:pb-0 md:pr-7">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-rojo">
-                Para probar
-              </p>
-              <p className="mt-3 text-7xl uppercase leading-none">10</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-carbon/60">
-                Porciones
-              </p>
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)] lg:items-center">
+            <div className="mx-auto w-full max-w-md lg:max-w-none">
+              <video
+                className="aspect-[4/5] w-full rounded-3xl border border-white/10 bg-black object-cover shadow-2xl"
+                controls
+                playsInline
+                preload="metadata"
+                poster="/videos/premium-box-poster.jpg"
+              >
+                <source
+                  src="/videos/premium-box-lobo.mp4"
+                  type="video/mp4"
+                />
+                Tu navegador no soporta video.
+              </video>
             </div>
 
-            <div>
-              <h3 className="text-4xl font-black uppercase leading-none md:text-5xl">
-                Premium Box.
-              </h3>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-carbon/65 md:text-base">
-                Ve si le gusta y cómo se integra a su rutina. Sin comprar todo
-                el mes.
-              </p>
-            </div>
+            <div className="grid gap-7 md:grid-cols-[0.55fr_1fr] md:items-center">
+              <div className="border-b border-carbon/20 pb-5 md:border-b-0 md:border-r md:pb-0 md:pr-7">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-rojo">
+                  Para probar
+                </p>
+                <p className="mt-3 text-7xl uppercase leading-none">10</p>
+                <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-carbon/60">
+                  Porciones
+                </p>
+              </div>
 
-            <a
-              href="https://wa.me/5213330626243"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glass-btn glass-btn--dark inline-flex min-h-13 items-center justify-center rounded-full px-8 text-xs font-black uppercase tracking-wide text-hueso hover:text-white md:min-w-56"
-            >
-              Pedir Premium Box
-            </a>
+              <div>
+                <h3 className="text-4xl font-black uppercase leading-none md:text-5xl">
+                  Premium Box.
+                </h3>
+                <p className="mt-4 max-w-xl text-sm leading-6 text-carbon/65 md:text-base">
+                  Ve si le gusta y cómo se integra a su rutina. Sin comprar todo
+                  el mes.
+                </p>
+
+                <a
+                  href="https://wa.me/5213330626243"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-btn glass-btn--dark mt-6 inline-flex min-h-13 items-center justify-center rounded-full px-8 text-xs font-black uppercase tracking-wide text-hueso hover:text-white md:min-w-56"
+                >
+                  Pedir Premium Box
+                </a>
+              </div>
+            </div>
           </div>
         </article>
 

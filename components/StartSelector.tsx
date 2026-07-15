@@ -3,6 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import TabImageCarousel from "@/components/TabImageCarousel";
+
+const probarImages = [
+  {
+    src: "/images/tabs/probar/probar-premium-box-dana-card.webp",
+    alt: "Dana mostrando el Premium Box de LOBO",
+    position: "object-[50%_20%]",
+  },
+  {
+    src: "/images/tabs/probar/probar-premium-box-open-card.webp",
+    alt: "Premium Box de LOBO abierto con producto",
+  },
+  {
+    src: "/images/tabs/probar/probar-premium-box-ribbon-card.webp",
+    alt: "Premium Box de LOBO con listón y producto listo para entregar",
+  },
+];
 
 const startOptions = [
   {
@@ -14,9 +31,9 @@ const startOptions = [
     cta: "Ver Premium Box",
     href: "/#planes",
     image: {
-      src: "/lobo_brutal.png",
-      alt: "Premium Box LOBO para probar comida real cocinada para perros",
-      position: "object-[54%_36%]",
+      src: probarImages[0].src,
+      alt: probarImages[0].alt,
+      position: "object-center",
     },
   },
   {
@@ -128,17 +145,21 @@ export default function StartSelector() {
           role="tabpanel"
         >
           <div className="relative min-h-[19rem] overflow-hidden bg-negro sm:min-h-[24rem] md:min-h-[30rem]">
-            <Image
-              key={active.image.src + active.image.position}
-              src={active.image.src}
-              alt={active.image.alt}
-              fill
-              sizes="(min-width: 768px) 56vw, 100vw"
-              className={`object-cover ${active.image.position}`}
-            />
+            {active.id === "probar" ? (
+              <TabImageCarousel images={probarImages} />
+            ) : (
+              <Image
+                key={active.image.src + active.image.position}
+                src={active.image.src}
+                alt={active.image.alt}
+                fill
+                sizes="(min-width: 768px) 56vw, 100vw"
+                className={`object-cover ${active.image.position}`}
+              />
+            )}
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,9,8,0)_35%,rgba(10,9,8,0.58)_100%)]"
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,9,8,0)_35%,rgba(10,9,8,0.58)_100%)]"
             />
           </div>
 
