@@ -37,20 +37,6 @@ const startOptions = [
     },
   },
   {
-    id: "mezclar",
-    label: "Mezclar",
-    title: "Mix feeding.",
-    eyebrow: "20-30% LOBO",
-    copy: "Empieza con 20-30% LOBO sin quitar toda su comida actual. El problema no es mezclar. Es hacerlo sin criterio.",
-    cta: "Calcular su mix",
-    href: "/calculadora",
-    image: {
-      src: "/lobo_brutal.png",
-      alt: "Comida LOBO con res, camote y vegetales para mezclar con la comida actual",
-      position: "object-[18%_78%]",
-    },
-  },
-  {
     id: "plan",
     label: "Plan mensual",
     title: "Plan mensual.",
@@ -64,12 +50,26 @@ const startOptions = [
       position: "object-[50%_34%]",
     },
   },
+  {
+    id: "mezclar",
+    label: "Mezclar",
+    title: "Mix feeding.",
+    eyebrow: "20-30% LOBO",
+    copy: "Empieza con 20-30% LOBO sin quitar toda su comida actual. El problema no es mezclar. Es hacerlo sin criterio.",
+    cta: "Calcular su mix",
+    href: "/calculadora",
+    image: {
+      src: "/lobo_brutal.png",
+      alt: "Comida LOBO con res, camote y vegetales para mezclar con la comida actual",
+      position: "object-[18%_78%]",
+    },
+  },
 ];
 
 type StartOption = (typeof startOptions)[number];
 
 export default function StartSelector() {
-  const [activeId, setActiveId] = useState<StartOption["id"]>("mezclar");
+  const [activeId, setActiveId] = useState<StartOption["id"]>("probar");
   const active = useMemo(
     () =>
       startOptions.find((option) => option.id === activeId) ?? startOptions[1],
