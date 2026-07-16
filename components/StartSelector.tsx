@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import TabImageCarousel from "@/components/TabImageCarousel";
@@ -18,6 +17,21 @@ const probarImages = [
   {
     src: "/images/tabs/probar/probar-premium-box-ribbon-card.webp",
     alt: "Premium Box de LOBO con listón y producto listo para entregar",
+  },
+];
+
+const mezclarImages = [
+  {
+    src: "/images/tabs/mezclar/mezclar-ia-1.jpg",
+    alt: "Dana mostrando porciones LOBO para mix feeding",
+  },
+  {
+    src: "/images/tabs/mezclar/mezclar-ia-2.jpg",
+    alt: "Porciones LOBO listas para mezclar con comida actual",
+  },
+  {
+    src: "/images/tabs/mezclar/mezclar-ia-3.jpg",
+    alt: "Perros probando LOBO como parte de mix feeding",
   },
 ];
 
@@ -146,7 +160,7 @@ export default function StartSelector() {
         >
           <div className="relative min-h-[19rem] overflow-hidden bg-negro sm:min-h-[24rem] md:min-h-[30rem]">
             {active.id === "probar" ? (
-              <TabImageCarousel images={probarImages} />
+              <TabImageCarousel key="probar" images={probarImages} />
             ) : active.id === "plan" ? (
               <video
                 className="aspect-[4/5] w-full rounded-3xl border border-black/10 bg-black object-cover shadow-2xl"
@@ -162,14 +176,7 @@ export default function StartSelector() {
                 Tu navegador no soporta video.
               </video>
             ) : (
-              <Image
-                key={active.image.src + active.image.position}
-                src={active.image.src}
-                alt={active.image.alt}
-                fill
-                sizes="(min-width: 768px) 56vw, 100vw"
-                className={`object-cover ${active.image.position}`}
-              />
+              <TabImageCarousel key="mezclar" images={mezclarImages} />
             )}
             <div
               aria-hidden="true"
