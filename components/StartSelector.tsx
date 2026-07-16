@@ -147,6 +147,20 @@ export default function StartSelector() {
           <div className="relative min-h-[19rem] overflow-hidden bg-negro sm:min-h-[24rem] md:min-h-[30rem]">
             {active.id === "probar" ? (
               <TabImageCarousel images={probarImages} />
+            ) : active.id === "plan" ? (
+              <video
+                className="aspect-[4/5] w-full rounded-3xl border border-black/10 bg-black object-cover shadow-2xl"
+                controls
+                playsInline
+                preload="metadata"
+                poster="/videos/plan-mensual-poster-card.webp"
+              >
+                <source
+                  src="/videos/plan-mensual-lobo.mp4"
+                  type="video/mp4"
+                />
+                Tu navegador no soporta video.
+              </video>
             ) : (
               <Image
                 key={active.image.src + active.image.position}
