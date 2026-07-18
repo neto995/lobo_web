@@ -2,6 +2,8 @@ import AuroraCanvas from "@/components/AuroraCanvas";
 import PlanCard from "@/components/PlanCard";
 import Link from "next/link";
 
+const BIMONTHLY_CHECKOUT_URL = "https://mpago.la/1X4nDyu";
+
 export default function Plans() {
   const subscriptionPlans = [
     {
@@ -74,6 +76,26 @@ export default function Plans() {
       ],
       buttonText: "Compra única",
       planId: "plan-mediano-unico",
+    },
+  ];
+
+  const scheduledPlans = [
+    {
+      title: "Plan Chico Bimestral",
+      price: "$630",
+      duration: "Cada 2 meses",
+      portions: "20 porciones",
+      promo: "20 porciones cada 2 meses",
+      features: [
+        "Entrega programada",
+        "Cobro seguro con Mercado Pago",
+        "Pausa o cancela cuando quieras",
+        "Seguimiento personalizado",
+        "Acceso anticipado a nuevas recetas",
+        "Para mix feeding desde 30/70, según su cálculo LOBO",
+      ],
+      buttonText: "Activar plan bimestral",
+      checkoutUrl: BIMONTHLY_CHECKOUT_URL,
     },
   ];
 
@@ -185,6 +207,41 @@ export default function Plans() {
             />
           ))}
         </div>
+
+        <aside
+          id="plan-chico-bimestral"
+          className="mt-10 grid scroll-mt-24 gap-6 border-t border-carbon/15 pt-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-10"
+        >
+          <div className="max-w-md">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-ceniza">
+              Opción especial
+            </p>
+            <h3 className="mt-3 text-3xl uppercase leading-none sm:text-4xl">
+              Más espacio entre entregas.
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-ceniza md:text-base">
+              Un pedido programado cada 2 meses para mantener LOBO en el plato.
+              No es un plan mensual.
+            </p>
+          </div>
+
+          <div className="grid">
+            {scheduledPlans.map((plan) => (
+              <PlanCard
+                key={`${plan.title}-${plan.duration}`}
+                title={plan.title}
+                price={plan.price}
+                duration={plan.duration}
+                portions={plan.portions}
+                promo={plan.promo}
+                features={plan.features}
+                variant="scheduled"
+                buttonText={plan.buttonText}
+                checkoutUrl={plan.checkoutUrl}
+              />
+            ))}
+          </div>
+        </aside>
 
         <details className="frosted-glass frosted-glass--ink group mt-5">
           <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-black uppercase tracking-[0.08em] text-carbon [&::-webkit-details-marker]:hidden">

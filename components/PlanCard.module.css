@@ -69,6 +69,19 @@
   --plan-accent-deep: 20 17 15;
 }
 
+.scheduled {
+  --plan-accent: 111 103 92;
+  --plan-accent-deep: 20 17 15;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.94),
+    inset 1px 0 0 rgb(255 255 255 / 0.5),
+    0 20px 54px rgb(20 17 15 / 0.09);
+}
+
+.scheduled::before {
+  opacity: 0.52;
+}
+
 .cardHeader {
   position: relative;
   z-index: 1;
@@ -195,6 +208,16 @@
   border-radius: 999px;
   background: rgb(var(--plan-accent));
   box-shadow: 0 0 0 4px rgb(var(--plan-accent) / 0.1);
+}
+
+.description {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.9rem;
+  max-width: 38rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgb(20 17 15 / 0.68);
 }
 
 .benefitsPanel {

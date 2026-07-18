@@ -8,10 +8,11 @@ type PlanCardProps = {
   duration: string;
   portions: string;
   promo: string;
+  description?: string;
   features: string[];
   popular?: boolean;
   highlight?: boolean;
-  variant?: "default" | "subscription";
+  variant?: "default" | "subscription" | "scheduled";
   buttonText: string;
   checkoutUrl?: string;
   planId?: string;
@@ -23,6 +24,7 @@ export default function PlanCard({
   duration,
   portions,
   promo,
+  description,
   features,
   popular,
   highlight,
@@ -32,14 +34,20 @@ export default function PlanCard({
   planId
 }: PlanCardProps) {
   const isSubscription = variant === "subscription";
+  const isScheduled = variant === "scheduled";
+  const isDetailed = isSubscription || isScheduled;
   const portionCount = portions.split(" ")[0];
 
   return (
     <article
       className={
-        isSubscription
+        isDetailed
           ? `${styles.subscriptionCard} ${
-              popular ? styles.popular : styles.medium
+              isScheduled
+                ? styles.scheduled
+                : popular
+                  ? styles.popular
+                  : styles.medium
             }`
           : `
               frosted-glass relative flex min-h-full flex-col rounded-lg p-5 text-carbon md:p-7
@@ -51,16 +59,22 @@ export default function PlanCard({
             `
       }
     >
-      {isSubscription ? (
+      {isDetailed ? (
         <>
           <header className={styles.cardHeader}>
             <div className="min-w-0">
-              <p className={styles.kicker}>Suscripción mensual</p>
+              <p className={styles.kicker}>
+                {isScheduled ? "Pedido programado" : "Suscripción mensual"}
+              </p>
               <h3 className={styles.planTitle}>{title}</h3>
             </div>
 
             <span className={styles.badge}>
-              {popular ? "Más elegido" : portions}
+              {isScheduled
+                ? "Cada 2 meses"
+                : popular
+                  ? "Más elegido"
+                  : portions}
             </span>
           </header>
 
@@ -86,8 +100,14 @@ export default function PlanCard({
             {promo}
           </p>
 
+          {description && (
+            <p className={styles.description}>{description}</p>
+          )}
+
           <div className={styles.benefitsPanel}>
-            <p className={styles.benefitsTitle}>Tu suscripción incluye</p>
+            <p className={styles.benefitsTitle}>
+              {isScheduled ? "Este plan incluye" : "Tu suscripción incluye"}
+            </p>
             <ul className={styles.benefitsList}>
               {features.map((feature, index) => (
                 <li key={feature} className={styles.benefitItem}>
@@ -158,18 +178,18 @@ export default function PlanCard({
           window.location.href = data.init_point;
         }}
         aria-label={
-          isSubscription
+          isDetailed
             ? `${buttonText} ${title}, ${portions}, ${price} ${duration.toLowerCase()}`
             : undefined
         }
         className={
-          isSubscription
+          isDetailed
             ? styles.subscriptionCta
             : "glass-btn glass-btn--dark mt-auto w-full rounded-full px-6 py-4 text-xs font-black uppercase tracking-wide text-hueso hover:text-white"
         }
       >
         <span>{buttonText}</span>
-        {isSubscription && (
+        {isDetailed && (
           <span aria-hidden="true" className={styles.ctaArrow}>
             <svg viewBox="0 0 20 20" fill="none">
               <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
