@@ -82,6 +82,15 @@ export function HomeFooter() {
           </Link>
           <Link href="/articulos">Artículos</Link>
         </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs leading-6 text-arena">
+          <p>© 2026 LOBO</p>
+          <nav aria-label="Enlaces legales" className="flex flex-wrap gap-x-4 gap-y-2">
+            <Link href="/terminos-y-condiciones" className="underline-offset-4 transition hover:text-hueso hover:underline">
+              Términos y Condiciones
+            </Link>
+          </nav>
+        </div>
       </div>
     </footer>
   );
