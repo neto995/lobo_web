@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { calculateLoboPlan, getCalculatorControls, sliderCalculationPercent } from "./calculatorLogic";
 
 type OptionButtonProps = {
   active: boolean;
@@ -42,12 +43,18 @@ function OptionButton({
 
 function MixPlate({
   loboPercent,
+  selectedPercent,
+  maxPercent,
+  pieCenterPercent,
   onChange,
 }: {
   loboPercent: number;
+  selectedPercent: number;
+  maxPercent: number;
+  pieCenterPercent: number;
   onChange: (value: number) => void;
 }) {
-  const kibblePercent = 100 - loboPercent;
+  const kibblePercent = Number((100 - loboPercent).toFixed(2));
 
   return (
     <div className="min-w-0 rounded-2xl border border-black/10 bg-white/35 p-2.5 shadow-[0_18px_55px_rgba(20,17,15,0.08)] sm:rounded-3xl sm:p-5 md:p-6">
@@ -74,7 +81,7 @@ function MixPlate({
           <div className="absolute grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-[#14110F] text-center shadow-xl shadow-black/35 min-[380px]:h-12 min-[380px]:w-12 sm:h-24 sm:w-24">
             <div>
               <p className="text-sm font-black text-white min-[380px]:text-base sm:text-3xl">
-                {loboPercent}%
+                {pieCenterPercent}%
               </p>
               <p className="text-[6px] uppercase tracking-[0.12em] text-[#C9BDAA] sm:text-[10px] sm:tracking-[0.2em]">
                 LOBO
@@ -117,14 +124,15 @@ function MixPlate({
 
         <div className="mt-3 w-full border-t border-black/10 pt-3 sm:mt-5 sm:pt-5">
           <p className="text-[7px] font-bold uppercase tracking-[0.12em] text-[#3D342B] sm:text-[10px] sm:tracking-[0.2em]">
-            Mix feeding
+            LOBO seleccionado: {selectedPercent}%
           </p>
           <input
             type="range"
+            aria-label="Porcentaje LOBO seleccionado"
             min="10"
-            max="100"
-            step="10"
-            value={loboPercent}
+            max={maxPercent}
+            step="1"
+            value={selectedPercent}
             onChange={(event) => onChange(Number(event.target.value))}
             className="mt-2 w-full accent-[#A93622] sm:mt-4"
           />
@@ -201,142 +209,27 @@ export default function Calculator() {
   const [movement, setMovement] = useState("normal");
   const [goal, setGoal] = useState("mix");
   const [loboPercent, setLoboPercent] = useState(40);
+  const [limitedProfile, setLimitedProfile] = useState<string | null>(null);
 
   const totalSteps = 5;
   const progress = Math.round((step / totalSteps) * 100);
 
-  const result = useMemo(() => {
-    // 1. RER: energía en reposo
-    const rer = 70 * Math.pow(weight, 0.75);
+  const result = useMemo(
+    () => calculateLoboPlan({ weight, stage, neutered, bodyCondition, movement, loboPercent }),
+    [weight, stage, neutered, bodyCondition, movement, loboPercent],
+  );
 
-    // 2. Factor base por etapa + esterilización/castración
-    const baseFactor =
-      stage === "puppy"
-        ? 2.5
-        : stage === "senior" && neutered === "yes"
-        ? 1.4
-        : stage === "senior" && neutered === "no"
-        ? 1.6
-        : neutered === "yes"
-        ? 1.6
-        : 1.8;
-
-    // 3. Ajuste suave por silueta corporal
-    const bodyFactor =
-      bodyCondition === "thin" ? 1.05 : bodyCondition === "over" ? 0.95 : 1;
-
-    // 4. Ajuste por movimiento real
-    const movementFactor =
-      movement === "low" ? 0.95 : movement === "high" ? 1.1 : 1;
-
-    // 5. MER base
-    const mer = rer * baseFactor * bodyFactor * movementFactor;
-
-    // 6. Factor de calibración LOBO
-    // Aterriza el MER a observación real de consumo, saciedad y respuesta.
-    const calibrationFactor =
-      movement === "low" ? 0.85 : movement === "high" ? 0.9 : 0.9;
-
-    const adjustedMer = mer * calibrationFactor;
-
-    // 7. Densidades calóricas provisionales
-    const gramsPerPortion = 170;
-
-    // LOBO provisional: ajustar cuando llegue análisis bromatológico.
-    const kcalPerLoboPortion = 283;
-    const kcalPerGramLobo = kcalPerLoboPortion / gramsPerPortion;
-
-    // Croqueta base: Kirkland Cordero.
-    // 3,653 kcal/kg = 3.653 kcal/g.
-    const kcalPerGramKibble = 3.653;
-
-    // 8. Barra: % del plato por gramaje
-    const loboGramRatio = loboPercent / 100;
-    const kibbleGramRatio = 1 - loboGramRatio;
-
-    // 9. Densidad calórica del mix completo
-    const kcalPerGramOfMix =
-      loboGramRatio * kcalPerGramLobo +
-      kibbleGramRatio * kcalPerGramKibble;
-
-    // 10. Gramos totales necesarios para aproximarse al MER ajustado
-    const totalDailyFoodGrams =
-      kcalPerGramOfMix > 0 ? adjustedMer / kcalPerGramOfMix : 0;
-
-    // 11. Traducción a gramos de LOBO y croqueta
-    const dailyLoboGrams = totalDailyFoodGrams * loboGramRatio;
-    const dailyKibbleGrams = totalDailyFoodGrams * kibbleGramRatio;
-
-    // 12. Porciones LOBO al mes
-    const monthlyLoboGrams = dailyLoboGrams * 30;
-    const portions = Math.ceil(monthlyLoboGrams / gramsPerPortion);
-    const dailyPortions = dailyLoboGrams / gramsPerPortion;
-    const monthlyPortions = Math.ceil(dailyPortions * 30);
-
-    // 13. Energía aportada por cada parte
-    const dailyLoboKcal = dailyLoboGrams * kcalPerGramLobo;
-    const dailyKibbleKcal = dailyKibbleGrams * kcalPerGramKibble;
-    const totalMixKcal = dailyLoboKcal + dailyKibbleKcal;
-
-    // 14. Porcentaje energético real
-    const loboKcalPercent =
-      totalMixKcal > 0 ? (dailyLoboKcal / totalMixKcal) * 100 : 0;
-
-    const kibbleKcalPercent = 100 - loboKcalPercent;
-
-    // 15. Porcentaje visual del plato por gramaje
-    const loboGramPercent =
-      totalDailyFoodGrams > 0 ? (dailyLoboGrams / totalDailyFoodGrams) * 100 : 0;
-
-    const kibbleGramPercent = 100 - loboGramPercent;
-
-    // 16. Plan recomendado
-    const plan =
-      portions <= 10
-        ? "Premium Box\n$370 pago único"
-        : portions <= 20
-        ? "Plan Chico $630/mes"
-        : portions <= 30
-        ? "Plan Mediano $945/mes"
-        : "Plan\npersonalizado";
-
-    const message =
-      portions <= 10
-        ? "Prueba inteligente, sin apostar el mes completo."
-        : portions <= 20
-        ? "Mejora el plato sin tener que cambiar todo de golpe."
-        : portions <= 30
-        ? "Más consistencia sin estar reordenando. Suscríbete."
-        : "Conviene personalizar. No todos necesitan 100% LOBO para empezar.";
-
-    return {
-      rer: Math.round(rer),
-      mer: Math.round(mer),
-      adjustedMer: Math.round(adjustedMer),
-
-      totalDailyFoodGrams: Math.round(totalDailyFoodGrams),
-      dailyLoboGrams: Math.round(dailyLoboGrams),
-      dailyKibbleGrams: Math.round(dailyKibbleGrams),
-
-      dailyLoboKcal: Math.round(dailyLoboKcal),
-      dailyKibbleKcal: Math.round(dailyKibbleKcal),
-      totalMixKcal: Math.round(totalMixKcal),
-
-      loboGramPercent: Math.round(loboGramPercent),
-      kibbleGramPercent: Math.round(kibbleGramPercent),
-      loboKcalPercent: Math.round(loboKcalPercent),
-      kibbleKcalPercent: Math.round(kibbleKcalPercent),
-
-      kcalPerLoboPortion,
-      kcalPerGramKibble,
-
-      portions,
-      dailyPortions: Number(dailyPortions.toFixed(1)),
-      monthlyPortions,
-      plan,
-      message,
-    };
-  }, [weight, stage, neutered, bodyCondition, movement, loboPercent]);
+  const profileKey = JSON.stringify([weight, stage, neutered, bodyCondition, movement]);
+  // Retain the ceiling when dragging down, but recalculate it for a new profile.
+  if (result.capApplied && limitedProfile !== profileKey) {
+    setLimitedProfile(profileKey);
+  } else if (!result.capApplied && limitedProfile !== null && limitedProfile !== profileKey) {
+    setLimitedProfile(null);
+  }
+  const controls = getCalculatorControls(result, loboPercent, limitedProfile === profileKey);
+  const changeSlider = (value: number) => {
+    setLoboPercent(sliderCalculationPercent(value, controls.max));
+  };
 
   const displayName = dogName.trim() || "tu perro";
 
@@ -646,16 +539,17 @@ export default function Calculator() {
 
             <div className="mt-4 rounded-xl border border-[#F4EFE3]/10 bg-black/30 p-3 sm:mt-10 sm:rounded-2xl sm:p-5">
               <label className="block text-[9px] uppercase tracking-[0.14em] text-[#C9BDAA] sm:text-xs sm:tracking-[0.2em]">
-                LOBO en el plato: {loboPercent}%
+                LOBO seleccionado: {controls.value}%
               </label>
 
               <input
                 type="range"
+                aria-label="Porcentaje LOBO seleccionado"
                 min="10"
-                max="100"
-                step="10"
-                value={loboPercent}
-                onChange={(e) => setLoboPercent(Number(e.target.value))}
+                max={controls.max}
+                step="1"
+                value={controls.value}
+                onChange={(e) => changeSlider(Number(e.target.value))}
                 className="mt-2.5 w-full accent-[#A93622] sm:mt-5"
               />
 
@@ -693,10 +587,19 @@ export default function Calculator() {
                 </button>
               </div>
 
+              {result.limitMessage && (
+                <p role="status" className="mb-4 rounded-xl border border-[#A93622]/25 bg-[#A93622]/10 p-3 text-xs leading-5 text-[#3D342B] sm:text-sm">
+                  {result.limitMessage}
+                </p>
+              )}
+
               <div className="grid grid-cols-2 items-stretch gap-2.5 sm:gap-6">
                 <MixPlate
                   loboPercent={result.loboGramPercent}
-                  onChange={setLoboPercent}
+                  selectedPercent={controls.value}
+                  maxPercent={controls.max}
+                  pieCenterPercent={controls.pieCenterPercent}
+                  onChange={changeSlider}
                 />
 
                 <div className="min-w-0 rounded-2xl border border-black/10 bg-white/35 p-2.5 shadow-[0_18px_55px_rgba(20,17,15,0.08)] sm:rounded-3xl sm:p-5 md:p-8">
