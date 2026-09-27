@@ -1,4 +1,5 @@
 const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -27,6 +28,39 @@ export async function POST(request: Request) {
     console.log(
       "WhatsApp webhook received:",
       JSON.stringify(body, null, 2)
+    );
+
+    // Por ahora usamos un mensaje fijo para probar Vercel → OpenAI.
+    const openAIResponse = await fetch(
+      "https://api.openai.com/v1/responses",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-5.6-sol",
+          input:
+            "Responde únicamente: LOBO AI está conectado correctamente.",
+        }),
+      }
+    );
+
+    if (!openAIResponse.ok) {
+      const error = await openAIResponse.text();
+      console.error("OpenAI API error:", error);
+
+      return new Response("OpenAI API Error", {
+        status: 500,
+      });
+    }
+
+    const data = await openAIResponse.json();
+
+    console.log(
+      "LOBO AI response:",
+      JSON.stringify(data, null, 2)
     );
 
     return new Response("EVENT_RECEIVED", {
