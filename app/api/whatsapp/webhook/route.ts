@@ -29,6 +29,13 @@ export async function POST(request: Request) {
       "WhatsApp webhook received:",
       JSON.stringify(body, null, 2)
     );
+// TEMPORAL //
+console.log(
+  "OPENAI_API_KEY loaded:",
+  Boolean(process.env.OPENAI_API_KEY),
+  "length:",
+  process.env.OPENAI_API_KEY?.length
+);
 
     // Por ahora usamos un mensaje fijo para probar Vercel → OpenAI.
     const openAIResponse = await fetch(
