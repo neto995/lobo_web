@@ -1,5 +1,7 @@
 const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const WHATSAPP_ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
+const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -25,19 +27,44 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    console.log(
-      "WhatsApp webhook received:",
-      JSON.stringify(body, null, 2)
-    );
-// TEMPORAL //
-console.log(
-  "OPENAI_API_KEY loaded:",
-  Boolean(process.env.OPENAI_API_KEY),
-  "length:",
-  process.env.OPENAI_API_KEY?.length
-);
+    const value = body?.entry?.[0]?.changes?.[0]?.value;
+    const message = value?.messages?.[0];
 
-    // Por ahora usamos un mensaje fijo para probar Vercel → OpenAI.
+    // Ignora eventos que no contienen un mensaje entrante.
+    if (!message) {
+      console.log("No inbound message found");
+
+      return new Response("EVENT_RECEIVED", {
+        status: 200,
+      });
+    }
+
+    // Por ahora solo procesamos texto.
+    if (message.type !== "text") {
+      console.log("Ignoring non-text message:", message.type);
+
+      return new Response("EVENT_RECEIVED", {
+        status: 200,
+      });
+    }
+
+    const from = message.from;
+    const userText = message.text?.body;
+
+    if (!userText) {
+      console.log("Empty text message");
+
+      return new Response("EVENT_RECEIVED", {
+        status: 200,
+      });
+    }
+
+    console.log("Incoming WhatsApp message:", {
+      from,
+      text: userText,
+    });
+
+    // 1. Mandamos el mensaje del cliente a GPT.
     const openAIResponse = await fetch(
       "https://api.openai.com/v1/responses",
       {
@@ -48,8 +75,7 @@ console.log(
         },
         body: JSON.stringify({
           model: "gpt-5.6-sol",
-          input:
-            "Responde únicamente: LOBO AI está conectado correctamente.",
+          input: userText,
         }),
       }
     );
@@ -65,10 +91,56 @@ console.log(
 
     const data = await openAIResponse.json();
 
-    console.log(
-      "LOBO AI response:",
-      JSON.stringify(data, null, 2)
+    // 2. Extraemos el texto generado por GPT.
+    const aiText = data?.output
+      ?.flatMap((item: any) => item?.content ?? [])
+      ?.find((content: any) => content?.type === "output_text")
+      ?.text;
+
+    if (!aiText) {
+      console.error("No text returned by OpenAI");
+
+      return new Response("OpenAI returned no text", {
+        status: 500,
+      });
+    }
+
+    console.log("LOBO AI response:", aiText);
+
+    // 3. Mandamos la respuesta de GPT de regreso por WhatsApp.
+    const whatsappResponse = await fetch(
+      `https://graph.facebook.com/v24.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${WHATSAPP_ACCESS_TOKEN}`,
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          recipient_type: "individual",
+          to: from,
+          type: "text",
+          text: {
+            preview_url: false,
+            body: aiText,
+          },
+        }),
+      }
     );
+
+    if (!whatsappResponse.ok) {
+      const error = await whatsappResponse.text();
+      console.error("WhatsApp API error:", error);
+
+      return new Response("WhatsApp API Error", {
+        status: 500,
+      });
+    }
+
+    const whatsappData = await whatsappResponse.json();
+
+    console.log("WhatsApp message sent:", whatsappData);
 
     return new Response("EVENT_RECEIVED", {
       status: 200,
