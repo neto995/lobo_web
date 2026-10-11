@@ -6,7 +6,7 @@ import { test } from "node:test";
 // for these native Node tests without adding a runtime/test dependency.
 registerHooks({
   resolve(specifier, context, nextResolve) {
-    if (specifier.startsWith("./") && context.parentURL?.endsWith("/localStorageRepository.ts")) {
+    if (specifier.startsWith("./") && /\/(localStorageRepository|repository)\.ts$/.test(context.parentURL ?? "")) {
       return nextResolve(`${specifier}.ts`, context);
     }
     return nextResolve(specifier, context);
@@ -15,6 +15,7 @@ registerHooks({
 
 const { createLocalStorageRepository, STORAGE_KEY } = await import("../localStorageRepository.ts");
 const { buildDog, emptyForm } = await import("../data.ts");
+const { createPackRepository } = await import("../repository.ts");
 const form = { ...emptyForm, name: "Nala", initialWeight: "12.4", targetWeight: "12", dailyPortion: "320" };
 
 function setup() {
@@ -124,4 +125,27 @@ test("las suscripciones notifican cambios locales y de otras pestañas y permite
   await repository.create({ ...form, name: "Bruno" });
   events.dispatchEvent(storageEvent(STORAGE_KEY));
   assert.equal(changes, 3);
+});
+
+test("cuentas nuevas nunca leen ni modifican legacy y mantienen datos separados", async () => {
+  const { entries, storage, events } = setup();
+  const original = JSON.stringify({ version: 1, dogs: [buildDog({ ...form, name: "Legacy" })] });
+  entries.set(STORAGE_KEY, original);
+  const reads = [];
+  const options = { events, getStorage: () => ({ ...storage, getItem(key) { reads.push(key); return storage.getItem(key); } }) };
+  const a = createPackRepository("11111111-1111-4111-8111-111111111111", options);
+  const b = createPackRepository("22222222-2222-4222-8222-222222222222", options);
+  assert.deepEqual(await a.list(), []);
+  assert.deepEqual(await b.list(), []);
+  let bChanges = 0;
+  const unsubscribe = b.subscribe(() => bChanges++);
+  const dog = await a.create(form);
+  await a.recordWeight(dog.id, 13);
+  assert.deepEqual(await b.list(), []);
+  await assert.rejects(b.update(dog.id, form), /no está disponible/);
+  assert.equal(bChanges, 0);
+  assert.equal(entries.get(STORAGE_KEY), original);
+  assert.equal(reads.includes(STORAGE_KEY), false);
+  unsubscribe();
+  assert.throws(() => createPackRepository(""), /Identidad/);
 });

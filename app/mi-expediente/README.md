@@ -1,5 +1,18 @@
 # Mi LOBO · Expediente vivo
 
+## Auth V1 (solo local / preview)
+
+La ruta ahora valida la sesion en servidor. Los expedientes nuevos se guardan
+en `lobo.mi-expediente.auth-v1.<user.id>`; la clave legacy descrita abajo queda
+intacta y no se lee ni vincula desde la interfaz autenticada. La separacion por
+clave no protege datos frente a personas que comparten el navegador. No hay
+sincronizacion ni PostgreSQL todavia. Configuracion, pruebas y limitaciones:
+[Auth V1](../../docs/auth.md).
+
+El punto de composicion es ahora `createPackRepository(userId)` y `usePack`
+requiere una instancia explicita. Ya no hay un repositorio anonimo por defecto.
+Las notas siguientes documentan el formato original y el contrato que se conserva.
+
 Adaptación del código original del ChatGPT Site **Mi LOBO** a la ruta
 `/mi-expediente` de este proyecto Next.js. Todos los componentes, estilos,
 lógica y pruebas están dentro de esta carpeta; no requiere nuevas dependencias.

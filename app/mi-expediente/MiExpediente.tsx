@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPackRepository } from "./repository";
 import { usePack } from "./usePack";
 import type { DogFormValues, Section } from "./types";
 import Sidebar, { Brand } from "./components/Sidebar";
@@ -15,8 +16,9 @@ import styles from "./expediente.module.css";
 
 const sectionLabels: Record<Section, string> = { resumen: "Resumen", manada: "Mis perros", alimentacion: "Alimentación", evolucion: "Evolución" };
 
-export default function MiExpediente() {
-  const { dogs, loading, error, storageDescription, refresh, createDog, updateDog, recordWeight } = usePack();
+export default function MiExpediente({ userId }: { userId: string }) {
+  const repository = useMemo(() => createPackRepository(userId), [userId]);
+  const { dogs, loading, error, storageDescription, refresh, createDog, updateDog, recordWeight } = usePack(repository);
   const [saving, setSaving] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [section, setSection] = useState<Section>("resumen");

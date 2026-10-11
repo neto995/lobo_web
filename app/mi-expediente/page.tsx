@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import MiExpediente from "./MiExpediente";
+import { requireUser } from "@/lib/auth/server";
+import SessionBoundary from "./SessionBoundary";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Mi LOBO | Expediente vivo",
@@ -17,6 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <MiExpediente />;
+export default async function Page() {
+  const user = await requireUser();
+  return <SessionBoundary key={user.id} userId={user.id}><MiExpediente userId={user.id} /></SessionBoundary>;
 }

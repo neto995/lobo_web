@@ -8,11 +8,14 @@ const CHANGE_EVENT = "lobo:expediente-changed";
 type StorageAccess = Pick<Storage, "getItem" | "setItem">;
 
 export type LocalStorageOptions = {
+  storageKey?: string;
   getStorage?: () => StorageAccess;
   events?: EventTarget;
 };
 
 export function createLocalStorageRepository(options: LocalStorageOptions = {}): PackRepository {
+  const storageKey = options.storageKey ?? STORAGE_KEY;
+  const changeEvent = `${CHANGE_EVENT}:${storageKey}`;
   // Browser APIs are resolved only when called, never during module import/SSR.
   const getStorage = options.getStorage ?? (() => window.localStorage);
   const getEvents = () => options.events ?? window;
@@ -20,7 +23,7 @@ export function createLocalStorageRepository(options: LocalStorageOptions = {}):
   function read(): Dog[] {
     let raw: string | null;
     try {
-      raw = getStorage().getItem(STORAGE_KEY);
+      raw = getStorage().getItem(storageKey);
     } catch {
       throw new Error("Permite el almacenamiento local en tu navegador para abrir y guardar expedientes.");
     }
@@ -29,11 +32,11 @@ export function createLocalStorageRepository(options: LocalStorageOptions = {}):
 
   function write(dogs: Dog[]) {
     try {
-      getStorage().setItem(STORAGE_KEY, JSON.stringify({ version: 1, dogs }));
+      getStorage().setItem(storageKey, JSON.stringify({ version: 1, dogs }));
     } catch {
       throw new Error("No pudimos guardar los cambios. Revisa el espacio disponible y los permisos de almacenamiento del navegador.");
     }
-    getEvents().dispatchEvent(new Event(CHANGE_EVENT));
+    getEvents().dispatchEvent(new Event(changeEvent));
   }
 
   function changeDog(id: string, transform: (dog: Dog) => Dog): Dog {
@@ -48,7 +51,7 @@ export function createLocalStorageRepository(options: LocalStorageOptions = {}):
   }
 
   return {
-    storageDescription: "Guardado local · Tus expedientes permanecen en este navegador. No se sincronizan entre dispositivos y se eliminan si borras los datos del sitio.",
+    storageDescription: "Guardado temporal en este navegador · No se sincronizan entre dispositivos y se eliminan si borras los datos del sitio.",
     async list() {
       return read();
     },
@@ -68,13 +71,13 @@ export function createLocalStorageRepository(options: LocalStorageOptions = {}):
       const events = getEvents();
       const onStorage = (event: Event) => {
         const change = event as StorageEvent;
-        if ((change.key === STORAGE_KEY || change.key === null) && (!change.storageArea || change.storageArea === getStorage())) onChange();
+        if ((change.key === storageKey || change.key === null) && (!change.storageArea || change.storageArea === getStorage())) onChange();
       };
       events.addEventListener("storage", onStorage);
-      events.addEventListener(CHANGE_EVENT, onChange);
+      events.addEventListener(changeEvent, onChange);
       return () => {
         events.removeEventListener("storage", onStorage);
-        events.removeEventListener(CHANGE_EVENT, onChange);
+        events.removeEventListener(changeEvent, onChange);
       };
     },
   };
