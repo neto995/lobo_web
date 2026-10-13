@@ -40,6 +40,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Local Mercado Pago sandbox secrets, tunnel binary and runtime files
+/.mp-sandbox/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
