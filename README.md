@@ -7,13 +7,9 @@ Repositorio: https://github.com/neto995/lobo_web
 Este documento explica, en lenguaje sencillo, **cómo está construido LOBO**, para qué sirve cada herramienta y cuáles son los comandos que usamos al desarrollar. La idea es que puedas retomar el proyecto sin depender de recordar cada paso.
 
 > **Estado actual (octubre de 2026):** Auth V1 de *Mi Expediente* funciona en desarrollo, pero aún no está integrada en producción. Los expedientes todavía utilizan `localStorage`, sin sincronización entre dispositivos. Las correcciones de seguridad están en desarrollo y mantienen riesgos pendientes de revisión. Consulta [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) para conocer el estado más reciente antes de integrar o desplegar.
-> 
+
 ---
 ## Documentación central del proyecto
-
-**Importante:** la documentación registra el contexto y las decisiones, pero el estado real debe verificarse en GitHub y en el entorno correspondiente.
-
----
 
 Para continuar el desarrollo de LOBO, consulta estos documentos:
 
