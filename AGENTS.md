@@ -1,3 +1,11 @@
+[//]: # (BEGIN:nextjs-agent-rules)
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
+[//]: # (END:nextjs-agent-rules)
+
 ---
 
 # LOBO — AI Development Guidelines
@@ -20,9 +28,11 @@ Before starting significant development work, read:
 4. `README.md` — Development instructions and project architecture.
 5. Any relevant specialized documentation in `docs/`.
 
-These documents provide context, but do not replace verification against the actual code, Git history and environment.
+Read documentation from the current branch/worktree by default, not implicitly from `main`.
 
-If documentation is missing from the current branch, report it and consult the appropriate source. Do not silently assume it exists.
+These documents provide context but do not replace verification against the actual code, Git history, Pull Requests and environment.
+
+If documentation is missing or outdated, report the gap and consult the approved reference branch explicitly before proceeding. Never silently merge branches to synchronize documentation.
 
 ## 2. Working principles
 
@@ -34,6 +44,7 @@ If documentation is missing from the current branch, report it and consult the a
 - Do not introduce new services or dependencies without justification.
 - Clearly separate facts, assumptions and proposed solutions.
 - When requirements are unclear, ask before implementing changes that could affect existing functionality.
+- Avoid unnecessary complexity and overengineering.
 
 ## 3. Protected production functionality
 
@@ -47,21 +58,31 @@ Do not modify the following without explicit authorization:
 - Production authentication and environment configuration.
 - DNS, Vercel production settings or deployment configuration.
 
-Do not deploy to production or merge into `main` without explicit approval and make sure the user underanstands by emphasizing that what is being deploy.
+Do not deploy to production or merge into `main` without explicit approval.
+
+Before requesting approval, explain in plain language:
+
+1. Exactly what will change in production.
+2. The expected impact on existing functionality.
+3. Known risks and unresolved issues.
+4. The proposed verification and rollback approach, when applicable.
+
+Confirm that the project owner understands what is being deployed.
 
 Changes to payment-related functionality require regression testing and appropriate payment verification.
 
 ## 4. Security and privacy
 
 - Never expose or commit passwords, access tokens, API keys or private credentials.
-- Keep `.env.local`, `.mp-sandbox/` private files and customer information out of Git.
+- Keep `.env.local`, private `.mp-sandbox/` files and customer information out of Git.
 - Do not assume a secret is safe merely because it is in a private development environment.
+- Remind the owner to store secrets in Bitwarden rather than sharing them in Git, chats or screenshots.
 - Private customer and dog records must use appropriate authorization controls.
 - Supabase PostgreSQL tables containing private records require Row Level Security (RLS) and isolation tests before production use.
 - Never assume that successful login automatically grants access to a database record.
 - Never treat a Mercado Pago return URL as proof of successful payment.
 - Report unresolved vulnerabilities and security risks.
-- Remind/emphisize the user to use Bitwarden to keep secrets.
+- Do not publish features collecting personal information without reviewing applicable privacy requirements.
 
 ## 5. Git workflow
 
@@ -74,7 +95,9 @@ Changes to payment-related functionality require regression testing and appropri
 - Do not merge, force-push, rewrite shared history or perform destructive operations without authorization.
 - Remember that merging development branches does not automatically mean deploying to production.
 
-Before beginning work in an older branch, check whether its project documentation and agent instructions are outdated relative to the approved reference. Do not merge branches automatically just to synchronize documentation.
+Before beginning work in an older branch, check whether its project documentation and agent instructions are outdated relative to the approved reference.
+
+Do not merge branches automatically just to synchronize documentation.
 
 ## 6. Testing and verification
 
@@ -89,6 +112,8 @@ Before declaring implementation complete:
 
 A successful commit, push, Pull Request or Preview deployment does not by itself prove that a feature is production-ready.
 
+Never report a test as passing unless it was actually executed and its result was verified.
+
 ## 7. Working with the project owner
 
 The project owner is learning software development while actively building LOBO.
@@ -100,7 +125,10 @@ The project owner is learning software development while actively building LOBO.
 - Identify when a task is outside the current sprint.
 - Request approval before major architectural changes or scope expansion.
 - Do not implement proposed ideas merely because they appear in the roadmap.
-- Correct the user train of thought if you notice something is ilogical and or pushback to allign vission in a short, nice, direct way.
+- Respectfully challenge inconsistent assumptions, flawed reasoning or scope drift.
+- Explain concerns briefly and directly, proposing alternatives aligned with the approved product vision.
+- Do not agree with the owner merely to be agreeable; prioritize accuracy, feasibility and long-term product quality.
+- Balance technical quality with the project's practical constraints, available resources and business priorities.
 
 ## 8. Documentation continuity
 
@@ -119,9 +147,11 @@ Update documentation when appropriate:
 - `docs/ROADMAP.md` when product priorities or scope change.
 - Specialized documents when technical procedures change.
 
-Do not overwrite historical decisions without documenting what changed and why and notifying the user.
+Do not overwrite historical decisions without documenting what changed, why it changed and notifying the project owner.
 
 Documentation updates must describe verified outcomes, not assumptions.
+
+Keep documentation concise, consistent and maintainable. Avoid duplicating rapidly changing status information across multiple files.
 
 ## 9. Architecture and product boundaries
 
@@ -129,8 +159,9 @@ Mi Expediente, customer management, commerce and automation are related but dist
 
 - Authentication V1 is not equivalent to persistent database storage.
 - Dog records should not be automatically attributed to an authenticated user when ownership cannot be verified.
-- Purchasing should not require account creation unless the product owner explicitly changes this decision.
+- Purchasing should not require account creation unless the project owner explicitly changes this decision.
 - Customer Journey designs are proposals until the relevant requirements are approved.
 - Future functionality in the roadmap is not automatically authorized for implementation.
+- Do not introduce dependencies between independent product features without a justified architectural reason.
 
-**Core rule: Protect the existing business, preserve development context and implement only the approved scope.**
+**Core rule: Protect the existing business, preserve development context, challenge weak decisions constructively and implement only the approved scope.**
