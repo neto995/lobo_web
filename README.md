@@ -31,6 +31,25 @@ Para continuar el desarrollo de LOBO, consulta estos documentos:
 
 ---
 
+Para continuar el desarrollo de LOBO, consulta estos documentos:
+
+| Documento | ¿Para qué sirve? |
+|---|---|
+| [Product Roadmap](docs/ROADMAP.md) | Visión del producto, funcionalidades, prioridades y dependencias. |
+| [Project Status](docs/PROJECT_STATUS.md) | Estado real del desarrollo, ramas, PR, pruebas, riesgos y próximos pasos. |
+| [Decision Log](docs/DECISIONS.md) | Decisiones técnicas y de producto, motivos y consecuencias. |
+| [AGENTS.md](AGENTS.md) | Instrucciones que deben seguir los agentes de desarrollo. |
+
+### Cómo retomar el proyecto
+
+1. Leer `PROJECT_STATUS.md` para conocer la última situación documentada.
+2. Consultar `ROADMAP.md` para entender los objetivos y prioridades.
+3. Consultar `DECISIONS.md` antes de cambiar decisiones existentes.
+4. Verificar en GitHub el estado actual de ramas, commits y Pull Requests.
+
+**Importante:** la documentación registra el contexto y las decisiones, pero el estado real debe verificarse en GitHub y en el entorno correspondiente.
+
+---
 ## 1. Arquitectura: ¿qué hace cada servicio?
 
 ```text
