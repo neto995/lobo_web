@@ -282,7 +282,7 @@ Diseñarlas por separado puede producir una experiencia fragmentada.
 Documentar el recorrido actual y deseado del cliente antes de cerrar la arquitectura de nuevas integraciones importantes.
 
 Crear posteriormente `docs/CUSTOMER_JOURNEY.md`.
-Por el momento se está drafteando en tldraw: https://www.tldraw.com/f/M5zMvj-gX-s0_qgB1iQZY?d=v-425.-16.1690.975.page****
+**Diseño en progreso:** [Customer Journey — tldraw](https://www.tldraw.com/f/M5zMvj-gX-s0_qgB1iQZY)
 
 ### Motivo
 Comprender primero qué necesita el cliente y cómo se conectan las funcionalidades.
