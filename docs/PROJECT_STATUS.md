@@ -2,11 +2,13 @@
 
 **Proyecto:** LOBO Digital Platform  
 **Repositorio:** `neto995/lobo_web`  
-**Última actualización:** 13 de octubre de 2026  
-**Estado general:** Desarrollo activo  
+**Última actualización:** 16 de octubre de 2026\
+**Estado general:** Sprint 1 integrado en desarrollo; cierre técnico pendiente\
 **Producción:** `main` — https://eatlikeawolf.mx
 
 > Este documento es la referencia del estado actual del desarrollo digital de LOBO. Distingue entre funcionalidades en producción, implementaciones en desarrollo, pruebas realizadas y trabajo pendiente. Debe actualizarse después de cada cambio relevante.
+
+**Referencia de integración:** `feature/expediente-v2`, commit `89573ca`. Este estado describe esa rama, no las dependencias ni la aplicación de `main` o de la rama documental `docs/sprint-tracking`. El alcance y los criterios de cierre están en [SPRINTS.md](SPRINTS.md); ROADMAP conserva la planificación de referencia, no la evidencia de los merges recientes.
 
 ---
 
@@ -32,8 +34,8 @@ LOBO es una marca de alimentación para perros que busca desarrollar una platafo
 | Calculadora de alimentación | En producción | Preservar comportamiento actual |
 | Checkout Mercado Pago | En producción | Checkout existente; evitar regresiones |
 | Mi Expediente — interfaz | En desarrollo | Base existente en `feature/expediente-v2` |
-| Autenticación con Supabase | Implementada y probada en desarrollo | PR #1; no integrada a producción |
-| Seguridad de dependencias | Correcciones en desarrollo | PR #2; vulnerabilidades residuales pendientes |
+| Autenticación con Supabase | Integrada en `feature/expediente-v2` | PR #1 fusionado; pruebas reales en Preview de seguridad aprobadas, smoke integrado pendiente; no publicada en producción |
+| Seguridad de dependencias | Parches de octubre integrados | PR #2 fusionado; Next 16.4.2 / React 19.2.9; persisten avisos residuales |
 | Expedientes en PostgreSQL | No implementado | Objetivo de Sprint 2 |
 | Row Level Security de expedientes | No implementado | Requisito previo a usar datos reales |
 | Registro automático de pedidos | No implementado | Etapa futura |
@@ -46,7 +48,7 @@ LOBO es una marca de alimentación para perros que busca desarrollar una platafo
 
 ## 3. Sprint 1 — Autenticación
 
-**Estado:** funcional en desarrollo, pendiente de integración.
+**Estado:** integrado en desarrollo mediante PR #1 (`89573ca`), con seguridad de PR #2 (`50bdfc1`). **Cierre técnico pendiente del smoke test de Auth sobre el Preview de la rama integrada.**
 
 Tecnologías:
 - Supabase Auth.
@@ -66,33 +68,64 @@ Funcionalidades desarrolladas:
 - Los expedientes aún no se almacenan en PostgreSQL.
 - No existe sincronización de expedientes entre dispositivos.
 - Los registros heredados de localStorage no se importan automáticamente.
+- Separar datos locales por `user.id` no ofrece aislamiento seguro entre personas que comparten navegador.
 - La autenticación todavía no está publicada en producción.
 
-**Referencia:** [PR #1 — Auth V1](https://github.com/neto995/lobo_web/pull/1)
+### Evidencia de validación por entorno
+
+| Verificación | Entorno / referencia | Resultado y alcance |
+|---|---|---|
+| Unitarias | Local, rama de seguridad `fe6520f`, antes del merge final | 43/43; incluyen 9 de Auth y 2 de contrato de checkout con transporte simulado. |
+| Integración Playwright | Local, build optimizado de la rama de seguridad, Supabase simulado | 11/11: 8 Auth + 3 regresiones comerciales. No es una ejecución sobre la rama integrada. |
+| TypeScript, lint acotado y build | Mismo estado local de seguridad | Correctos; lint global fallido, detallado abajo. |
+| Auth con servicios reales | Preview de `fix/security-dependencies`; éxito confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login con Supabase/Resend. No se atribuye esta prueba al merge final. |
+| Build del Preview integrado | `feature/expediente-v2`, `89573ca` | Vercel informa `success`; compilación confirmada, no validación funcional completa. |
+| Smoke test final de Auth | Preview exacto de `89573ca` | **Pendiente. No ejecutado/verificado en esta actualización.** |
+
+Las pruebas locales de seguridad también cubrieron sesiones SSR, cookies, CSRF, redirecciones, aislamiento local entre cuentas y conservación de legacy; las comerciales comprobaron rutas públicas sin login, calculadora, imágenes y contratos del checkout. No incluyeron pagos reales ni una compra completa de sandbox. Las comprobaciones de cookies/cache locales no se convierten automáticamente en evidencia del Preview integrado.
+
+El antiguo total de 53 unitarias incluía 10 pruebas de la rama independiente de sandbox; **43 es el total documentado para el estado de seguridad integrado**. No se repitieron las suites después del merge final en esta tarea documental.
+
+**Para cerrar:** ejecutar el smoke test en el Preview que corresponda exactamente a `89573ca` (o identificar el nuevo commit si cambia la rama), registrar URL/commit y resultados, y confirmar la aceptación de riesgos pendientes. Incluir registro, confirmación, login, acceso autenticado y rechazo anónimo a `/mi-expediente`, logout, recuperación y nuevo login. Un build exitoso no permite marcar estas pruebas como aprobadas.
+
+**Referencias:** [PR #1 fusionado](https://github.com/neto995/lobo_web/pull/1), [commit integrado](https://github.com/neto995/lobo_web/commit/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02), [Preview integrado: estado de Vercel](https://vercel.com/neto995-s-projects/lobo-web/HGgFLek7s9Yyc9JojRHWDYeYqZ2v).
 
 ---
 
 ## 4. Seguridad de dependencias
 
-**Estado:** correcciones implementadas, pendientes de integración y seguimiento.
+**Estado:** remediación del anuncio del 14 de octubre integrada mediante PR #2 y posteriormente PR #1; seguimiento residual abierto, sin auditoría limpia ni autorización de producción.
 
-- Rama: `fix/security-dependencies`.
-- Actualización de Next.js a 16.4.0 en desarrollo.
-- Pruebas de regresión realizadas.
-- Auditoría de dependencias documentada.
-- Persisten vulnerabilidades residuales que requieren seguimiento.
-- Revisar el anuncio de seguridad de Next.js del 14 de octubre de 2026 antes de cerrar la integración.
+| Paquete | Versión integrada verificada en el lockfile de `89573ca` |
+|---|---|
+| `next` / `eslint-config-next` | 16.4.2 / 16.4.2 |
+| `react` / `react-dom` | 19.2.9 / 19.2.9 |
+| `sharp` | 0.35.5 |
+| `mercadopago` / `uuid` | 2.12.1 / 9.0.1, sin actualización del SDK |
 
-**Última verificación comunicada por Codex:**
-- 53/53 pruebas unitarias.
-- 11/11 pruebas Playwright con Supabase simulado.
-- TypeScript y build correctos.
-- Lint de archivos afectados correcto.
-- Dos errores globales de lint preexistentes en WhatsApp.
+Los avisos de Next.js/React del 14 de octubre se revisaron y los parches quedaron registrados en `fe6520f`, ancestro del merge integrado. La actualización del framework cubre sus copias de React Server Components; actualizar solamente `react` no habría sido suficiente. No se declara que estos cambios estén publicados en producción.
 
-Estas pruebas corresponden al estado reportado durante la preparación del sandbox. Deben repetirse cuando cambien las ramas integradas.
+### Auditorías y avisos residuales
 
-**Referencia:** [PR #2 — Seguridad](https://github.com/neto995/lobo_web/pull/2)
+Última ejecución documentada: **15 de octubre de 2026, rama de seguridad**, antes del merge final. Se verificaron los reportes conservados en la rama integrada; no se ejecutó una nueva auditoría en esta tarea.
+
+| Auditoría | Resultado documentado |
+|---|---|
+| Completa | 7 paquetes afectados: 5 high, 2 moderate, 0 critical; salida 1 |
+| Solo producción (`--omit=dev`) | 2 moderate, 0 high, 0 critical; salida 1 |
+
+Son **2 advisories independientes**, con severidad propagada a sus dependencias padre:
+
+| Advisory / cadena | Aplicabilidad y pendiente |
+|---|---|
+| `braces` 3.0.3, GHSA-vfj7-8cjw-p6xm (high) | Cadena de desarrollo: `eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` → `micromatch` → `braces` (5 paquetes). Agotamiento de pila con patrones anidados no confiables; riesgo de tooling/CI, no una entrada pública identificada en LOBO. Sin parche publicado en la última revisión; mantener CI no confiable aislado y sin secretos, y revisar upstream antes de actualizar. No corregido. |
+| `uuid` 9.0.1, GHSA-w5hq-g745-h8pq (moderate) | Cadena runtime `mercadopago` → `uuid` (2 paquetes). El escenario vulnerable usa v3/v5/v6 con buffers; el SDK observado usa `v4()` sin argumentos. Menor exposición observada no significa remediación. Parche 11.1.1 fuera del rango del SDK; override o cambio mayor de Mercado Pago requieren autorización, revisión de compatibilidad y sandbox. No corregido. |
+
+**Límite de la auditoría:** npm no reportó los nuevos avisos de Next ni siquiera con la versión anterior 16.4.0. Por eso el conteo de cero critical no demuestra ausencia de fallos críticos; la evidencia de remediación incluye advisories oficiales y versiones corregidas. Los reportes completos y de producción siguen fallando por los avisos anteriores, sin supresiones.
+
+**Lint global:** conserva 2 errores preexistentes `@typescript-eslint/no-explicit-any` en `app/api/whatsapp/webhook/route.ts:96-97`. El lint acotado a Auth y tests pasó; eso no resuelve el lint global. WhatsApp permanece sin cambios.
+
+**Evidencia histórica versionada:** [reporte de seguridad del estado integrado](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security-dependencies.md), [auditoría completa](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security/audit-oct14-after-full.json), [auditoría de producción](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security/audit-oct14-after-production.json), [PR #2 fusionado](https://github.com/neto995/lobo_web/pull/2). El reporte técnico conserva el contexto previo al merge; los merges y las pruebas reales posteriores se actualizan aquí, sin atribuirle pruebas que no ejecutó.
 
 ---
 
@@ -132,23 +165,24 @@ Trabajo preservado en:
 | Rama | Propósito |
 |---|---|
 | `main` | Producción |
-| `feature/expediente-v2` | Base de desarrollo de Mi Expediente |
-| `feature/auth-v1` | Autenticación |
-| `fix/security-dependencies` | Actualizaciones y pruebas de seguridad |
+| `feature/expediente-v2` | Desarrollo integrado de Mi Expediente, Auth y seguridad; `89573ca` |
+| `feature/auth-v1` | Auth con PR #2 integrado; `50bdfc1`; PR #1 ya fusionado |
+| `fix/security-dependencies` | Parches y pruebas de seguridad integrados mediante PR #2; `fe6520f` |
 | `chore/mercadopago-sandbox` | Herramientas aisladas de pruebas |
 | `docs/project-foundation` | Documentación y continuidad del proyecto |
+| `docs/sprint-tracking` | Seguimiento documental; PR #4 abierto como borrador hacia `main`, sin merge |
 
-**Integración propuesta:**
+**Integración realizada y verificada en GitHub:**
 
-1. Revisar parches y riesgos de seguridad.
-2. Integrar PR #2 hacia `feature/auth-v1`.
-3. Repetir las pruebas de autenticación.
-4. Integrar PR #1 hacia `feature/expediente-v2`.
-5. Preparar la rama de Sprint 2.
+1. [PR #2](https://github.com/neto995/lobo_web/pull/2) fusionado hacia `feature/auth-v1`: merge `50bdfc1`.
+2. [PR #1](https://github.com/neto995/lobo_web/pull/1) fusionado hacia `feature/expediente-v2`: merge `89573ca`.
+3. Preview de `89573ca` con estado Vercel `success`. **Smoke test final de Auth pendiente** antes de cerrar Sprint 1 y preparar la implementación de Sprint 2.
 
-Estos pasos son una propuesta, no integraciones realizadas.
+El cambio independiente del aviso de privacidad (`3d54f86`) está incluido en `feature/expediente-v2`: el marcador de domicilio fue sustituido. No equivale a una revisión integral de privacidad ni a un despliegue productivo.
 
 **Despliegues:** Vercel usa `main` como rama de producción. Las ramas de desarrollo examinadas generan despliegues Preview. No desplegar cambios productivos sin autorización.
+
+Esta actualización modifica únicamente documentación en [PR #4](https://github.com/neto995/lobo_web/pull/4). No ejecuta merges, despliegues ni cambios de configuración; no se verificó nuevamente producción ni se trasladaron los cambios de aplicación a esta rama documental.
 
 ---
 
@@ -168,7 +202,7 @@ Alcance por diseñar:
 - Pruebas de aislamiento entre cuentas.
 - Pruebas de persistencia entre dispositivos.
 
-**Estado:** diseño pendiente de aprobación. No hay tablas de expedientes creadas como parte de este sprint.
+**Estado:** planificado, no iniciado. Diseño pendiente de aprobación; no hay esquema, migraciones ni políticas RLS de expedientes aprobados o implementados por este sprint. No se fija una fecha de inicio. Primero completar el cierre técnico de Sprint 1; consultar los criterios propuestos en [SPRINTS.md](SPRINTS.md).
 
 ---
 
@@ -176,10 +210,10 @@ Alcance por diseñar:
 
 | Pendiente | Prioridad |
 |---|---|
-| Revisar nueva actualización de seguridad de Next.js | Alta |
-| Integrar PR #2 y posteriormente PR #1 | Alta |
+| Ejecutar y registrar el smoke test de Auth del Preview integrado (`89573ca`) | Alta; bloquea el cierre técnico de Sprint 1 |
+| Dar seguimiento a `braces` y Mercado Pago/`uuid`; confirmar aceptación de riesgos pendientes al cerrar | Alta; no declarar auditoría limpia |
 | Definir esquema PostgreSQL y políticas RLS | Alta |
-| Revisar el aviso de privacidad y completar información pendiente | Alta, antes de publicar funcionalidades que traten datos personales |
+| Revisar privacidad y requisitos de publicación; domicilio ya completado en desarrollo | Alta, antes de publicar funcionalidades que traten datos personales |
 | Mantener pruebas de checkout para cambios futuros | Media |
 | Resolver lint global preexistente de WhatsApp | Media |
 | Implementar registro automático de pedidos | Futuro |
@@ -192,7 +226,7 @@ Alcance por diseñar:
 Antes de comenzar una nueva sesión de desarrollo:
 
 1. Leer este documento.
-2. Consultar `ROADMAP.md` y `DECISIONS.md`.
+2. Consultar [SPRINTS.md](SPRINTS.md), `ROADMAP.md` y `DECISIONS.md`.
 3. Comprobar en GitHub el estado real de ramas, PR y commits.
 4. No asumir que algo está en producción solo porque funciona localmente.
 5. No modificar checkout, suscripciones, calculadora o WhatsApp sin autorización explícita.

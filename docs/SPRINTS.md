@@ -2,7 +2,7 @@
 
 **Proyecto:** LOBO Digital Platform  
 **Repositorio:** `neto995/lobo_web`  
-**Actualizado:** 15 de octubre de 2026  
+**Actualizado:** 16 de octubre de 2026\
 **Planificación:** progresiva (*Rolling Wave Planning*)
 
 ## 1. Propósito
@@ -19,7 +19,7 @@ Este archivo organiza los entregables de desarrollo por sprint y los relaciona c
 
 | Sprint | Etapa relacionada | Entregable principal | Estado documentado |
 |---|---|---|---|
-| 1 — Auth V1 | Etapa 1: Identidad y seguridad | Autenticación y protección de acceso a Mi Expediente | Desarrollo realizado; integración y validación final pendientes |
+| 1 — Auth V1 | Etapa 1: Identidad y seguridad | Autenticación y protección de acceso a Mi Expediente | Integrado en desarrollo; smoke test final de la rama integrada pendiente, sin cierre técnico ni publicación |
 | 2 — Expedientes en la nube | Etapa 2: Mi Expediente en la nube | Persistencia privada de expedientes en Supabase | Diseño pendiente; implementación no iniciada |
 | 3 en adelante | Por asignar según prioridades | Se define al planificar cada sprint | No planificado |
 
@@ -29,19 +29,40 @@ Este archivo organiza los entregables de desarrollo por sprint y los relaciona c
 
 **Objetivo:** permitir que una persona cree una cuenta, confirme su correo, inicie y cierre sesión, recupere su contraseña y acceda únicamente a sus rutas privadas de Mi Expediente.
 
-**Implementado y probado en desarrollo (según el historial documentado):**
+**Estado:** Auth V1 y la remediación de seguridad están integrados en `feature/expediente-v2` en el commit `89573ca`. El Preview integrado compiló correctamente. **Sprint 1 aún no está técnicamente cerrado y Auth no está publicado en producción.**
+
+**Implementado y validado antes del merge final:**
 
 - Registro, confirmación por correo, login, logout y recuperación de contraseña.
 - Sesiones del lado del servidor y protección de rutas.
 - Separación de datos locales (`localStorage`) por usuario autenticado, sin importar automáticamente registros anteriores.
 
-**Pendiente para el cierre técnico:**
+La separación local no ofrece aislamiento seguro entre personas que comparten navegador. Los expedientes siguen guardados únicamente en ese navegador, sin PostgreSQL, RLS ni sincronización entre dispositivos.
 
-- [ ] Revisar el estado de seguridad y vulnerabilidades residuales; decidir sobre [PR #2](https://github.com/neto995/lobo_web/pull/2) hacia `feature/auth-v1`.
-- [ ] Integrar las correcciones aprobadas y repetir las pruebas relevantes.
-- [ ] Revisar y, si corresponde, integrar [PR #1](https://github.com/neto995/lobo_web/pull/1) hacia `feature/expediente-v2`.
-- [ ] Verificar los flujos de Auth y la protección de rutas en la rama integrada.
-- [ ] Registrar resultados, limitaciones y estado final en `PROJECT_STATUS.md`.
+### Integración y evidencia
+
+| Hito | Rama / entorno comprobado | Resultado y límite |
+|---|---|---|
+| Remediación de octubre | `fix/security-dependencies`, `fe6520f` | Next.js y eslint-config-next 16.4.2; React y React DOM 19.2.9. Persisten avisos residuales. |
+| Pruebas automatizadas previas al merge final | Rama de seguridad, local; Supabase simulado en integración | 43/43 unitarias y 11/11 de integración (8 Auth + 3 comerciales); TypeScript, lint acotado y build correctos. No son una ejecución sobre `89573ca`. |
+| Auth con Supabase/Resend reales | Preview de la rama de seguridad, confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login aprobados. No equivale a probar el Preview integrado. |
+| [PR #2](https://github.com/neto995/lobo_web/pull/2) | `fix/security-dependencies` → `feature/auth-v1` | Fusionado, merge `50bdfc1`. |
+| [PR #1](https://github.com/neto995/lobo_web/pull/1) | `feature/auth-v1` → `feature/expediente-v2` | Fusionado, merge `89573ca`, que incluye los parches. |
+| Preview integrado | `feature/expediente-v2`, `89573ca` | Build exitoso en Vercel; no prueba por sí solo los flujos de Auth. |
+| Aviso de privacidad | `feature/expediente-v2` | Marcador de domicilio sustituido; no equivale a aprobación integral de privacidad ni a publicación. |
+| Smoke test final de Auth | Preview del commit integrado `89573ca` | **Pendiente; no verificado.** |
+
+Fuentes, enlaces al commit/Preview y detalle de pruebas y riesgos: [`PROJECT_STATUS.md`](PROJECT_STATUS.md). Esta actualización registra evidencia previa y verifica Git/estado de Vercel; no ejecuta nuevas pruebas de aplicación.
+
+### Checklist de cierre técnico
+
+- [x] Integrar PR #2 hacia `feature/auth-v1` y PR #1 hacia `feature/expediente-v2`.
+- [x] Documentar versiones corregidas, pruebas previas al merge y vulnerabilidades residuales.
+- [x] Confirmar build exitoso del Preview integrado y la sustitución del marcador de domicilio.
+- [ ] Ejecutar y registrar el smoke test sobre el Preview exacto de `feature/expediente-v2`: registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login; comprobar también rechazo del acceso anónimo a `/mi-expediente`.
+- [ ] Registrar URL/commit probado, resultados y cualquier incidencia del smoke test, y confirmar la aceptación de los riesgos documentados antes de marcar el cierre técnico.
+
+**Riesgos abiertos:** última auditoría documentada: 7 paquetes afectados por 2 advisories (5 high de la cadena de desarrollo de `braces`, 2 moderate de Mercado Pago/`uuid` en runtime). La auditoría solo de producción mantiene 2 moderate; ambas fallan por avisos pendientes. El lint global conserva 2 errores preexistentes `no-explicit-any` en WhatsApp. Ninguno se declara resuelto; consultar el detalle y las limitaciones de la auditoría en `PROJECT_STATUS.md`.
 
 **Criterio de cierre técnico:** los flujos de autenticación funcionan en la rama integrada, con pruebas y riesgos documentados y aprobados. **La publicación en producción es una decisión independiente**, sujeta a seguridad, privacidad y autorización explícita.
 
@@ -51,7 +72,7 @@ Este archivo organiza los entregables de desarrollo por sprint y los relaciona c
 
 **Objetivo:** que una persona autenticada pueda crear y gestionar expedientes de sus perros, conservarlos en la nube y consultarlos desde diferentes dispositivos sin acceder a datos ajenos.
 
-**Estado:** por diseñar y aprobar; no asumir tablas ni políticas RLS existentes.
+**Estado:** planificado, no iniciado; diseño pendiente de aprobación. No hay esquema, migraciones ni políticas RLS de expedientes aprobados o implementados por este sprint. No se fija una fecha de inicio.
 
 **Alcance propuesto:**
 
