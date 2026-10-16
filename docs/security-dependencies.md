@@ -1,4 +1,174 @@
-# Remediacion de dependencias: 11 octubre 2026
+# Remediacion de dependencias
+
+## Seguimiento del 14 de octubre, verificado el 15 de octubre de 2026
+
+Rama: `fix/security-dependencies`, sobre `4de1ea7`. PR existente: [#2](https://github.com/neto995/lobo_web/pull/2),
+destino `feature/auth-v1`. Este seguimiento sustituye el pendiente del anuncio
+upstream del reporte historico del 11 de octubre, que se conserva mas abajo.
+No implica merge, despliegue ni habilitacion de Auth para clientes reales.
+
+### Versiones verificadas y alcance
+
+| Paquete | Antes de este seguimiento | Instalado y bloqueado |
+| --- | --- | --- |
+| next | 16.4.0 | 16.4.2 |
+| eslint-config-next | 16.4.0 | 16.4.2 |
+| react | 19.2.4 | 19.2.9 |
+| react-dom | 19.2.4 | 19.2.9 |
+| sharp | 0.35.5 | 0.35.5, sin cambio; Next ahora exige ^0.35.5 |
+| mercadopago / uuid | 2.12.1 / 9.0.1 | Sin cambio |
+| @supabase/ssr / @supabase/supabase-js | 0.12.7 / 2.117.3 | Sin cambio |
+
+Se consultaron versiones, dist-tags, engines y peerDependencies directamente
+en `https://registry.npmjs.org`, con cache nueva y acceso de red autorizado.
+La primera consulta del entorno restringido devolvio metadatos anteriores y
+404; la consulta directa confirmo los paquetes publicados. No se modifico la
+configuracion persistente de npm ni se instalaron versiones de origen alternativo.
+
+Next 16.4.1 contiene los parches anunciados. Se eligio
+[16.4.2 estable](https://github.com/vercel/next.js/releases/tag/v16.4.2), publicada
+el 15 de octubre y marcada `latest`, que agrega correcciones de Turbopack en la
+misma serie. Requiere Node >=20.9 y admite React ^19.0.0. React DOM 19.2.9 exige
+React ^19.2.9; ambos se fijaron al mismo parche de la serie 19.2, sin saltar a 19.3.
+ESLint 9 y TypeScript 5 cumplen los peers de eslint-config-next 16.4.2.
+
+`package.json` cambia solo estas cuatro versiones directas. npm genero el
+lockfile con `npm install --package-lock-only --ignore-scripts --no-audit --no-fund`
+y se verifico mediante `npm ci`. Cambian ademas @next/env, el plugin ESLint y
+los binarios SWC de la misma version. Las entradas completas de Mercado Pago,
+uuid y Supabase son identicas a las anteriores. No se editaron manualmente
+entradas del lockfile, ni se agregaron overrides, dependencias o supresiones.
+
+### Avisos oficiales y exposicion de LOBO
+
+El [anuncio oficial de Next.js del 14 de octubre](https://nextjs.org/blog/nextjs-security-update-october-14-2026)
+y la [release 16.4.1](https://github.com/vercel/next.js/releases/tag/v16.4.1)
+identifican tres avisos, cubiertos por la version 16.4.2 instalada:
+
+| Aviso | Severidad / parche | Evaluacion del codigo de esta rama |
+| --- | --- | --- |
+| [GHSA-673q-mjm6-r5xr](https://github.com/vercel/next.js/security/advisories/GHSA-673q-mjm6-r5xr), relacionado con React [GHSA-xqc2-xf4c-x3h3](https://github.com/react/react/security/advisories/GHSA-xqc2-xf4c-x3h3) | Critical, RCE; Next 16.4.1 | LOBO usa App Router/RSC, pero no configura Cache Components ni contiene funciones `use cache`. No se identifico el escenario de multiples typed arrays. Se parcheo igualmente, como exige la recomendacion upstream. |
+| [GHSA-2464-fhr4-w9xw](https://github.com/vercel/next.js/security/advisories/GHSA-2464-fhr4-w9xw), CVE-2026-96889 | Critical, RCE en SVG; Next 16.4.1 / Sharp >=0.35.5 | Hay `next/image`, con imagenes locales; sin remotePatterns, dangerouslyAllowSVG ni ImageResponse. El riesgo descrito requiere Linux con glibc; macOS no valida ese escenario. Sharp ya era 0.35.5 y se mantiene. No se presupone inmunidad en Vercel. |
+| [GHSA-p3m5-59mp-jv5r](https://github.com/vercel/next.js/security/advisories/GHSA-p3m5-59mp-jv5r), relacionado con React [GHSA-h3gv-c5rc-p453](https://github.com/react/react/security/advisories/GHSA-h3gv-c5rc-p453) | High, DoS; Next 16.4.1 | No hay directivas `use server`; Auth y checkout son Route Handlers. El build confirma cero Server Actions en las entradas node y edge de server-reference-manifest. El advisory de Next excluye aplicaciones sin Server Actions. |
+
+Los dos advisories de React afectan `react-server-dom-webpack`,
+`react-server-dom-turbopack` y `react-server-dom-parcel`; sus parches estables
+incluyen 19.2.9. No equivalen a un advisory contra el paquete cliente `react`
+por si solo. LOBO no instala estos paquetes RSC directamente: Next incluye
+copias bajo `next/dist/compiled`, con identificadores internos de React canary.
+Actualizar solo react/react-dom no remedia esas copias. La evidencia del parche
+RSC es la actualizacion del framework a su release corregida; no se fuerza
+ni sustituye el runtime incluido por Next. `npm ls` no audita por separado
+esas copias empaquetadas. No se ejecutaron exploits contra servicios reales.
+
+### Auditorias actuales y limites de la evidencia
+
+| Auditoria npm | Antes del cambio | Despues del cambio |
+| --- | --- | --- |
+| Completa | 7 paquetes: 5 high, 2 moderate, 0 critical | 7 paquetes: 5 high, 2 moderate, 0 critical |
+| `--omit=dev` | 2 moderate, 0 high, 0 critical | 2 moderate, 0 high, 0 critical |
+
+Las cuatro ejecuciones de npm audit devolvieron codigo 1 por vulnerabilidades,
+no por un fallo de red. Se conservan los JSON completos, sin supresiones:
+
+- [Antes, completa](security/audit-oct14-before-full.json).
+- [Antes, produccion](security/audit-oct14-before-production.json).
+- [Despues, completa](security/audit-oct14-after-full.json).
+- [Despues, produccion](security/audit-oct14-after-production.json).
+
+**Limitacion observada:** el servicio de auditoria no reporto los nuevos avisos
+de Next ni siquiera sobre el lockfile anterior con 16.4.0. Por eso no se usa el
+conteo de cero critical como prueba del parche, ni se inventa una reduccion en
+estos reportes. La remediacion de octubre se sustenta en advisories oficiales,
+versiones instaladas y lockfile reproducible. La auditoria npm sigue fallando.
+
+Todos los paquetes que permanecen reportados son:
+
+| Paquete instalado | Relacion / entorno | Severidad | Advisory raiz |
+| --- | --- | --- | --- |
+| eslint-config-next 16.4.2 | Directa, dev | High | braces, propagado |
+| @next/eslint-plugin-next 16.4.2 | Transitiva, dev | High | braces, propagado |
+| fast-glob 3.3.1 | Transitiva, dev | High | braces, propagado |
+| micromatch 4.0.8 | Transitiva, dev | High | braces, propagado |
+| braces 3.0.3 | Transitiva, dev | High | GHSA-vfj7-8cjw-p6xm |
+| mercadopago 2.12.1 | Directa, runtime | Moderate | uuid, propagado |
+| uuid 9.0.1 | Transitiva, runtime | Moderate | GHSA-w5hq-g745-h8pq |
+
+Son dos advisories independientes, no siete fallos distintos:
+
+- **braces:** [GHSA-vfj7-8cjw-p6xm / CVE-2026-93687](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
+  Agotamiento de pila con patrones profundamente anidados. `3.0.3` sigue siendo
+  latest y no tiene parche publicado. La cadena es solo dev y no aparece en la
+  auditoria de produccion. No hay un endpoint de LOBO que la invoque con patrones
+  del cliente; persiste riesgo para lint/CI con entradas no confiables. Mantener
+  CI no confiable aislado y sin secretos; revisar el parche upstream. El downgrade
+  a eslint-config-next 14.2.35 que propone npm no es compatible con el objetivo
+  de mantener la configuracion de lint alineada con Next 16.
+- **uuid:** [GHSA-w5hq-g745-h8pq / CVE-2026-41907](https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq).
+  Escrituras sin validacion de limites en v3/v5/v6 con buffers. Mercado Pago
+  2.12.1 usa `uuid.v4()` sin argumentos en `dist/utils/restClient/index.js`,
+  escenario distinto del vulnerable; el contrato del SDK se volvio a probar.
+  La dependencia vulnerable sigue presente. El parche 11.1.1 queda fuera de
+  `uuid ^9.0.0` del SDK; un override o el salto a Mercado Pago 3 sugerido por npm
+  requiere aprobacion, revision de compatibilidad y pruebas de pagos en sandbox.
+  No se aplico ninguno. No se declara resuelto este aviso.
+
+### Pruebas ejecutadas sobre las nuevas versiones
+
+Entorno local: macOS arm64, Node 24.15.0, npm 11.12.1. El build y Playwright
+usaron variables efimeras de proceso: APP_URL `http://127.0.0.1:3100`, Supabase
+simulado en `http://127.0.0.1:54329`, clave publica ficticia, AUTH_V1_ENABLED=true,
+VERCEL_ENV=preview y telemetria deshabilitada. Se inicio con `env -i`, PATH del
+runtime y valores ficticios/vacios para Mercado Pago, OpenAI y WhatsApp.
+Next detecta `.env.local`, pero esas variables de proceso tienen prioridad;
+el archivo privado no se edito. No se hicieron llamadas reales de Auth o pagos.
+
+| Comprobacion | Resultado verificado |
+| --- | --- |
+| `npm ci --no-audit --no-fund` | OK, 382 paquetes; deprecacion conocida de uuid 9.0.1 |
+| `npm ls next eslint-config-next react react-dom sharp mercadopago uuid braces --all` | OK, sin conflictos de peers; versiones de la tabla confirmadas |
+| `npm test` | 43/43; incluye 9 de Auth y 2 del contrato real del checkout con transporte simulado |
+| `node node_modules/typescript/bin/tsc --noEmit --incremental false` | OK |
+| `node node_modules/eslint/bin/eslint.js 'app/(auth)' app/auth app/mi-expediente lib/auth proxy.ts tests/auth tests/security playwright.config.ts` | OK |
+| `npm run lint` | Falla preexistente: dos no-explicit-any en app/api/whatsapp/webhook/route.ts:96-97; archivo intacto, sin supresiones |
+| `npm run build` | OK, Next 16.4.2 / Turbopack; 26 paginas generadas, rutas comerciales estaticas y Auth/APIs dinamicas |
+| `PLAYWRIGHT_CHANNEL=chrome PLAYWRIGHT_PRODUCTION=1 npm run test:integration` | 11/11: 8 Auth + 3 regresiones comerciales, contra el build optimizado y Supabase simulado |
+
+Las pruebas vuelven a cubrir registro/confirmacion, login, logout entre pestanas,
+recuperacion con OTP, refresh SSR, cookies HttpOnly, CSRF, cookies adulteradas,
+errores neutros, cambio entre cuentas y legacy intacto. La regresion comercial
+verifica rutas publicas sin login, redireccion 301, cabeceras, calculadora,
+robots/sitemap, paginas de resultados y optimizacion de imagen con respuesta
+HTTP 200 y cuerpo no vacio. Comprueba contenido visible en 375 y 1280 px sin
+errores JS. El contrato de checkout mantiene ambos importes (630 y 945 MXN),
+planes, destinos e idempotencia v4; entradas invalidas no contactan al SDK.
+
+No se detectaron regresiones en estas suites. Todas las pruebas terminaron sin
+cambios al codigo de aplicacion, tests, configuracion, checkout o WhatsApp.
+Los 53 tests del estado documentado durante el sandbox incluian diez pruebas
+que viven en `chore/mercadopago-sandbox`; no pertenecen a esta rama. Aqui el
+total correcto es 43. Las seis pruebas reales que el usuario reporto con Next
+16.4.0 / Supabase / Resend no equivalen a repetirlas con 16.4.2: esa repeticion,
+las cookies Secure/cache en Preview y la regresion del runtime Linux siguen
+pendientes. No se realizaron compras ni se reactivo el sandbox.
+
+### Recomendacion y continuidad
+
+PR #2 puede pasar a revision con los parches de octubre y esta evidencia local,
+manteniendo visibles los avisos residuales y el lint global fallido. Esto no es
+una auditoria limpia ni aprobacion para produccion. No se identifico otro aviso
+critico pendiente en las fuentes verificadas para las versiones instaladas;
+antes de integrar conviene repetir Auth real y revisar el Preview correspondiente.
+Los despliegues anteriores no se parchean al actualizar esta rama. Cualquier
+remediacion del sitio productivo requiere una autorizacion separada.
+
+`docs/PROJECT_STATUS.md`, ROADMAP y DECISIONS no existen en esta rama. Se leyeron
+en `origin/feature/auth-v1` (`c47641e`), junto con `docs/auth.md` local y las
+instrucciones disponibles, sin copiar ni fusionar documentacion. El estado de
+Sprint 1 sigue pendiente de integracion; PostgreSQL + RLS continua siendo
+requisito para habilitar expedientes de clientes reales.
+
+## Registro historico: 11 octubre 2026
 
 Rama: `fix/security-dependencies`, creada desde `origin/feature/auth-v1`
 actualizado (`fbfb357f91df17237cb480e4767a55780ec8650b`). No incorpora cambios
