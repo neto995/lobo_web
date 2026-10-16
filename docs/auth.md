@@ -4,6 +4,11 @@ Implementa email/password, registro con confirmacion, recuperacion, logout,
 cookies SSR y proteccion de `/mi-expediente`. Google queda para la etapa 2.
 No desplegar a produccion ni habilitar clientes reales hasta PostgreSQL + RLS.
 
+Actualizacion de dependencias: ver [remediacion de seguridad](security-dependencies.md)
+para el resultado posterior (17 a 7 paquetes afectados). La auditoria de 17
+paquetes mas abajo se conserva como registro historico de Auth V1, no como el
+estado actual de esta rama. Persisten avisos y no se autoriza produccion.
+
 ## Configuracion manual (proyecto Supabase de pruebas)
 
 1. Crear o seleccionar un proyecto de pruebas separado de produccion.
