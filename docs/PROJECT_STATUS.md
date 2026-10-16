@@ -3,12 +3,12 @@
 **Proyecto:** LOBO Digital Platform  
 **Repositorio:** `neto995/lobo_web`  
 **Última actualización:** 16 de octubre de 2026\
-**Estado general:** Sprint 1 integrado en desarrollo; cierre técnico pendiente\
+**Estado general:** Sprint 1 cerrado técnicamente en desarrollo; sin publicación de Auth en producción\
 **Producción:** `main` — https://eatlikeawolf.mx
 
 > Este documento es la referencia del estado actual del desarrollo digital de LOBO. Distingue entre funcionalidades en producción, implementaciones en desarrollo, pruebas realizadas y trabajo pendiente. Debe actualizarse después de cada cambio relevante.
 
-**Referencia de integración:** `feature/expediente-v2`, commit `89573ca`. Este estado describe esa rama, no las dependencias ni la aplicación de `main` o de la rama documental `docs/sprint-tracking`. El alcance y los criterios de cierre están en [SPRINTS.md](SPRINTS.md); ROADMAP conserva la planificación de referencia, no la evidencia de los merges recientes.
+**Referencia de integración:** `feature/expediente-v2`, commit exacto `89573cad2eb18a8be0ff33c3df7d1af5e4c71b02`. Este estado describe esa rama, no las dependencias ni la aplicación de `main` o de la rama documental `docs/sprint-tracking`. El alcance y la decisión de cierre están en [SPRINTS.md](SPRINTS.md); ROADMAP conserva la planificación de referencia, no la evidencia de los merges recientes.
 
 ---
 
@@ -34,7 +34,7 @@ LOBO es una marca de alimentación para perros que busca desarrollar una platafo
 | Calculadora de alimentación | En producción | Preservar comportamiento actual |
 | Checkout Mercado Pago | En producción | Checkout existente; evitar regresiones |
 | Mi Expediente — interfaz | En desarrollo | Base existente en `feature/expediente-v2` |
-| Autenticación con Supabase | Integrada en `feature/expediente-v2` | PR #1 fusionado; pruebas reales en Preview de seguridad aprobadas, smoke integrado pendiente; no publicada en producción |
+| Autenticación con Supabase | Cierre técnico en desarrollo | PR #1 fusionado; smoke integrado realizado por el propietario con el alcance descrito abajo; recuperación por correo no verificada independientemente en esa rama; no publicada en producción |
 | Seguridad de dependencias | Parches de octubre integrados | PR #2 fusionado; Next 16.4.2 / React 19.2.9; persisten avisos residuales |
 | Expedientes en PostgreSQL | No implementado | Objetivo de Sprint 2 |
 | Row Level Security de expedientes | No implementado | Requisito previo a usar datos reales |
@@ -48,7 +48,7 @@ LOBO es una marca de alimentación para perros que busca desarrollar una platafo
 
 ## 3. Sprint 1 — Autenticación
 
-**Estado:** integrado en desarrollo mediante PR #1 (`89573ca`), con seguridad de PR #2 (`50bdfc1`). **Cierre técnico pendiente del smoke test de Auth sobre el Preview de la rama integrada.**
+**Estado:** integrado en desarrollo mediante PR #1 (`89573ca`), con seguridad de PR #2 (`50bdfc1`). **Cerrado técnicamente en desarrollo el 16 de octubre de 2026**, por decisión del propietario, con el alcance de validación y los riesgos aceptados que se detallan a continuación. No es una liberación a producción.
 
 Tecnologías:
 - Supabase Auth.
@@ -78,17 +78,26 @@ Funcionalidades desarrolladas:
 | Unitarias | Local, rama de seguridad `fe6520f`, antes del merge final | 43/43; incluyen 9 de Auth y 2 de contrato de checkout con transporte simulado. |
 | Integración Playwright | Local, build optimizado de la rama de seguridad, Supabase simulado | 11/11: 8 Auth + 3 regresiones comerciales. No es una ejecución sobre la rama integrada. |
 | TypeScript, lint acotado y build | Mismo estado local de seguridad | Correctos; lint global fallido, detallado abajo. |
-| Auth con servicios reales | Preview de `fix/security-dependencies`; éxito confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login con Supabase/Resend. No se atribuye esta prueba al merge final. |
+| Auth con servicios reales | Preview de `fix/security-dependencies`; éxito confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login con Supabase/Resend. No se atribuye esa recuperación por correo al merge final. |
 | Build del Preview integrado | `feature/expediente-v2`, `89573ca` | Vercel informa `success`; compilación confirmada, no validación funcional completa. |
-| Smoke test final de Auth | Preview exacto de `89573ca` | **Pendiente. No ejecutado/verificado en esta actualización.** |
+| Smoke test manual de Auth integrado | Preview de `89573ca`; propietario, 16 de octubre de 2026 | Registro y confirmación de correo correctos; acceso autenticado a `/mi-expediente`; cambio de contraseña y autenticación posterior correctos según lo reportado; logout correcto. Navegación directa a `/mi-expediente` después del logout redirigió a login, verificado dos veces. |
+| Recuperación de contraseña por correo en la rama integrada | Preview de `89573ca` | **No verificada de forma independiente.** La evidencia de cambio de contraseña no confirma el flujo exacto de recuperación por correo. |
 
 Las pruebas locales de seguridad también cubrieron sesiones SSR, cookies, CSRF, redirecciones, aislamiento local entre cuentas y conservación de legacy; las comerciales comprobaron rutas públicas sin login, calculadora, imágenes y contratos del checkout. No incluyeron pagos reales ni una compra completa de sandbox. Las comprobaciones de cookies/cache locales no se convierten automáticamente en evidencia del Preview integrado.
 
 El antiguo total de 53 unitarias incluía 10 pruebas de la rama independiente de sandbox; **43 es el total documentado para el estado de seguridad integrado**. No se repitieron las suites después del merge final en esta tarea documental.
 
-**Para cerrar:** ejecutar el smoke test en el Preview que corresponda exactamente a `89573ca` (o identificar el nuevo commit si cambia la rama), registrar URL/commit y resultados, y confirmar la aceptación de riesgos pendientes. Incluir registro, confirmación, login, acceso autenticado y rechazo anónimo a `/mi-expediente`, logout, recuperación y nuevo login. Un build exitoso no permite marcar estas pruebas como aprobadas.
+### Cierre técnico y alcance aceptado
 
-**Referencias:** [PR #1 fusionado](https://github.com/neto995/lobo_web/pull/1), [commit integrado](https://github.com/neto995/lobo_web/commit/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02), [Preview integrado: estado de Vercel](https://vercel.com/neto995-s-projects/lobo-web/HGgFLek7s9Yyc9JojRHWDYeYqZ2v).
+El propietario decidió cerrar técnicamente Sprint 1 en desarrollo el **16 de octubre de 2026**, sobre el commit `89573cad2eb18a8be0ff33c3df7d1af5e4c71b02`, con el build exitoso, la evidencia automatizada previa, su smoke test manual integrado y la aceptación explícita de los tres riesgos de la sección 4. Esta decisión sustituye el estado anterior de cierre pendiente; no amplía el alcance de las pruebas realizadas.
+
+**Preview probado:** [feature/expediente-v2](https://lobo-web-git-feature-expediente-v2-neto995-s-projects.vercel.app). Es una URL de rama que puede cambiar de versión; esta evidencia se limita al commit exacto verificado y a los flujos reportados por el propietario. **Codex no volvió a ejecutar pruebas de aplicación en esta tarea documental.**
+
+**Verificación pendiente:** recuperación de contraseña mediante correo con Supabase/Resend en el Preview integrado. Su validación anterior en el Preview de seguridad sigue siendo evidencia separada. El cambio de contraseña y la autenticación posterior reportados no prueban por sí solos el recorrido de recuperación por email. Se conserva este pendiente sin bloquear el cierre técnico en desarrollo decidido por el propietario; no se declara verificado ni se extrapolan otros casos locales al Preview integrado.
+
+**Producción:** Auth V1 no está publicado; este cierre no autoriza un merge a `main`, despliegue, cambio de configuración ni uso productivo de los expedientes locales. Sprint 2 continúa planificado, no iniciado.
+
+**Referencias:** [PR #1 fusionado](https://github.com/neto995/lobo_web/pull/1), [commit integrado](https://github.com/neto995/lobo_web/commit/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02), [build del Preview: estado de Vercel](https://vercel.com/neto995-s-projects/lobo-web/HGgFLek7s9Yyc9JojRHWDYeYqZ2v).
 
 ---
 
@@ -124,6 +133,18 @@ Son **2 advisories independientes**, con severidad propagada a sus dependencias 
 **Límite de la auditoría:** npm no reportó los nuevos avisos de Next ni siquiera con la versión anterior 16.4.0. Por eso el conteo de cero critical no demuestra ausencia de fallos críticos; la evidencia de remediación incluye advisories oficiales y versiones corregidas. Los reportes completos y de producción siguen fallando por los avisos anteriores, sin supresiones.
 
 **Lint global:** conserva 2 errores preexistentes `@typescript-eslint/no-explicit-any` en `app/api/whatsapp/webhook/route.ts:96-97`. El lint acotado a Auth y tests pasó; eso no resuelve el lint global. WhatsApp permanece sin cambios.
+
+### Aceptación de riesgos por el propietario
+
+**Decisión explícita del 16 de octubre de 2026, válida únicamente para el cierre técnico en desarrollo:**
+
+| Hallazgo aceptado | Estado y seguimiento |
+|---|---|
+| Advisory `braces`: 5 paquetes de desarrollo, high | No resuelto. Mantener seguimiento upstream y aislamiento del tooling/CI. |
+| Advisory Mercado Pago/`uuid`: 2 paquetes runtime, moderate | No resuelto. Cualquier cambio al SDK u override exige autorización, revisión de compatibilidad y pruebas de sandbox. |
+| 2 errores globales preexistentes de ESLint en WhatsApp | No resueltos. Mantener el pendiente; no modificar ni suprimir reglas como parte de este cierre. |
+
+La aceptación no cambia las severidades ni los resultados de auditoría/lint, no es una declaración de ausencia de vulnerabilidades y **no autoriza producción**. Los tres hallazgos permanecen abiertos; cualquier decisión productiva requiere revisión y autorización independientes. No se modificaron los reportes de seguridad ni se ejecutaron nuevas auditorías en esta tarea.
 
 **Evidencia histórica versionada:** [reporte de seguridad del estado integrado](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security-dependencies.md), [auditoría completa](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security/audit-oct14-after-full.json), [auditoría de producción](https://github.com/neto995/lobo_web/blob/89573cad2eb18a8be0ff33c3df7d1af5e4c71b02/docs/security/audit-oct14-after-production.json), [PR #2 fusionado](https://github.com/neto995/lobo_web/pull/2). El reporte técnico conserva el contexto previo al merge; los merges y las pruebas reales posteriores se actualizan aquí, sin atribuirle pruebas que no ejecutó.
 
@@ -176,7 +197,7 @@ Trabajo preservado en:
 
 1. [PR #2](https://github.com/neto995/lobo_web/pull/2) fusionado hacia `feature/auth-v1`: merge `50bdfc1`.
 2. [PR #1](https://github.com/neto995/lobo_web/pull/1) fusionado hacia `feature/expediente-v2`: merge `89573ca`.
-3. Preview de `89573ca` con estado Vercel `success`. **Smoke test final de Auth pendiente** antes de cerrar Sprint 1 y preparar la implementación de Sprint 2.
+3. Preview de `89573ca` con estado Vercel `success`; smoke manual integrado reportado por el propietario con el alcance de la sección 3. **Cierre técnico en desarrollo registrado**, con recuperación por correo aún no verificada independientemente en la rama integrada.
 
 El cambio independiente del aviso de privacidad (`3d54f86`) está incluido en `feature/expediente-v2`: el marcador de domicilio fue sustituido. No equivale a una revisión integral de privacidad ni a un despliegue productivo.
 
@@ -202,7 +223,7 @@ Alcance por diseñar:
 - Pruebas de aislamiento entre cuentas.
 - Pruebas de persistencia entre dispositivos.
 
-**Estado:** planificado, no iniciado. Diseño pendiente de aprobación; no hay esquema, migraciones ni políticas RLS de expedientes aprobados o implementados por este sprint. No se fija una fecha de inicio. Primero completar el cierre técnico de Sprint 1; consultar los criterios propuestos en [SPRINTS.md](SPRINTS.md).
+**Estado:** planificado, no iniciado. Diseño pendiente de aprobación; no hay esquema, migraciones ni políticas RLS de expedientes aprobados o implementados por este sprint. No se fija una fecha de inicio. El cierre técnico de Sprint 1 no inicia ni autoriza por sí solo la implementación de Sprint 2; consultar los criterios propuestos en [SPRINTS.md](SPRINTS.md).
 
 ---
 
@@ -210,12 +231,12 @@ Alcance por diseñar:
 
 | Pendiente | Prioridad |
 |---|---|
-| Ejecutar y registrar el smoke test de Auth del Preview integrado (`89573ca`) | Alta; bloquea el cierre técnico de Sprint 1 |
-| Dar seguimiento a `braces` y Mercado Pago/`uuid`; confirmar aceptación de riesgos pendientes al cerrar | Alta; no declarar auditoría limpia |
+| Verificar independientemente la recuperación por correo en el Preview integrado | Verificación abierta; no bloquea el cierre técnico en desarrollo decidido por el propietario |
+| Dar seguimiento a `braces` y Mercado Pago/`uuid` | Alta; aceptados solo para cierre en desarrollo, no resueltos ni auditoría limpia |
 | Definir esquema PostgreSQL y políticas RLS | Alta |
 | Revisar privacidad y requisitos de publicación; domicilio ya completado en desarrollo | Alta, antes de publicar funcionalidades que traten datos personales |
 | Mantener pruebas de checkout para cambios futuros | Media |
-| Resolver lint global preexistente de WhatsApp | Media |
+| Resolver lint global preexistente de WhatsApp | Media; aceptado solo para cierre en desarrollo, no resuelto |
 | Implementar registro automático de pedidos | Futuro |
 | Implementar automatización comercial de WhatsApp | Futuro |
 

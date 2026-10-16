@@ -19,7 +19,7 @@ Este archivo organiza los entregables de desarrollo por sprint y los relaciona c
 
 | Sprint | Etapa relacionada | Entregable principal | Estado documentado |
 |---|---|---|---|
-| 1 — Auth V1 | Etapa 1: Identidad y seguridad | Autenticación y protección de acceso a Mi Expediente | Integrado en desarrollo; smoke test final de la rama integrada pendiente, sin cierre técnico ni publicación |
+| 1 — Auth V1 | Etapa 1: Identidad y seguridad | Autenticación y protección de acceso a Mi Expediente | Cerrado técnicamente en desarrollo el 16 de octubre de 2026, con alcance de validación y riesgos residuales documentados; sin publicación |
 | 2 — Expedientes en la nube | Etapa 2: Mi Expediente en la nube | Persistencia privada de expedientes en Supabase | Diseño pendiente; implementación no iniciada |
 | 3 en adelante | Por asignar según prioridades | Se define al planificar cada sprint | No planificado |
 
@@ -29,7 +29,7 @@ Este archivo organiza los entregables de desarrollo por sprint y los relaciona c
 
 **Objetivo:** permitir que una persona cree una cuenta, confirme su correo, inicie y cierre sesión, recupere su contraseña y acceda únicamente a sus rutas privadas de Mi Expediente.
 
-**Estado:** Auth V1 y la remediación de seguridad están integrados en `feature/expediente-v2` en el commit `89573ca`. El Preview integrado compiló correctamente. **Sprint 1 aún no está técnicamente cerrado y Auth no está publicado en producción.**
+**Estado:** Sprint 1 cerrado técnicamente en desarrollo el **16 de octubre de 2026**, por decisión del propietario con la evidencia y aceptación de riesgos descritas abajo. Auth V1 y la remediación de seguridad están integrados en `feature/expediente-v2`, commit exacto `89573cad2eb18a8be0ff33c3df7d1af5e4c71b02`. **Auth no está publicado en producción ni se autoriza su publicación.**
 
 **Implementado y validado antes del merge final:**
 
@@ -45,26 +45,33 @@ La separación local no ofrece aislamiento seguro entre personas que comparten n
 |---|---|---|
 | Remediación de octubre | `fix/security-dependencies`, `fe6520f` | Next.js y eslint-config-next 16.4.2; React y React DOM 19.2.9. Persisten avisos residuales. |
 | Pruebas automatizadas previas al merge final | Rama de seguridad, local; Supabase simulado en integración | 43/43 unitarias y 11/11 de integración (8 Auth + 3 comerciales); TypeScript, lint acotado y build correctos. No son una ejecución sobre `89573ca`. |
-| Auth con Supabase/Resend reales | Preview de la rama de seguridad, confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login aprobados. No equivale a probar el Preview integrado. |
+| Auth con Supabase/Resend reales | Preview de la rama de seguridad, confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login aprobados. Esa recuperación por correo no se atribuye al Preview integrado. |
 | [PR #2](https://github.com/neto995/lobo_web/pull/2) | `fix/security-dependencies` → `feature/auth-v1` | Fusionado, merge `50bdfc1`. |
 | [PR #1](https://github.com/neto995/lobo_web/pull/1) | `feature/auth-v1` → `feature/expediente-v2` | Fusionado, merge `89573ca`, que incluye los parches. |
 | Preview integrado | `feature/expediente-v2`, `89573ca` | Build exitoso en Vercel; no prueba por sí solo los flujos de Auth. |
 | Aviso de privacidad | `feature/expediente-v2` | Marcador de domicilio sustituido; no equivale a aprobación integral de privacidad ni a publicación. |
-| Smoke test final de Auth | Preview del commit integrado `89573ca` | **Pendiente; no verificado.** |
+| Smoke test manual de Auth integrado | Preview de `89573ca`, realizado por el propietario el 16 de octubre de 2026 | Registro y confirmación de correo, acceso autenticado a `/mi-expediente`, cambio de contraseña y autenticación posterior según lo reportado, y logout correctos. Navegar directamente a `/mi-expediente` después del logout redirigió a login, verificado dos veces. |
+| Recuperación de contraseña por correo | Preview integrado | **No verificada de forma independiente.** El cambio de contraseña reportado no confirma ese flujo exacto. |
 
-Fuentes, enlaces al commit/Preview y detalle de pruebas y riesgos: [`PROJECT_STATUS.md`](PROJECT_STATUS.md). Esta actualización registra evidencia previa y verifica Git/estado de Vercel; no ejecuta nuevas pruebas de aplicación.
+**Preview probado por el propietario:** [feature/expediente-v2](https://lobo-web-git-feature-expediente-v2-neto995-s-projects.vercel.app). La evidencia corresponde al commit exacto anterior, no a futuras versiones que pueda servir esta URL de rama.
+
+Fuentes y detalle de pruebas y riesgos: [`PROJECT_STATUS.md`](PROJECT_STATUS.md). Codex registra la evidencia manual proporcionada por el propietario y los resultados previos; **no volvió a ejecutar pruebas de aplicación en esta tarea documental**.
 
 ### Checklist de cierre técnico
 
 - [x] Integrar PR #2 hacia `feature/auth-v1` y PR #1 hacia `feature/expediente-v2`.
 - [x] Documentar versiones corregidas, pruebas previas al merge y vulnerabilidades residuales.
 - [x] Confirmar build exitoso del Preview integrado y la sustitución del marcador de domicilio.
-- [ ] Ejecutar y registrar el smoke test sobre el Preview exacto de `feature/expediente-v2`: registro, confirmación de correo, login, acceso protegido, logout, recuperación y nuevo login; comprobar también rechazo del acceso anónimo a `/mi-expediente`.
-- [ ] Registrar URL/commit probado, resultados y cualquier incidencia del smoke test, y confirmar la aceptación de los riesgos documentados antes de marcar el cierre técnico.
+- [x] Registrar URL, commit y alcance del smoke test manual integrado: registro, confirmación, acceso autenticado, cambio de contraseña con autenticación posterior y logout; redirección a login después del logout comprobada dos veces.
+- [x] Registrar la aceptación explícita del propietario de los tres riesgos residuales, únicamente para el cierre técnico en desarrollo.
 
-**Riesgos abiertos:** última auditoría documentada: 7 paquetes afectados por 2 advisories (5 high de la cadena de desarrollo de `braces`, 2 moderate de Mercado Pago/`uuid` en runtime). La auditoría solo de producción mantiene 2 moderate; ambas fallan por avisos pendientes. El lint global conserva 2 errores preexistentes `no-explicit-any` en WhatsApp. Ninguno se declara resuelto; consultar el detalle y las limitaciones de la auditoría en `PROJECT_STATUS.md`.
+**Verificación que permanece pendiente:**
 
-**Criterio de cierre técnico:** los flujos de autenticación funcionan en la rama integrada, con pruebas y riesgos documentados y aprobados. **La publicación en producción es una decisión independiente**, sujeta a seguridad, privacidad y autorización explícita.
+- [ ] Verificar de forma independiente la recuperación por correo con Supabase/Resend en el Preview integrado y registrar su resultado. Existe evidencia en el Preview de seguridad, no confirmación de ese flujo exacto en `89573ca`.
+
+**Riesgos aceptados y no resueltos:** el propietario aceptó el 16 de octubre de 2026, exclusivamente para el cierre técnico en desarrollo, el advisory `braces` (5 paquetes de herramientas de desarrollo, high), el advisory Mercado Pago/`uuid` (2 paquetes runtime, moderate) y los 2 errores globales preexistentes `no-explicit-any` en WhatsApp. Las auditorías completa y de producción siguen fallando; consultar su evidencia y seguimiento en `PROJECT_STATUS.md`. Esta aceptación no elimina los hallazgos, no declara la aplicación libre de vulnerabilidades y no autoriza producción.
+
+**Decisión de cierre:** sustituye el estado anterior de cierre pendiente y se basa en las pruebas previas de la rama de seguridad, el smoke manual integrado con el alcance exacto registrado y la aceptación del propietario. No equivale a afirmar que todos los flujos se repitieron sobre la rama integrada. La recuperación por correo queda como verificación pendiente, sin bloquear el cierre técnico de desarrollo decidido por el propietario. **La publicación en producción es una decisión independiente**, sujeta a seguridad, privacidad y autorización explícita.
 
 **Fuera de alcance:** almacenamiento de expedientes en PostgreSQL, sincronización entre dispositivos y cambios al checkout.
 
