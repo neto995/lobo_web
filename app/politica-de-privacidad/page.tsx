@@ -12,7 +12,7 @@ const LAST_UPDATED = "11 de octubre de 2026";
 
 // IMPORTANTE: reemplazar antes de publicar por un domicilio físico completo y válido
 // para identificar al responsable. No basta indicar solamente ciudad y estado.
-const RESPONSIBLE_ADDRESS = "[DOMICILIO COMPLETO PENDIENTE]";
+const RESPONSIBLE_ADDRESS = "Calle Rio Cihuatlan, Zapopan, Jalisco, México";
 
 export default function PoliticaDePrivacidadPage() {
   return (
