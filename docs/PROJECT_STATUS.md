@@ -34,7 +34,7 @@ LOBO es una marca de alimentación para perros que busca desarrollar una platafo
 | Calculadora de alimentación | En producción | Preservar comportamiento actual |
 | Checkout Mercado Pago | En producción | Checkout existente; evitar regresiones |
 | Mi Expediente — interfaz | En desarrollo | Base existente en `feature/expediente-v2` |
-| Autenticación con Supabase | Cierre técnico en desarrollo | PR #1 fusionado; smoke integrado realizado por el propietario con el alcance descrito abajo; recuperación por correo no verificada independientemente en esa rama; no publicada en producción |
+| Autenticación con Supabase | Cierre técnico en desarrollo | PR #1 fusionado; todos los flujos principales del smoke integrado aprobados por el propietario, incluida recuperación por correo; no publicada en producción |
 | Seguridad de dependencias | Parches de octubre integrados | PR #2 fusionado; Next 16.4.2 / React 19.2.9; persisten avisos residuales |
 | Expedientes en PostgreSQL | No implementado | Objetivo de Sprint 2 |
 | Row Level Security de expedientes | No implementado | Requisito previo a usar datos reales |
@@ -78,10 +78,10 @@ Funcionalidades desarrolladas:
 | Unitarias | Local, rama de seguridad `fe6520f`, antes del merge final | 43/43; incluyen 9 de Auth y 2 de contrato de checkout con transporte simulado. |
 | Integración Playwright | Local, build optimizado de la rama de seguridad, Supabase simulado | 11/11: 8 Auth + 3 regresiones comerciales. No es una ejecución sobre la rama integrada. |
 | TypeScript, lint acotado y build | Mismo estado local de seguridad | Correctos; lint global fallido, detallado abajo. |
-| Auth con servicios reales | Preview de `fix/security-dependencies`; éxito confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login con Supabase/Resend. No se atribuye esa recuperación por correo al merge final. |
+| Auth con servicios reales | Preview de `fix/security-dependencies`; éxito confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login con Supabase/Resend. Evidencia previa, separada de las pruebas del Preview integrado registradas abajo. |
 | Build del Preview integrado | `feature/expediente-v2`, `89573ca` | Vercel informa `success`; compilación confirmada, no validación funcional completa. |
 | Smoke test manual de Auth integrado | Preview de `89573ca`; propietario, 16 de octubre de 2026 | Registro y confirmación de correo correctos; acceso autenticado a `/mi-expediente`; cambio de contraseña y autenticación posterior correctos según lo reportado; logout correcto. Navegación directa a `/mi-expediente` después del logout redirigió a login, verificado dos veces. |
-| Recuperación de contraseña por correo en la rama integrada | Preview de `89573ca` | **No verificada de forma independiente.** La evidencia de cambio de contraseña no confirma el flujo exacto de recuperación por correo. |
+| Recuperación de contraseña por correo en la rama integrada | Preview de `89573ca`; confirmación adicional del propietario | **PASSED (aprobada).** Se probó el flujo «Recuperar contraseña» por correo: el propietario restableció la contraseña y se autenticó de nuevo correctamente. |
 
 Las pruebas locales de seguridad también cubrieron sesiones SSR, cookies, CSRF, redirecciones, aislamiento local entre cuentas y conservación de legacy; las comerciales comprobaron rutas públicas sin login, calculadora, imágenes y contratos del checkout. No incluyeron pagos reales ni una compra completa de sandbox. Las comprobaciones de cookies/cache locales no se convierten automáticamente en evidencia del Preview integrado.
 
@@ -93,7 +93,9 @@ El propietario decidió cerrar técnicamente Sprint 1 en desarrollo el **16 de o
 
 **Preview probado:** [feature/expediente-v2](https://lobo-web-git-feature-expediente-v2-neto995-s-projects.vercel.app). Es una URL de rama que puede cambiar de versión; esta evidencia se limita al commit exacto verificado y a los flujos reportados por el propietario. **Codex no volvió a ejecutar pruebas de aplicación en esta tarea documental.**
 
-**Verificación pendiente:** recuperación de contraseña mediante correo con Supabase/Resend en el Preview integrado. Su validación anterior en el Preview de seguridad sigue siendo evidencia separada. El cambio de contraseña y la autenticación posterior reportados no prueban por sí solos el recorrido de recuperación por email. Se conserva este pendiente sin bloquear el cierre técnico en desarrollo decidido por el propietario; no se declara verificado ni se extrapolan otros casos locales al Preview integrado.
+**Confirmación adicional del propietario:** la recuperación por correo mediante «Recuperar contraseña», el restablecimiento de contraseña y la autenticación posterior se probaron correctamente en el Preview integrado de `89573ca`. Esta evidencia específica sustituye el estado anterior de recuperación no verificada; no se deduce únicamente del cambio de contraseña reportado inicialmente ni de las pruebas de la rama de seguridad.
+
+**Resultado del cierre:** todos los flujos principales del smoke de Auth V1 han pasado en el Preview integrado, según las pruebas manuales del propietario. Sprint 1 está aprobado para cierre técnico en desarrollo, con los riesgos residuales aceptados exclusivamente para desarrollo. No quedan verificaciones pendientes dentro de ese smoke principal; no se extrapola este resultado a otras pruebas automatizadas, de seguridad o de producción que Codex no ha repetido.
 
 **Producción:** Auth V1 no está publicado; este cierre no autoriza un merge a `main`, despliegue, cambio de configuración ni uso productivo de los expedientes locales. Sprint 2 continúa planificado, no iniciado.
 
@@ -197,7 +199,7 @@ Trabajo preservado en:
 
 1. [PR #2](https://github.com/neto995/lobo_web/pull/2) fusionado hacia `feature/auth-v1`: merge `50bdfc1`.
 2. [PR #1](https://github.com/neto995/lobo_web/pull/1) fusionado hacia `feature/expediente-v2`: merge `89573ca`.
-3. Preview de `89573ca` con estado Vercel `success`; smoke manual integrado reportado por el propietario con el alcance de la sección 3. **Cierre técnico en desarrollo registrado**, con recuperación por correo aún no verificada independientemente en la rama integrada.
+3. Preview de `89573ca` con estado Vercel `success`; todos los flujos principales del smoke manual integrado aprobados por el propietario, incluida la recuperación por correo y autenticación posterior. **Cierre técnico en desarrollo aprobado**, con los riesgos residuales aceptados solo para desarrollo.
 
 El cambio independiente del aviso de privacidad (`3d54f86`) está incluido en `feature/expediente-v2`: el marcador de domicilio fue sustituido. No equivale a una revisión integral de privacidad ni a un despliegue productivo.
 
@@ -231,7 +233,6 @@ Alcance por diseñar:
 
 | Pendiente | Prioridad |
 |---|---|
-| Verificar independientemente la recuperación por correo en el Preview integrado | Verificación abierta; no bloquea el cierre técnico en desarrollo decidido por el propietario |
 | Dar seguimiento a `braces` y Mercado Pago/`uuid` | Alta; aceptados solo para cierre en desarrollo, no resueltos ni auditoría limpia |
 | Definir esquema PostgreSQL y políticas RLS | Alta |
 | Revisar privacidad y requisitos de publicación; domicilio ya completado en desarrollo | Alta, antes de publicar funcionalidades que traten datos personales |

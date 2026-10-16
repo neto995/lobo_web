@@ -6,7 +6,7 @@ Repositorio: https://github.com/neto995/lobo_web
 
 Este documento explica, en lenguaje sencillo, **cómo está construido LOBO**, para qué sirve cada herramienta y cuáles son los comandos que usamos al desarrollar. La idea es que puedas retomar el proyecto sin depender de recordar cada paso.
 
-> **Estado actual (16 de octubre de 2026):** Sprint 1 está cerrado técnicamente en desarrollo, con Auth V1 y los parches integrados en `feature/expediente-v2`, sin publicación en producción. El propietario reportó el smoke test integrado y aceptó los riesgos residuales solo para este cierre. La recuperación por correo no se verificó independientemente en el Preview integrado. Los expedientes siguen en `localStorage`, sin sincronización; los avisos de dependencias y errores globales de lint permanecen sin resolver. Consulta [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) para la evidencia y [SPRINTS.md](docs/SPRINTS.md) para el alcance del cierre.
+> **Estado actual (16 de octubre de 2026):** Sprint 1 está cerrado técnicamente en desarrollo, con Auth V1 y los parches integrados en `feature/expediente-v2`, sin publicación en producción. El propietario confirmó todos los flujos principales del smoke test integrado, incluida la recuperación por correo y autenticación posterior, y aceptó los riesgos residuales solo para desarrollo. Los expedientes siguen en `localStorage`, sin sincronización; los avisos de dependencias y errores globales de lint permanecen sin resolver. Consulta [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) para la evidencia y [SPRINTS.md](docs/SPRINTS.md) para el alcance del cierre.
 
 ---
 ## Documentación central del proyecto
@@ -62,7 +62,7 @@ Para continuar el desarrollo de LOBO, consulta estos documentos:
 | **Next.js** | Construir las páginas, rutas y lógica del sitio. | En uso |
 | **Git + GitHub** | Guardar versiones del código, trabajar en ramas y revisar cambios con Pull Requests. | En uso |
 | **Vercel** | Alojar y desplegar la web de LOBO. | Producción activa |
-| **Supabase Auth** | Crear cuentas, verificar correos, iniciar/cerrar sesión y recuperar contraseñas. | Cierre técnico en desarrollo; alcance del smoke integrado y recuperación por correo pendiente detallados en PROJECT_STATUS |
+| **Supabase Auth** | Crear cuentas, verificar correos, iniciar/cerrar sesión y recuperar contraseñas. | Cierre técnico en desarrollo; smoke principal integrado aprobado, incluida recuperación por correo; evidencia en PROJECT_STATUS |
 | **Supabase PostgreSQL** | Guardar expedientes y datos de clientes en la nube. | **Pendiente** para expedientes |
 | **RLS (Row Level Security)** | Restringir cada expediente a su propietario dentro de la base de datos. | **Pendiente** |
 | **Resend** | Enviar los correos de autenticación mediante SMTP conectado a Supabase. | Probado con Auth V1 |

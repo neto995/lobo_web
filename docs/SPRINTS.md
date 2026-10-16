@@ -45,13 +45,13 @@ La separación local no ofrece aislamiento seguro entre personas que comparten n
 |---|---|---|
 | Remediación de octubre | `fix/security-dependencies`, `fe6520f` | Next.js y eslint-config-next 16.4.2; React y React DOM 19.2.9. Persisten avisos residuales. |
 | Pruebas automatizadas previas al merge final | Rama de seguridad, local; Supabase simulado en integración | 43/43 unitarias y 11/11 de integración (8 Auth + 3 comerciales); TypeScript, lint acotado y build correctos. No son una ejecución sobre `89573ca`. |
-| Auth con Supabase/Resend reales | Preview de la rama de seguridad, confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login aprobados. Esa recuperación por correo no se atribuye al Preview integrado. |
+| Auth con Supabase/Resend reales | Preview de la rama de seguridad, confirmado por el propietario | Registro, confirmación de correo, login, acceso protegido, logout, recuperación por correo y nuevo login aprobados. Evidencia previa, separada de las pruebas del Preview integrado registradas abajo. |
 | [PR #2](https://github.com/neto995/lobo_web/pull/2) | `fix/security-dependencies` → `feature/auth-v1` | Fusionado, merge `50bdfc1`. |
 | [PR #1](https://github.com/neto995/lobo_web/pull/1) | `feature/auth-v1` → `feature/expediente-v2` | Fusionado, merge `89573ca`, que incluye los parches. |
 | Preview integrado | `feature/expediente-v2`, `89573ca` | Build exitoso en Vercel; no prueba por sí solo los flujos de Auth. |
 | Aviso de privacidad | `feature/expediente-v2` | Marcador de domicilio sustituido; no equivale a aprobación integral de privacidad ni a publicación. |
 | Smoke test manual de Auth integrado | Preview de `89573ca`, realizado por el propietario el 16 de octubre de 2026 | Registro y confirmación de correo, acceso autenticado a `/mi-expediente`, cambio de contraseña y autenticación posterior según lo reportado, y logout correctos. Navegar directamente a `/mi-expediente` después del logout redirigió a login, verificado dos veces. |
-| Recuperación de contraseña por correo | Preview integrado | **No verificada de forma independiente.** El cambio de contraseña reportado no confirma ese flujo exacto. |
+| Recuperación de contraseña por correo | Preview integrado de `89573ca`; confirmación adicional del propietario | **PASSED (aprobada).** El propietario probó el flujo «Recuperar contraseña» por correo, restableció la contraseña y volvió a autenticarse correctamente. |
 
 **Preview probado por el propietario:** [feature/expediente-v2](https://lobo-web-git-feature-expediente-v2-neto995-s-projects.vercel.app). La evidencia corresponde al commit exacto anterior, no a futuras versiones que pueda servir esta URL de rama.
 
@@ -63,15 +63,14 @@ Fuentes y detalle de pruebas y riesgos: [`PROJECT_STATUS.md`](PROJECT_STATUS.md)
 - [x] Documentar versiones corregidas, pruebas previas al merge y vulnerabilidades residuales.
 - [x] Confirmar build exitoso del Preview integrado y la sustitución del marcador de domicilio.
 - [x] Registrar URL, commit y alcance del smoke test manual integrado: registro, confirmación, acceso autenticado, cambio de contraseña con autenticación posterior y logout; redirección a login después del logout comprobada dos veces.
+- [x] Registrar la confirmación adicional del propietario: recuperación mediante el flujo «Recuperar contraseña» por correo, restablecimiento de contraseña y autenticación posterior aprobados en el Preview integrado de `89573ca`.
 - [x] Registrar la aceptación explícita del propietario de los tres riesgos residuales, únicamente para el cierre técnico en desarrollo.
 
-**Verificación que permanece pendiente:**
-
-- [ ] Verificar de forma independiente la recuperación por correo con Supabase/Resend en el Preview integrado y registrar su resultado. Existe evidencia en el Preview de seguridad, no confirmación de ese flujo exacto en `89573ca`.
+**Smoke principal de Auth V1:** todos los flujos principales están aprobados en el Preview integrado según las pruebas manuales del propietario. Su confirmación adicional cierra el pendiente de recuperación por correo; no quedan verificaciones pendientes dentro de ese smoke principal. No implica que Codex haya repetido las suites automatizadas ni otras pruebas de seguridad sobre la rama integrada.
 
 **Riesgos aceptados y no resueltos:** el propietario aceptó el 16 de octubre de 2026, exclusivamente para el cierre técnico en desarrollo, el advisory `braces` (5 paquetes de herramientas de desarrollo, high), el advisory Mercado Pago/`uuid` (2 paquetes runtime, moderate) y los 2 errores globales preexistentes `no-explicit-any` en WhatsApp. Las auditorías completa y de producción siguen fallando; consultar su evidencia y seguimiento en `PROJECT_STATUS.md`. Esta aceptación no elimina los hallazgos, no declara la aplicación libre de vulnerabilidades y no autoriza producción.
 
-**Decisión de cierre:** sustituye el estado anterior de cierre pendiente y se basa en las pruebas previas de la rama de seguridad, el smoke manual integrado con el alcance exacto registrado y la aceptación del propietario. No equivale a afirmar que todos los flujos se repitieron sobre la rama integrada. La recuperación por correo queda como verificación pendiente, sin bloquear el cierre técnico de desarrollo decidido por el propietario. **La publicación en producción es una decisión independiente**, sujeta a seguridad, privacidad y autorización explícita.
+**Decisión de cierre:** Sprint 1 aprobado para cierre técnico en desarrollo por el propietario, con todos los flujos principales del smoke de Auth V1 aprobados en el Preview integrado, la evidencia automatizada previa y los riesgos residuales expresamente aceptados solo para desarrollo. La recuperación por correo ya no es un pendiente. **La publicación en producción permanece sin autorización** y requiere una decisión independiente, sujeta a seguridad, privacidad y aprobación explícita.
 
 **Fuera de alcance:** almacenamiento de expedientes en PostgreSQL, sincronización entre dispositivos y cambios al checkout.
 
