@@ -1,4 +1,5 @@
 import styles from "../expediente.module.css";
+import { LogoutButton } from "../SessionBoundary";
 
 export default function Topbar({ hasDog, menuOpen, onMenu, onEdit, onCreate }: {
   hasDog: boolean;
@@ -12,6 +13,7 @@ export default function Topbar({ hasDog, menuOpen, onMenu, onEdit, onCreate }: {
       <button className={styles.menu} onClick={onMenu} aria-label="Abrir menú" aria-expanded={menuOpen} aria-controls="expediente-menu">Menú</button>
       <span className={styles.mono}>MI LOBO · EXPEDIENTE VIVO</span>
       <div className={styles["top-actions"]}>
+        <LogoutButton />
         {hasDog && <button className={styles["text-button"]} onClick={onEdit}>Editar perfil</button>}
         <button className={styles["black-button"]} onClick={onCreate}>+ Nuevo perro</button>
       </div>

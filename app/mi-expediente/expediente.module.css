@@ -43,9 +43,10 @@
 .workspace { padding: 22px 32px 34px; min-width: 0; }
 .topbar { min-height: 43px; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--ink); }
 .topbar > .mono { color: var(--muted); padding-top: 6px; }
-.top-actions { display: flex; align-items: center; gap: 18px; font-size: 11px; }
+.top-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 12px; font-size: 11px; padding-bottom: 8px; }
 .top-actions b { background: var(--acid); padding: 2px 5px; }
 .text-button { border: 0; border-bottom: 1px solid var(--ink); background: transparent; padding: 4px 0; font: 700 9px ui-monospace, monospace; text-transform: uppercase; cursor: pointer; }
+.top-actions .logout-button { display: inline-block; }
 .black-button { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); min-height: 34px; padding: 9px 13px; cursor: pointer; font-family: ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .black-button:hover { background: var(--acid); color: var(--ink); }
 .black-button:disabled { opacity: .35; cursor: not-allowed; }

@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { packRepository, type PackRepository } from "./repository";
+import type { PackRepository } from "./repository";
 import type { Dog, DogFormValues } from "./types";
 
 type PackState = { dogs: Dog[]; loading: boolean; error: string };
 
 /** All reads and mutations work with either local or remote async repositories. */
-export function usePack(repository: PackRepository = packRepository) {
+export function usePack(repository: PackRepository) {
   const [state, setState] = useState<PackState>({ dogs: [], loading: true, error: "" });
   const mounted = useRef(false);
   const requests = useRef({ id: 0 });
