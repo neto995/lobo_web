@@ -26,7 +26,8 @@ Before starting significant development work, read:
 2. `docs/ROADMAP.md` — Product direction and priorities.
 3. `docs/DECISIONS.md` — Approved decisions and their reasoning.
 4. `README.md` — Development instructions and project architecture.
-5. Any relevant specialized documentation in `docs/`.
+5. [`docs/SPRINTS.md`](docs/SPRINTS.md) — Sprint scope, acceptance criteria and technical closure tracking.
+6. Any relevant specialized documentation in `docs/`.
 
 Read documentation from the current branch/worktree by default, not implicitly from `main`.
 
@@ -143,6 +144,7 @@ After significant development work, provide a closing report containing:
 Update documentation when appropriate:
 
 - `docs/PROJECT_STATUS.md` when implementation status changes.
+- [`docs/SPRINTS.md`](docs/SPRINTS.md) when sprint scope, validation evidence or closure status changes.
 - `docs/DECISIONS.md` when important decisions are adopted, revised or replaced.
 - `docs/ROADMAP.md` when product priorities or scope change.
 - Specialized documents when technical procedures change.
