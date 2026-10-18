@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# private local Mercado Pago sandbox
+.mp-sandbox/
+
 /playwright-report/
 /test-results/
 
