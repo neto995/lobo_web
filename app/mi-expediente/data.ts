@@ -1,4 +1,4 @@
-import type { Dog, DogFormValues, WeightEntry } from "./types";
+import type { Dog, DogFormValues, WeightEntry } from "./legacyTypes";
 
 export const emptyForm: DogFormValues = {
   name: "", breed: "", age: "", sex: "", initialWeight: "", targetWeight: "", dailyPortion: "", photoUrl: "",

@@ -50,7 +50,7 @@ test("sesión SSR persistente, cookies HttpOnly, legacy intacto y logout entre p
   expect(authCookies.length).toBeGreaterThan(0);
   expect(authCookies.every((c) => c.httpOnly && c.sameSite === "Lax")).toBe(true);
   expect(await page.evaluate(() => document.cookie)).not.toContain("auth-token");
-  await expect(page.getByText(/No se sincronizan entre dispositivos/)).toBeVisible();
+  await expect(page.getByText(/no se importaron automáticamente/)).toBeVisible();
   await page.reload();
   await expect(page.getByRole("button", { name: "Crear primer expediente" })).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem("lobo.mi-expediente.v1"))).toBe("legacy-untouched");
@@ -103,8 +103,9 @@ test("renueva una sesión expirada y rechaza cookies falsificadas", async ({ pag
   await context.addCookies([{ ...original, value: `base64-${Buffer.from(JSON.stringify(session)).toString("base64url")}` }]);
   const response = await page.goto("/mi-expediente");
   await expect(page.getByRole("button", { name: "Crear primer expediente" })).toBeVisible();
-  // Next dev replaces page cache headers; production must preserve no-store.
-  expect(response?.headers()["cache-control"]).toContain(process.env.PLAYWRIGHT_PRODUCTION === "1" ? "no-store" : "no-cache");
+  // Next dev can use either directive; production must preserve no-store.
+  if (process.env.PLAYWRIGHT_PRODUCTION === "1") expect(response?.headers()["cache-control"]).toContain("no-store");
+  else expect(response?.headers()["cache-control"]).toMatch(/no-cache|no-store/);
   const sessionResponse = await context.request.get("/auth/session");
   expect(sessionResponse.headers()["cache-control"]).toContain("no-store");
   const renewed = (await context.cookies()).find((c) => c.name.endsWith("-auth-token"))!;
@@ -118,11 +119,14 @@ test("renueva una sesión expirada y rechaza cookies falsificadas", async ({ pag
 
 test("cambiar de A a B no muestra el expediente de A y conserva legacy", async ({ page, context }) => {
   await login(page);
-  await page.evaluate(() => localStorage.setItem("lobo.mi-expediente.v1", "legacy-original"));
+  await page.evaluate(() => {
+    localStorage.setItem("lobo.mi-expediente.v1", "legacy-original");
+    localStorage.setItem("lobo.mi-expediente.auth-v1.11111111-1111-4111-8111-111111111111", "auth-legacy-original");
+  });
   await page.getByRole("button", { name: "Crear primer expediente" }).click();
   await page.getByLabel("Nombre*").fill("Nala A");
   await page.getByLabel("Peso inicial (kg)*").fill("12");
-  await page.getByLabel("Peso objetivo (kg)*").fill("11");
+  await page.getByLabel("Peso objetivo (kg) (opcional)").fill("11");
   await page.getByRole("button", { name: "Crear expediente", exact: true }).click();
   await expect(page.getByText("Nala A", { exact: true }).first()).toBeVisible();
   const other = await context.newPage();
@@ -131,7 +135,7 @@ test("cambiar de A a B no muestra el expediente de A y conserva legacy", async (
   await expect(page.getByRole("button", { name: "Crear primer expediente" })).toBeVisible();
   await expect(page.getByText("Nala A", { exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => localStorage.getItem("lobo.mi-expediente.v1"))).toBe("legacy-original");
-  expect(await page.evaluate(() => localStorage.getItem("lobo.mi-expediente.auth-v1.11111111-1111-4111-8111-111111111111"))).toContain("Nala A");
+  expect(await page.evaluate(() => localStorage.getItem("lobo.mi-expediente.auth-v1.11111111-1111-4111-8111-111111111111"))).toBe("auth-legacy-original");
 });
 
 test("login incorrecto y pérdida de red no exponen datos ni errores internos", async ({ page }) => {

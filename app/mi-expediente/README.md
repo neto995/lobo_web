@@ -1,89 +1,61 @@
-# Mi LOBO · Expediente vivo
+# Mi LOBO: expediente persistente
 
-## Auth V1 (solo local / preview)
+Sprint 2A, solo desarrollo. La sesion SSR sigue siendo obligatoria aqui, no para
+comprar. Auth permanece bloqueado en produccion. Las migraciones remotas necesitan
+autorizacion: la aplicacion no crea ni modifica el esquema automaticamente.
 
-La ruta ahora valida la sesion en servidor. Los expedientes nuevos se guardan
-en `lobo.mi-expediente.auth-v1.<user.id>`; la clave legacy descrita abajo queda
-intacta y no se lee ni vincula desde la interfaz autenticada. La separacion por
-clave no protege datos frente a personas que comparten el navegador. No hay
-sincronizacion ni PostgreSQL todavia. Configuracion, pruebas y limitaciones:
-[Auth V1](../../docs/auth.md).
+## Recorrido de datos
 
-El punto de composicion es ahora `createPackRepository(userId)` y `usePack`
-requiere una instancia explicita. Ya no hay un repositorio anonimo por defecto.
-Las notas siguientes documentan el formato original y el contrato que se conserva.
+Componentes -> usePack -> PackRepository -> remoteRepository -> API Next -> Supabase/RLS.
 
-Adaptación del código original del ChatGPT Site **Mi LOBO** a la ruta
-`/mi-expediente` de este proyecto Next.js. Todos los componentes, estilos,
-lógica y pruebas están dentro de esta carpeta; no requiere nuevas dependencias.
+- page.tsx verifica al usuario; SessionBoundary se remonta por identidad.
+- repository.ts selecciona el adaptador remoto sin recibir un propietario.
+- types.ts define perfiles remotos; age.ts calcula edad por calendario.
+- lib/expediente/model.ts valida y normaliza; lib/expediente/server.ts usa la
+  sesion SSR y el JWT del usuario para RLS, nunca service role.
+- Rutas bajo /api/mi-expediente/dogs: GET listado/detalle, POST alta/peso,
+  PATCH perfil. No se agrega eliminacion.
+- Crear perfil y primer peso usa create_dog_with_initial_weight, transaccional.
+  Editar el perfil no escribe sobre weight_entries.
+- Se recuperan todas las paginas de pesos, ordenadas por fecha e ID. La grafica
+  muestra los ultimos seis; el desplegable permite consultar todo el historial.
+- El estado cambia con la respuesta confirmada de la mutacion; lecturas antiguas
+  no la sustituyen. No hay Realtime: otro dispositivo consulta al entrar/recargar.
 
-- `page.tsx`: entrada de servidor y metadatos de la ruta.
-- `MiExpediente.tsx`: navegación y coordinación de los formularios.
-- `components/`: menú, cabecera, lista de perros, plan, gráfica y formularios.
-- `expediente.module.css`: estilos del Site original, aislados con CSS Modules.
-- `data.ts`, `types.ts`: modelo, validación y operaciones sobre expedientes.
-- `repository.ts`: contrato asíncrono `PackRepository` y selección del adaptador.
-- `localStorageRepository.ts`: adaptador de localStorage y eventos entre pestañas.
-- `usePack.ts`: carga, actualización y errores de la interfaz, independientes del almacenamiento.
+## Formulario
 
-## Almacenamiento
+Edad exacta, aproximada o desconocida. La estimacion inicial usa la fecha de
+America/Mexico_City; editar otro campo conserva su referencia original. No se
+infiere nacimiento. Desconocidos permanecen NULL, nunca peso cero.
+El peso inicial es obligatorio. El peso objetivo es opcional al crear y editar:
+vacio se guarda como NULL, sin inventar una meta. La API acepta pesos entre 1 y
+150 kg representables a una decimal y rechaza los que requieren redondeo.
 
-La primera visita comienza sin perros. Los perfiles y todos sus registros de
-peso se guardan en la clave `lobo.mi-expediente.v1`, con el formato
-`{ version: 1, dogs: [...] }`. La gráfica muestra los seis registros más recientes;
-los anteriores se conservan. Las ediciones de perfil no reemplazan el historial.
+Sin porcion diaria ni URL de fotografia. Avatar local y enlace a la calculadora
+existente, sin Storage ni modelo nuevo de alimentacion.
 
-Los datos pertenecen al navegador y al origen de la página. No se sincronizan
-con el ChatGPT Site ni entre dispositivos, y se pierden al borrar los datos del
-sitio. No se importan expedientes privados del Site original. La autenticación
-y la base de datos D1 originales se sustituyen por el almacenamiento local
-solicitado. Los errores de lectura o guardado se muestran sin sobrescribir
-silenciosamente los datos existentes.
+## Datos heredados
 
-Las fotos son URLs opcionales. Si no se proporciona una, se utilizan las
-imágenes de referencia de Unsplash del diseño original.
+data.ts, legacyTypes.ts y localStorageRepository.ts conservan el formato v1
+original para pruebas y una futura importacion expresamente autorizada.
+No estan conectados a la interfaz nueva. No se lee ni escribe automaticamente:
 
-## Sustituir LocalStorage por una API
+- lobo.mi-expediente.v1
+- lobo.mi-expediente.auth-v1.<user.id>
 
-La dependencia sigue esta dirección:
+Se conservan edad textual, porcion, URLs e historial. Ninguna clave demuestra
+propiedad ni ofrece aislamiento entre personas que comparten navegador.
+El aviso visible explica que no hubo importacion automatica y que los datos pueden
+conservarse en el navegador si su almacenamiento no fue eliminado. No comprueba su
+existencia ni hay fallback a localStorage ante un error remoto.
 
-`Componentes → usePack → PackRepository → adaptador`
+## Errores y pruebas
 
-`PackRepository` define `list()`, `create(values)`, `update(id, values)` y
-`recordWeight(id, value)`. Todas las operaciones devuelven promesas; las
-mutaciones devuelven el perro completo, incluido su historial, y rechazan con
-un `Error` legible si fallan. El contrato no expone `Storage`, JSON, eventos
-del navegador ni funciones para reescribir toda la colección.
+Ante un fallo se conserva el formulario, sin anunciar exito. Si se pierde la
+respuesta de una escritura, puede haberse guardado: se bloquea otro intento hasta
+volver a consultar. Revisar antes de repetir; no es una garantia de idempotencia
+entre recargas o dispositivos.
 
-Para conectar una API:
-
-1. Implementar `PackRepository` en un adaptador de API, usando `fetch` y
-   normalizando las respuestas a `Dog` / `Dog[]`. Los endpoints deben validar
-   los datos y preservar el historial al editar un perfil.
-2. Cambiar únicamente la importación y la instancia exportada como
-   `packRepository` en `repository.ts` para seleccionar ese adaptador.
-3. Definir `storageDescription` con el texto que corresponda al almacenamiento
-   remoto. `subscribe` es opcional: una API puede omitirlo o implementarlo
-   mediante notificaciones de cambios. La interfaz vuelve a consultar después
-   de cada mutación aunque no haya suscripción.
-
-No es necesario cambiar `usePack` ni los componentes. Estos ya esperan las
-promesas, muestran el estado de guardado, impiden envíos duplicados y mantienen
-abierto el formulario cuando una mutación falla. Las respuestas de consultas
-anteriores se descartan si ya comenzó una consulta más reciente. No se ha
-implementado todavía una API ni una migración de los datos locales a un servidor.
-
-El adaptador local mantiene la clave y el formato v1 existentes. Puede recibir
-`getStorage` y `events` como dependencias para pruebas sin navegador. No accede
-a `window` durante la importación ni el renderizado de servidor.
-
-## Verificación
-
-Desde la raíz del proyecto (las pruebas de datos usan Node.js 22.18 o posterior):
-
-```sh
-node --test app/mi-expediente/tests/*.test.mjs
-npx eslint app/mi-expediente
-npx tsc --noEmit --incremental false
-npm run build
-```
+Ejecutar npm test, TypeScript y lint dirigido desde la raiz. Las suites de navegador
+se ejecutan en una copia sin archivos privados. Procedimiento y distincion entre
+pruebas simuladas/reales: [Sprint 2A persistencia](../../docs/sprint2a-persistence.md).

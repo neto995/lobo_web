@@ -22,7 +22,7 @@ export default function WeightForm({ dog, saving, onSave }: { dog: Dog; saving: 
       <h2 id="expediente-modal-title">¿Cuánto pesa hoy?</h2>
       <p>Este dato se añadirá al historial. Los registros anteriores se conservan.</p>
       <label>Peso actual<div className={styles["weight-input"]}>
-        <input required disabled={saving} inputMode="decimal" type="number" min="1" max="150" step="0.1" value={weight} onChange={(event) => setWeight(event.target.value)} placeholder={currentWeight(dog).toFixed(1)} />
+        <input required disabled={saving} inputMode="decimal" type="number" min="1" max="150" step="0.1" value={weight} onChange={(event) => setWeight(event.target.value)} placeholder={currentWeight(dog)?.toFixed(1) ?? ""} />
         <span>kg</span>
       </div></label>
       {error && <p className={styles["form-error"]} role="alert">{error}</p>}
