@@ -2,11 +2,20 @@
 
 **Proyecto:** LOBO Digital Platform  
 **Repositorio:** `neto995/lobo_web`  
-**Última actualización:** 20 de octubre de 2026
+**Última actualización:** 21 de octubre de 2026
 **Estado general:** Desarrollo activo  
 **Producción:** `main` — https://eatlikeawolf.mx
 
 > Este documento es la referencia del estado actual del desarrollo digital de LOBO. Distingue entre funcionalidades en producción, implementaciones en desarrollo, pruebas realizadas y trabajo pendiente. Debe actualizarse después de cada cambio relevante.
+
+**Preparación de Preview Sprint 2A:** persistencia aprobada en `609e97f`; protección
+comercial adicional validada localmente (63 unitarias y 23 pruebas Playwright en
+dev, repetidas 23/23 en build optimizado). Mercado Pago restringido en Vercel a
+Production para futuros despliegues; pagos bloqueados en código fuera de ese
+entorno. Publicación controlada autorizada: primer Preview sin Auth, configuración
+posterior exclusiva de la rama con `lobo-dev` y nueva validación remota pendiente.
+No hay autorización de producción ni migraciones remotas. Evidencia y límites en
+[Sprint 2A Persistence](sprint2a-persistence.md#aislamiento-comercial-autorizado-21-de-octubre-de-2026).
 
 ---
 

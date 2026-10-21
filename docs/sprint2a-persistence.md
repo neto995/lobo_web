@@ -232,7 +232,8 @@ Salida conservada en `pgtap-oct20.log` dentro del mismo directorio temporal.
 
 ## Inventario del diff
 
-39 archivos de esta entrega (incluidos nuevos). Ninguno esta staged.
+39 archivos de la entrega de persistencia, conservados en el commit local
+`609e97f316004a5bf734be9eb68d65ad3f2e12df` antes de la proteccion comercial adicional.
 La revision de rutas y patrones de secretos no detecto archivos privados ni
 credenciales incrustadas; no equivale a una auditoria externa de seguridad.
 .env.local y .mp-sandbox/ siguen ignorados y sin seguimiento, sin leer su contenido.
@@ -283,4 +284,66 @@ Vista de revision local aislada: http://127.0.0.1:3102/login. Usa cuentas fictic
 se autoconfirman localmente y no se envian correos reales. El servidor preexistente
 3101 no fue detenido ni reconfigurado. La copia y los contenedores locales quedan
 activos para revision; cerrar esos recursos al terminar, sin tocar otros proyectos.
+
+## Aislamiento comercial autorizado (21 de octubre de 2026)
+
+Alcance adicional aprobado por el propietario para publicar un Preview seguro:
+
+- Unica API de creacion encontrada: `POST /api/checkout`. Ahora exige
+  `VERCEL_ENV=production` antes de interpretar el cuerpo o instanciar el SDK.
+  Preview, development, valores desconocidos y variable ausente responden 403,
+  `Cache-Control: no-store`, aun si existe un token. `NODE_ENV=production` no basta.
+- `Plans` decide en servidor si habilita pagos. Fuera de Production no pasa los
+  tres enlaces productivos a `PlanCard`; sus cinco botones quedan deshabilitados
+  y el manejador tambien rechaza la accion. No se cambiaron precios, planes,
+  destinos productivos, contrato del SDK, calculadora, WhatsApp ni dependencias.
+- La pagina comercial se genera al compilar: el entorno de build y despliegue
+  debe coincidir. No promover un build Preview a Production; reconstruir en su
+  entorno. No se publico ni autorizo Production.
+- Vercel: `MERCADO_PAGO_ACCESS_TOKEN` paso de Production + Preview a solo
+  Production. Se edito unicamente el selector de entornos, sin leer, copiar,
+  escribir ni rotar el valor. No se pulsaron acciones de redeploy anteriores.
+  Afecta todos los Previews futuros del proyecto; los anteriores conservan sus
+  snapshots y pueden retener el token. No quedan declarados saneados.
+- Vercel Authentication sigue activo con Standard Protection, sin excepciones
+  de dominios ni secreto de bypass de automatizacion configurado.
+- Se verifico que la URL y clave publicable de Auth de la rama integrada
+  corresponden a `lobo-dev`. No se utilizo service role. En ese proyecto se agrego
+  solo el callback exacto de la futura rama, conservando Site URL y los tres
+  callbacks anteriores, sin comodines ni cambios SQL.
+- Vercel rechazo las cuatro variables de la nueva rama mientras no existia en
+  GitHub. El propietario aprobo explicitamente este orden: primer push protegido
+  con Auth y pagos deshabilitados; despues configurar solo esa rama con lobo-dev
+  y generar otro Preview. Las pruebas reales de Auth de ese Preview quedan
+  pendientes hasta ejecutarlas; no se sustituyen por las pruebas simuladas.
+
+Validacion ejecutada en copia temporal sin `.env*`, `.mp-sandbox` ni secretos,
+con entorno de proceso limpio y sin token de Mercado Pago:
+
+| Verificacion | Resultado |
+|---|---|
+| `npm test` | 63/63, incluido contrato Production del SDK con transporte simulado y 24 combinaciones denegadas fuera de Production |
+| TypeScript sin incremental | PASS |
+| ESLint de los cinco archivos de codigo/pruebas afectados | PASS |
+| Playwright con servidor dev y proveedor simulado | 23/23 |
+| Build optimizado `VERCEL_ENV=preview` sin credenciales | PASS, 28 paginas |
+| Playwright sobre ese build, Auth simulado | 23/23 |
+| Build local `VERCEL_ENV=production` sin credenciales | PASS, 28 paginas; no es deploy |
+| Smoke local Production, navegador con todas las llamadas externas y checkout interceptados | Cinco botones habilitados; tres destinos y dos planId originales; cero pagos reales |
+| `git diff --check` | PASS antes del commit adicional |
+
+El primer intento de Playwright obtuvo 22/23 por un selector exacto que no
+incluia el simbolo del desplegable de compra unica. Se corrigio solo el selector;
+las dos suites completas posteriores aprobaron. La prueba adicional de UI
+Production se ejecuto desde un script temporal fuera de Git; los casos permanentes
+del SDK y denegacion quedan en `tests/security/checkout.test.mjs`.
+
+Las 221 pruebas SQL y cuatro pruebas con Supabase local reportadas arriba son
+evidencia anterior de la persistencia: no se volvieron a ejecutar para este cambio
+comercial, que no modifica SQL ni permisos. Siguen pendientes las migraciones
+remotas. Los avisos de dependencias y dos errores globales de ESLint preexistentes
+continuan abiertos; esta validacion dirigida no afirma resolverlos.
+
+Referencias: [ambitos de variables Vercel](https://vercel.com/docs/environment-variables)
+y [VERCEL_ENV](https://vercel.com/docs/environment-variables/system-environment-variables).
 

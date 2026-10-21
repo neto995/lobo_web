@@ -32,16 +32,27 @@ test("imagenes optimizadas y contenido visible en movil y escritorio", async ({ 
   expect(errors).toEqual([]);
 });
 
-test("APIs comerciales conservan validacion publica sin llamadas a proveedores", async ({ request }) => {
-  const invalidJson = await request.post("/api/checkout", { data: "{" });
-  expect(invalidJson.status()).toBe(400);
-  expect(await invalidJson.json()).toEqual({ error: "Invalid request body" });
-  const invalidPlan = await request.post("/api/checkout", { data: { planId: "invalid-plan" } });
-  expect(invalidPlan.status()).toBe(400);
-  expect(await invalidPlan.json()).toEqual({ error: "Invalid checkout plan" });
+test("Preview bloquea checkout y conserva las demas APIs sin llamadas a proveedores", async ({ request }) => {
+  for (const data of ["{", { planId: "invalid-plan" }, { planId: "plan-chico-unico" }, { planId: "plan-mediano-unico" }]) {
+    const response = await request.post("/api/checkout", { data });
+    expect(response.status()).toBe(403);
+    expect(response.headers()["cache-control"]).toBe("no-store");
+    expect(await response.json()).toEqual({ error: "Payments are unavailable in this environment" });
+  }
   expect((await request.get("/api/checkout")).status()).toBe(405);
   expect((await request.get("/api/whatsapp/webhook")).status()).toBe(403);
   const ignoredEvent = await request.post("/api/whatsapp/webhook", { data: {} });
   expect(ignoredEvent.status()).toBe(200);
   expect(await ignoredEvent.text()).toBe("EVENT_RECEIVED");
+});
+
+test("Preview deshabilita los cinco pagos y no entrega enlaces productivos al navegador", async ({ page, request }) => {
+  const html = await (await request.get("/")).text();
+  expect(html).not.toMatch(/https:\/\/(?:www\.)?(?:mpago\.la|mercadopago\.com)/);
+  await page.goto("/");
+  await page.locator("#planes summary").filter({ hasText: "Prefiero compra única" }).click();
+  const buttons = page.locator("#planes button");
+  await expect(buttons).toHaveCount(5);
+  for (const button of await buttons.all()) await expect(button).toBeDisabled();
+  await expect(page.locator('a[href*="mpago.la"], a[href*="mercadopago.com"]')).toHaveCount(0);
 });
