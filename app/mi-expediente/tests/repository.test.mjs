@@ -15,7 +15,6 @@ registerHooks({
 
 const { createLocalStorageRepository, STORAGE_KEY } = await import("../localStorageRepository.ts");
 const { buildDog, emptyForm } = await import("../data.ts");
-const { createPackRepository } = await import("../repository.ts");
 const form = { ...emptyForm, name: "Nala", initialWeight: "12.4", targetWeight: "12", dailyPortion: "320" };
 
 function setup() {
@@ -133,8 +132,8 @@ test("cuentas nuevas nunca leen ni modifican legacy y mantienen datos separados"
   entries.set(STORAGE_KEY, original);
   const reads = [];
   const options = { events, getStorage: () => ({ ...storage, getItem(key) { reads.push(key); return storage.getItem(key); } }) };
-  const a = createPackRepository("11111111-1111-4111-8111-111111111111", options);
-  const b = createPackRepository("22222222-2222-4222-8222-222222222222", options);
+  const a = createLocalStorageRepository({ ...options, storageKey: "lobo.mi-expediente.auth-v1.11111111-1111-4111-8111-111111111111" });
+  const b = createLocalStorageRepository({ ...options, storageKey: "lobo.mi-expediente.auth-v1.22222222-2222-4222-8222-222222222222" });
   assert.deepEqual(await a.list(), []);
   assert.deepEqual(await b.list(), []);
   let bChanges = 0;
@@ -147,5 +146,4 @@ test("cuentas nuevas nunca leen ni modifican legacy y mantienen datos separados"
   assert.equal(entries.get(STORAGE_KEY), original);
   assert.equal(reads.includes(STORAGE_KEY), false);
   unsubscribe();
-  assert.throws(() => createPackRepository(""), /Identidad/);
 });

@@ -1,4 +1,4 @@
-import { createLocalStorageRepository, type LocalStorageOptions } from "./localStorageRepository";
+import { createRemoteRepository } from "./remoteRepository";
 import type { Dog, DogFormValues } from "./types";
 
 /** The UI depends on this contract, never on a storage format or transport. */
@@ -12,8 +12,6 @@ export interface PackRepository {
   subscribe?(onChange: () => void): () => void;
 }
 
-// This namespace prevents accidental mixing, not access by another browser user.
-export function createPackRepository(userId: string, options: Omit<LocalStorageOptions, "storageKey"> = {}): PackRepository {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId)) throw new Error("Identidad no válida.");
-  return createLocalStorageRepository({ ...options, storageKey: `lobo.mi-expediente.auth-v1.${userId}` });
+export function createPackRepository(): PackRepository {
+  return createRemoteRepository();
 }

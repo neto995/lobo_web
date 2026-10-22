@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const user = await requireUser();
-  return <SessionBoundary key={user.id} userId={user.id}><MiExpediente userId={user.id} /></SessionBoundary>;
+  return <SessionBoundary key={user.id} userId={user.id}><MiExpediente /></SessionBoundary>;
 }

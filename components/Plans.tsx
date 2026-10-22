@@ -5,6 +5,7 @@ import Link from "next/link";
 const BIMONTHLY_CHECKOUT_URL = "https://mpago.la/1X4nDyu";
 
 export default function Plans() {
+  const paymentsEnabled = process.env.VERCEL_ENV === "production";
   const subscriptionPlans = [
     {
       title: "Plan Chico",
@@ -203,7 +204,8 @@ export default function Plans() {
               highlight={plan.highlight}
               variant="subscription"
               buttonText={plan.buttonText}
-              checkoutUrl={plan.checkoutUrl}
+              paymentsEnabled={paymentsEnabled}
+              checkoutUrl={paymentsEnabled ? plan.checkoutUrl : undefined}
             />
           ))}
         </div>
@@ -237,7 +239,8 @@ export default function Plans() {
                 features={plan.features}
                 variant="scheduled"
                 buttonText={plan.buttonText}
-                checkoutUrl={plan.checkoutUrl}
+                paymentsEnabled={paymentsEnabled}
+                checkoutUrl={paymentsEnabled ? plan.checkoutUrl : undefined}
               />
             ))}
           </div>
@@ -265,6 +268,7 @@ export default function Plans() {
                 features={plan.features}
                 buttonText={plan.buttonText}
                 planId={plan.planId}
+                paymentsEnabled={paymentsEnabled}
               />
             ))}
           </div>

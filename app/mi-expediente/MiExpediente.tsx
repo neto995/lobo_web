@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPackRepository } from "./repository";
 import { usePack } from "./usePack";
-import type { DogFormValues, Section } from "./types";
+import { sexLabel, type DogFormValues, type Section } from "./types";
+import { ageLabel } from "./age";
 import Sidebar, { Brand } from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import PackList from "./components/PackList";
@@ -16,8 +17,8 @@ import styles from "./expediente.module.css";
 
 const sectionLabels: Record<Section, string> = { resumen: "Resumen", manada: "Mis perros", alimentacion: "Alimentación", evolucion: "Evolución" };
 
-export default function MiExpediente({ userId }: { userId: string }) {
-  const repository = useMemo(() => createPackRepository(userId), [userId]);
+export default function MiExpediente() {
+  const repository = useMemo(() => createPackRepository(), []);
   const { dogs, loading, error, storageDescription, refresh, createDog, updateDog, recordWeight } = usePack(repository);
   const [saving, setSaving] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -73,14 +74,15 @@ export default function MiExpediente({ userId }: { userId: string }) {
       <Sidebar count={dogs.length} active={section} open={mobileNav} onNavigate={navigate} onClose={() => setMobileNav(false)} />
       {mobileNav && <button className={styles["menu-backdrop"]} aria-label="Cerrar menú" onClick={() => setMobileNav(false)} />}
       <main className={styles.workspace}>
-        <Topbar hasDog={!!selectedDog} menuOpen={mobileNav} onMenu={() => setMobileNav(true)} onEdit={() => setModal("edit")} onCreate={() => setModal("create")} />
+        <Topbar hasDog={!!selectedDog} menuOpen={mobileNav} disabled={!!error} onMenu={() => setMobileNav(true)} onEdit={() => setModal("edit")} onCreate={() => setModal("create")} />
+        <p className={styles["legacy-notice"]}>Los expedientes anteriores no se importaron automáticamente ni se asignaron a esta cuenta. Pueden conservarse en este navegador si su almacenamiento no ha sido eliminado.</p>
         {error ? (
           <div className={styles["page-error"]} role="alert"><strong>No pudimos cargar tus datos.</strong><span>{error}</span><button onClick={() => { void refresh(); }}>Intentar de nuevo</button></div>
         ) : !selectedDog ? (
           <section className={styles["empty-state"]}>
             <p className={styles["section-code"]}>PRIMER REGISTRO / 01</p>
             <h1>Empieza con<br /><em>un solo perro.</em></h1>
-            <p>Nombre, peso y objetivo. Es suficiente para abrir su expediente y dejar de improvisar.</p>
+            <p>Comienza con su nombre y peso actual. Puedes añadir un peso objetivo cuando lo conozcas.</p>
             <button className={styles["black-button"]} onClick={() => setModal("create")}>Crear primer expediente</button>
           </section>
         ) : (
@@ -92,7 +94,7 @@ export default function MiExpediente({ userId }: { userId: string }) {
               </div>
               <aside className={styles["profile-summary"]}>
                 <span className={styles.mono}>PERFIL ACTIVO</span><strong>{selectedDog.name}</strong>
-                <p>{selectedDog.breed} · {selectedDog.age} · {selectedDog.sex}</p>
+                <p>{selectedDog.breed ?? "Raza no especificada"} · {ageLabel(selectedDog)} · {sexLabel(selectedDog.sex)}</p>
                 <button onClick={() => setModal("edit")}>Corregir datos →</button>
               </aside>
             </section>

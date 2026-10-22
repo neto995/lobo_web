@@ -1,9 +1,10 @@
 import styles from "../expediente.module.css";
 import { LogoutButton } from "../SessionBoundary";
 
-export default function Topbar({ hasDog, menuOpen, onMenu, onEdit, onCreate }: {
+export default function Topbar({ hasDog, menuOpen, disabled, onMenu, onEdit, onCreate }: {
   hasDog: boolean;
   menuOpen: boolean;
+  disabled: boolean;
   onMenu: () => void;
   onEdit: () => void;
   onCreate: () => void;
@@ -14,8 +15,8 @@ export default function Topbar({ hasDog, menuOpen, onMenu, onEdit, onCreate }: {
       <span className={styles.mono}>MI LOBO · EXPEDIENTE VIVO</span>
       <div className={styles["top-actions"]}>
         <LogoutButton />
-        {hasDog && <button className={styles["text-button"]} onClick={onEdit}>Editar perfil</button>}
-        <button className={styles["black-button"]} onClick={onCreate}>+ Nuevo perro</button>
+        {hasDog && <button className={styles["text-button"]} onClick={onEdit} disabled={disabled}>Editar perfil</button>}
+        <button className={styles["black-button"]} onClick={onCreate} disabled={disabled}>+ Nuevo perro</button>
       </div>
     </header>
   );

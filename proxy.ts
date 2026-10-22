@@ -26,5 +26,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/mi-expediente/:path*", "/login", "/registro", "/recuperar-contrasena", "/restablecer-contrasena", "/auth/:path*"],
+  matcher: ["/mi-expediente/:path*", "/api/mi-expediente/:path*", "/login", "/registro", "/recuperar-contrasena", "/restablecer-contrasena", "/auth/:path*"],
 };
