@@ -217,9 +217,15 @@ Salida conservada en `pgtap-oct20.log` dentro del mismo directorio temporal.
 
 ## Pendientes y riesgos
 
-- Revision del diff antes de commit/push/PR; destino futuro feature/expediente-v2.
-- Migraciones y pruebas en lobo-dev/Preview requieren aprobacion separada. Sin
-  tablas/RPC, la API falla visiblemente y no vuelve a escribir localStorage.
+Los pendientes de revision del diff antes de commit/push/PR y de autorizacion
+separada de migraciones y pruebas en lobo-dev/Preview correspondian a la validacion
+local del 20 de octubre de 2026. Su resolucion posterior, el PR hacia
+feature/expediente-v2 y las decisiones aun pendientes se registran en
+[PROJECT_STATUS.md](PROJECT_STATUS.md) y [el informe conciliado de migraciones y
+validacion](sprint2a-dev-migration-plan.md). Este ajuste documental no reejecuta
+pruebas ni modifica los resultados historicos o los riesgos siguientes.
+
+- Si faltan tablas/RPC, la API falla visiblemente y no vuelve a escribir localStorage.
 - Sin prueba de carga: se pagina el servidor, pero el navegador recibe todo el
   historial. Evaluar paginacion de presentacion para volumen mayor.
 - Idempotencia entre recargas/dispositivos no implementada; ante respuesta perdida

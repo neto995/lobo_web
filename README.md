@@ -6,7 +6,7 @@ Repositorio: https://github.com/neto995/lobo_web
 
 Este documento explica, en lenguaje sencillo, **cómo está construido LOBO**, para qué sirve cada herramienta y cuáles son los comandos que usamos al desarrollar. La idea es que puedas retomar el proyecto sin depender de recordar cada paso.
 
-> **Estado actual (19 de octubre de 2026):** Auth V1 y el esquema RLS están integrados en desarrollo, no en producción. La persistencia de perfiles y pesos está implementada en `feature/sprint2a-persistence`, con validación local y pendiente de revisión, commit y autorización para migraciones remotas. No se importan datos de localStorage. Consulta [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) y [la evidencia de Sprint 2A](docs/sprint2a-persistence.md); las notas históricas de este manual no sustituyen ese estado.
+> **Estado histórico (19 de octubre de 2026):** Auth V1 y el esquema RLS estaban integrados en desarrollo, no en producción. La persistencia de perfiles y pesos estaba implementada en `feature/sprint2a-persistence`, con validación local; en esa fecha aún estaban pendientes la revisión, el commit y la autorización para migraciones remotas. Esos pendientes históricos no describen el estado vigente: consulta [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) y [el informe conciliado de migraciones y validación](docs/sprint2a-dev-migration-plan.md). No se importan datos de localStorage y la publicación en producción sigue sin estar autorizada.
 
 ---
 ## Documentación central del proyecto
