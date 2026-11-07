@@ -14,6 +14,7 @@ type PlanCardProps = {
   highlight?: boolean;
   variant?: "default" | "subscription" | "scheduled";
   buttonText: string;
+  paymentsEnabled: boolean;
   checkoutUrl?: string;
   planId?: string;
 };
@@ -30,6 +31,7 @@ export default function PlanCard({
   highlight,
   variant = "default",
   buttonText,
+  paymentsEnabled,
   checkoutUrl,
   planId
 }: PlanCardProps) {
@@ -157,7 +159,11 @@ export default function PlanCard({
       )}
 
       <button
+        disabled={!paymentsEnabled}
+        title={!paymentsEnabled ? "Pagos deshabilitados en este entorno" : undefined}
         onClick={async () => {
+          if (!paymentsEnabled) return;
+
           if (checkoutUrl) {
             window.location.href = checkoutUrl;
             return;

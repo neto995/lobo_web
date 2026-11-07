@@ -1,16 +1,16 @@
 import { useRef, useState, type FormEvent } from "react";
-import { emptyForm } from "../data";
-import { currentWeight, type Dog, type DogFormValues } from "../types";
+import { emptyForm, type Dog, type DogFormValues } from "../types";
+import { dogToForm, todayInMexicoCity } from "../age";
 import styles from "../expediente.module.css";
 
 export default function DogForm({ dog, saving, onSave }: { dog?: Dog; saving: boolean; onSave: (values: DogFormValues) => Promise<void> }) {
   const submitting = useRef(false);
-  const [form, setForm] = useState<DogFormValues>(() => dog ? {
-    name: dog.name, breed: dog.breed, age: dog.age, sex: dog.sex === "Sin especificar" ? "" : dog.sex,
-    initialWeight: String(currentWeight(dog)), targetWeight: String(dog.targetWeight),
-    dailyPortion: String(dog.dailyPortion), photoUrl: dog.photoUrl,
-  } : emptyForm);
+  const [form, setForm] = useState<DogFormValues>(() => dog ? dogToForm(dog) : { ...emptyForm });
   const [error, setError] = useState("");
+
+  function changeAge(change: Partial<DogFormValues>) {
+    setForm({ ...form, ...change, ageEstimatedAt: "" });
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,12 +29,25 @@ export default function DogForm({ dog, saving, onSave }: { dog?: Dog; saving: bo
       <fieldset className={styles["form-grid"]} disabled={saving}>
         <label>Nombre*<input required maxLength={80} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} /></label>
         <label>Raza<input maxLength={120} value={form.breed} onChange={(event) => setForm({ ...form, breed: event.target.value })} /></label>
-        <label>Edad<input maxLength={80} placeholder="Ej. 4 años" value={form.age} onChange={(event) => setForm({ ...form, age: event.target.value })} /></label>
-        <label>Sexo<select value={form.sex} onChange={(event) => setForm({ ...form, sex: event.target.value })}><option value="">Selecciona</option><option>Macho</option><option>Hembra</option></select></label>
+        <label>Sexo<select value={form.sex} onChange={(event) => setForm({ ...form, sex: event.target.value as Dog["sex"] })}><option value="unknown">Sin especificar</option><option value="male">Macho</option><option value="female">Hembra</option></select></label>
+        <fieldset className={`${styles["age-fields"]} ${styles["full-field"]}`}>
+          <legend>Edad</legend>
+          <div className={styles["age-options"]}>
+            <label><input type="radio" name="age-mode" value="birth_date" checked={form.ageMode === "birth_date"} onChange={() => changeAge({ ageMode: "birth_date" })} />Conozco su fecha de nacimiento (recomendado)</label>
+            <label><input type="radio" name="age-mode" value="estimate" checked={form.ageMode === "estimate"} onChange={() => changeAge({ ageMode: "estimate", ageYears: form.ageYears || "0", ageMonths: form.ageMonths || "0" })} />Sé su edad aproximada</label>
+            <label><input type="radio" name="age-mode" value="unknown" checked={form.ageMode === "unknown"} onChange={() => changeAge({ ageMode: "unknown" })} />No conozco su edad</label>
+          </div>
+          {form.ageMode === "birth_date" && <label>Nacimiento<input required type="date" max={todayInMexicoCity()} value={form.birthDate} onChange={(event) => changeAge({ birthDate: event.target.value })} /></label>}
+          {form.ageMode === "estimate" && <>
+            <div className={styles["age-estimate"]}>
+              <label>Años<input required type="number" inputMode="numeric" min="0" step="1" value={form.ageYears} onChange={(event) => changeAge({ ageYears: event.target.value })} /></label>
+              <label>Meses<input required type="number" inputMode="numeric" min="0" max="11" step="1" value={form.ageMonths} onChange={(event) => changeAge({ ageMonths: event.target.value })} /></label>
+            </div>
+            {form.ageEstimatedAt && <p className={styles["age-reference"]}>Estimación original del {form.ageEstimatedAt}.</p>}
+          </>}
+        </fieldset>
         {!dog && <label>Peso inicial (kg)*<input required inputMode="decimal" type="number" min="1" max="150" step="0.1" value={form.initialWeight} onChange={(event) => setForm({ ...form, initialWeight: event.target.value })} /></label>}
-        <label>Peso objetivo (kg)*<input required inputMode="decimal" type="number" min="1" max="150" step="0.1" value={form.targetWeight} onChange={(event) => setForm({ ...form, targetWeight: event.target.value })} /></label>
-        <label>Porción diaria (g)<input type="number" inputMode="numeric" min="0" step="1" value={form.dailyPortion} onChange={(event) => setForm({ ...form, dailyPortion: event.target.value })} /></label>
-        <label className={styles["full-field"]}>URL de fotografía <span>opcional</span><input type="url" placeholder="https://…" value={form.photoUrl} onChange={(event) => setForm({ ...form, photoUrl: event.target.value })} /></label>
+        <label>Peso objetivo (kg) (opcional)<input inputMode="decimal" type="number" min="1" max="150" step="0.1" value={form.targetWeight} onChange={(event) => setForm({ ...form, targetWeight: event.target.value })} /></label>
       </fieldset>
       {error && <p className={styles["form-error"]} role="alert">{error}</p>}
       <button className={`${styles["black-button"]} ${styles.wide}`} type="submit" disabled={saving}>{saving ? "Guardando…" : dog ? "Guardar cambios" : "Crear expediente"}</button>

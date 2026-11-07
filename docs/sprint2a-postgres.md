@@ -1,5 +1,11 @@
 # Sprint 2A: esquema, RLS y validacion local
 
+> Continuidad, 19 de octubre de 2026: esta entrega se integro mediante PR #5,
+> merge `3362f92`. El contenido siguiente conserva la evidencia de aquella fase.
+> La interfaz y RPC se autorizaron posteriormente; su estado esta en
+> [sprint2a-persistence.md](sprint2a-persistence.md). La migracion y las dos suites
+> originales permanecen intactas en esa continuacion.
+
 Revision: 17 de octubre de 2026.
 Rama: `feature/sprint2a-postgres`, creada desde `origin/feature/expediente-v2`,
 commit base `89573cad2eb18a8be0ff33c3df7d1af5e4c71b02`.

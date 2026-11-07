@@ -1,6 +1,5 @@
 import { addWeight, buildDog, decodeDogs } from "./data";
-import type { PackRepository } from "./repository";
-import type { Dog } from "./types";
+import type { LegacyPackRepository, Dog } from "./legacyTypes";
 
 export const STORAGE_KEY = "lobo.mi-expediente.v1";
 const CHANGE_EVENT = "lobo:expediente-changed";
@@ -13,7 +12,7 @@ export type LocalStorageOptions = {
   events?: EventTarget;
 };
 
-export function createLocalStorageRepository(options: LocalStorageOptions = {}): PackRepository {
+export function createLocalStorageRepository(options: LocalStorageOptions = {}): LegacyPackRepository {
   const storageKey = options.storageKey ?? STORAGE_KEY;
   const changeEvent = `${CHANGE_EVENT}:${storageKey}`;
   // Browser APIs are resolved only when called, never during module import/SSR.

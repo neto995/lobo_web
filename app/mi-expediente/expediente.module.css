@@ -72,7 +72,7 @@
 .dog-row.selected::before { content: ""; position: absolute; inset: 0 auto 0 -32px; width: 6px; background: var(--acid); }
 .dog-index { font: 700 10px ui-monospace, monospace; color: var(--muted); }
 .dog-image { height: 82px; background-size: cover; background-position: center; filter: grayscale(1) contrast(1.08); }
-.dog-placeholder { opacity: .72; }
+.dog-placeholder { display: grid; place-items: center; background: #dce7e6; color: #284b48; font: 700 32px Arial, sans-serif; filter: none; }
 .dog-identity small, .dog-stat small { display: block; font: 700 9px ui-monospace, monospace; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
 .dog-identity strong { display: block; margin-top: 5px; font-family: Arial Black, Arial, sans-serif; font-size: 26px; letter-spacing: -.04em; text-transform: uppercase; }
 .dog-stat b { display: block; font: 700 13px Georgia, serif; margin-top: 6px; }
@@ -129,6 +129,23 @@
 .toast { position: fixed; z-index: 60; right: 22px; bottom: 22px; max-width: 360px; background: var(--ink); color: var(--paper); border-left: 7px solid var(--acid); padding: 15px 18px; font: 700 11px/1.35 ui-monospace, monospace; box-shadow: 8px 8px 0 rgba(0,0,0,.18); }
 .toast:empty { display: none; }
 .storage-note { margin: 28px 0 0; max-width: 660px; color: var(--muted); font: 10px/1.6 ui-monospace, monospace; }
+.legacy-notice { margin: 18px 0; padding: 12px 0 12px 12px; border-left: 3px solid #527d78; color: #345652; font: 12px/1.5 Arial, sans-serif; max-width: 880px; }
+.age-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.age-fields legend { font: 700 10px ui-monospace, monospace; color: var(--muted); text-transform: uppercase; }
+.age-options { display: flex; flex-wrap: wrap; gap: 12px 18px; margin: 12px 0 18px; }
+.age-options label { display: flex; align-items: center; gap: 7px; letter-spacing: 0; line-height: 1.4; }
+.age-options input { width: 17px; height: 17px; margin: 0; accent-color: var(--ink); flex-shrink: 0; }
+.age-estimate { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.age-fields .age-reference { font: 12px/1.4 Arial, sans-serif; margin: 10px 0 0; }
+.calculator-link { display: inline-block; margin-top: 18px; font: 700 12px/1.4 Arial, sans-serif; color: var(--ink); text-underline-offset: 3px; }
+.empty-history { padding: 32px 0; font-size: 14px; }
+.weight-records { margin-top: 16px; border-bottom: 1px solid var(--line); font: 12px/1.5 Arial, sans-serif; }
+.weight-records summary { padding: 10px 0; cursor: pointer; font-weight: 700; }
+.weight-table { max-height: 280px; overflow: auto; }
+.weight-table table { border-collapse: collapse; width: 100%; font-size: 12px; }
+.weight-table th, .weight-table td { padding: 9px 6px; border-top: 1px solid var(--line); text-align: left; }
+.weight-table th:last-child, .weight-table td:last-child { text-align: right; white-space: nowrap; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .single-panel { grid-template-columns: minmax(0, 1fr); max-width: 880px; }
 .menu-backdrop { display: none; }
 .dog-identity, .profile-summary, .chart-title > div { min-width: 0; overflow-wrap: anywhere; }

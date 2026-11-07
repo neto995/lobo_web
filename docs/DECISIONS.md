@@ -142,7 +142,7 @@ No existe una forma confiable de determinar automáticamente la propiedad de tod
 
 ## DEC-005 — PostgreSQL y RLS para expedientes persistentes
 
-**Estado:** Dirección de producto adoptada; diseño técnico pendiente  
+**Estado:** Adoptada; esquema y RLS integrados en desarrollo mediante PR #5
 **Área:** Base de datos y privacidad
 
 ### Contexto
@@ -160,7 +160,8 @@ Necesitamos persistencia centralizada y mecanismos de autorización que impidan 
 - El modelo de datos y las políticas SQL requieren aprobación.
 - Las operaciones de crear, consultar, editar y eliminar deben respetar la propiedad de cada registro.
 - Deben probarse intentos de acceso entre cuentas diferentes.
-- Todavía no están aprobadas las tablas concretas ni las reglas SQL.
+- Las cuatro tablas y 16 políticas aprobadas están versionadas. Su validación
+  local no autoriza migraciones remotas ni uso productivo. Ver `sprint2a-postgres.md`.
 
 **Referencia:** Etapa 2 del ROADMAP.
 
@@ -295,12 +296,44 @@ Comprender primero qué necesita el cliente y cómo se conectan las funcionalida
 
 ---
 
+## DEC-011 — Persistencia de perfiles y pesos, sin importación automática
+
+**Estado:** Adoptada para Sprint 2A; solo desarrollo
+**Área:** Expedientes, API y experiencia del cliente
+
+El propietario autorizó reutilizar PackRepository con API autenticada y RLS.
+Crear perro y peso inicial utiliza una nueva RPC SECURITY INVOKER con identidad
+de auth.uid(), search_path vacío y EXECUTE restringido a authenticated entre
+los roles API. No se modifica la migración integrada del PR #5.
+
+Edad: nacimiento conocido, estimación de años/meses con fecha inicial en
+America/Mexico_City o desconocida con tres NULL. Editar otros campos conserva
+la referencia original. No convertir edades heredadas ni inventar nacimiento.
+
+Se retiran dailyPortion y la URL manual del formulario nuevo. Avatar local hasta
+Storage privado, sin modelos adicionales de alimentación ni cálculos duplicados.
+La interfaz muestra claramente que los expedientes anteriores no se importaron.
+
+Ajuste autorizado el 20 de octubre de 2026: peso objetivo opcional al crear y
+editar, vacío como NULL; peso inicial obligatorio. La API rechaza valores que
+requieren redondeo a una decimal de kg, manteniendo el rango 1–150. Esto sustituye
+la propuesta inicial de exigir objetivo en perfiles nuevos. El aviso de datos
+anteriores aclara que pueden conservarse solo si no se eliminó su almacenamiento,
+sin leerlo para verificar su existencia.
+
+Para nuevos registros esta decisión sustituye el almacenamiento local de DEC-004.
+Ambos namespaces históricos conservan sus bytes y no se leen, atribuyen ni migran
+automáticamente. Cualquier importación futura requiere revisión explícita.
+
+No incluye Storage, cartilla veterinaria, IA, eliminación o producción. El trabajo
+se entrega para revisión antes de commit, push o PR. Ver `sprint2a-persistence.md`.
+
+---
+
 ## 2. Decisiones pendientes
 
 | ID | Tema | Qué falta resolver |
 |---|---|---|
-| P-001 | Modelo de expedientes | Tablas, relaciones y campos de PostgreSQL |
-| P-002 | RLS | Políticas concretas y pruebas de autorización |
 | P-003 | Migración de localStorage | Proceso explícito y seguro para datos anteriores |
 | P-004 | Arquitectura comercial | Modelo de clientes, pedidos, pagos y suscripciones |
 | P-005 | WhatsApp AI | Alcance del MVP, proveedor, controles y transferencia humana |

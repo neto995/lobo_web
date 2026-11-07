@@ -13,11 +13,15 @@ const checkoutPlans = {
   },
 } as const;
 
-const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN!,
-});
-
 export async function POST(request: Request) {
+  // Preview also uses NODE_ENV=production; only Vercel's deployment scope enables payments.
+  if (process.env.VERCEL_ENV !== "production") {
+    return Response.json(
+      { error: "Payments are unavailable in this environment" },
+      { status: 403, headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
   let body: unknown;
 
   try {
@@ -40,6 +44,9 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid checkout plan" }, { status: 400 });
   }
 
+  const client = new MercadoPagoConfig({
+    accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN!,
+  });
   const preference = new Preference(client);
 
   const response = await preference.create({
